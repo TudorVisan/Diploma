@@ -1,0 +1,49 @@
+\chapter{Conclusions}
+
+This study has shown that scheduling on Wireless Sensor Networks can be approached as a graph-cut problem with success,
+because graph algorithms are easy to implement and at the same time powerful and versatile. Its versatility  was clear 
+in \ref{sec:adapt}, where new constraints related to energy efficiency were easily integrated into the algorithm.
+
+The main contribution of this work was defining the problem of task scheduling as a more accurate reflection of reality, 
+together with considering this a clustering / minimal cost partition (min k-cut) problem. The model was not destined to 
+be simulated, it was based on real hardware platforms and inputs of the scheduler are consistent with the real state of
+the network in a moment of time. This makes the implementation of the algorithm easy and consistent with the theory. 
+
+Even though the asymptotical complexity is quite large in the case of this algorithm, the static case can be expected 
+to appear more often, with time for scheduling not being a constraint. The main constraint in wireless sensor networks 
+is energy, and scheduling the tasks in a network can finish before the network is enabled. Aproximation methods
+exist and their running times are a lot smaller for at most twice the energy spent.
+
+With rising interests in smart interfaces, services and self-organizing networks, dynamic scheduling is increasing in 
+importance. We've outweighed two directions of optimization for greedy schedulers, one to maximize network lifetime and
+one to minimize energy spent communicating (which are not the same criteria). 
+
+In the final part we have shown how an application for wireless sensor networks can be broken down into tasks and how
+to represent their hardware requirements (we used the term \textit{node affinity}. Tasks can be of a few varieties,
+sensing tasks (personalized for each sensor or each node - hardware specific), event detection tasks, actuating tasks
+(the reverse of sensing tasks) and generic processing tasks. Along with these we have added \textit{metatasks} which 
+aid in the process of scheduling and network status monitoring.
+
+\section{Outlook}
+
+There are two issues that could not be discussed as in depth as it was necessary. One is the influence of multi-hop 
+communication on energy consumption, that we have not accounted for and the other is the number of tasks that is optimum
+for a given topology and data dependencies.
+
+These issues are closely related and could not be explored due to lack of multi-hop routing in our software environment,
+which will be available some time after this study is finished.
+
+Multi-hop communication would significantly alter the formalisation of the problem. Energy would no longer be spent only 
+by the transmitter and the receiver, but by any node that forwards the packets between them, with double the energy 
+(receive / transmit). The scheduler would need to be fully-aware of the topology and calculate the cost of each data 
+dependency proportional to the number of hops needed to reach the destination.
+
+The second issue borders self-organisation ideas for wireless sensor networks, but instead of choosing a local leader, the scheduler
+chooses how many times to assign a task. This would lead to the tasks that gather data from other sensors and process them
+to be closer to the source of the data then before.
+
+There is a method to implement this last idea within a single-hop network, but it would not be as effective as in a multi-hop one.
+The idea resembles the one for tasks that have to run on all capable nodes. Because the algorithms makes steps of 2-cuts, we 
+will discuss that case: Let us suppose that we have already obtained the minimum s,t-cut, with the tasks with variable number 
+of instances all in the sink set. We would assign a copy to the source set only if the sum of the edges going to and from 
+nodes outside the source set are smaller than the sum of edges going to and from the nodes inside the source set.

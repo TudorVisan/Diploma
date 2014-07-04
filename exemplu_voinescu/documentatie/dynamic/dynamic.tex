@@ -1,0 +1,50 @@
+\normalfont\normalsize
+\chapter{Dynamic Scheduling}
+
+The dynamic version of the algorithm can burrow heavily from the static one. The need for dynamics arises from the interface
+with outside components that will control some aspects of the wireless application running. Even if the tasks are already present
+on the wireless nodes as chunks of code, starting and stopping them could be arbitrarily decided from outside the network.
+In this case, the speed with which the new task is assigned or the rescheduling takes place gives the responsiveness of the network,
+which can be crucial in some respects.
+
+We will propose two ways of assigning new tasks, one is a greedy approach and the other is based on an update of the model 
+described and calculated with the static scheduling algorithm. The former will be a lot faster, but will differ from the
+optimum solution.
+
+\section{On-the-fly Dynamic Scheduling}
+
+The dynamic problem is inherently that of starting a new task. In the on-the-fly method, stopping tasks holds no rescheduling
+consequences. Even with using a Greedy approach, the algorithm can obtain good results is a good minimization function is found.
+The purpose is still to maintain an extended network lifetime. If a node has to receive a new task, it could be the one with the most
+network lifetime:
+\begin{equation}
+ M(v_{new}) = \max_{k,\,m_k\in M} Lifetime(m_k) 
+\end{equation}
+\begin{equation}
+ M(v_{new}) = \max_{k,\,m_k\in M} \frac{W_{m_k}}{\displaystyle W_{idle_{m_k}} +  W_{communication_{m_k}}}
+\end{equation}
+
+However, this would not be the best approach because the node with the longest remaining lifetime might not be compatible, or dependencies
+of the new task could be quite costly. The minimization function must take into account the impact on the node's communication energy 
+consumption.
+
+\begin{equation}
+ f(v_{new},m_k) = \min_{k,\,m_k\in M} \frac{\displaystyle \frac{1}{L(m_k)} + \alpha \cdot (L'(m_k) - L(m_k))}{NA(v_{new},m_k)},
+\end{equation}
+where:
+\begin{itemize}
+ \item $L(m_k)$ - The lifetime of node $m_k$.
+\item $L'(m_k,v_{new})$ - The lifetime of node $m_k$ after $v_{new}$ is assigned.
+\item $NA(v_{new},m_k)$ - The affinity of the new task to the node $m_k$.
+\item $\alpha$ - A balancing coefficient between keeping the greatest network lifetime (picking the node with the most battery) 
+and network-level energy saving (choosing a node for our new task such that extra communication is minimized).
+\end{itemize}
+
+
+\section{Recalculating the static schedule}
+
+Another variant of dynamic scheduling is based on the approximation algorithm. Gomory-Hu trees can be recalculated quite fast, 
+as the s-t cuts do not change much with the addition of an extra edge (the atomic operation is considered here to be adding
+an edge, adding a node to a DAG does not change anything if it is not connected). Some of the computations can be retained
+so that calculations can resume right where the new edge was inserted and finish quite quickly, even faster than the normal 
+approximation algorithm.

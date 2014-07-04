@@ -1,0 +1,70 @@
+\chapter{Contiki API}
+\section{Process macros}
+\begin{itemize}
+\item \texttt{PROCESS\_THREAD (name, ev, data )} - Define the body of a process.
+This macro is used to define the body (protothread) of a process. 
+The process is called whenever an event occurs in the system, 
+A process always starts with the PROCESS\_BEGIN() macro and end with the PROCESS\_END() macro. 
+\item \texttt{PROCESS\_BEGIN ()} - Define the beginning of a process. 
+\item \texttt{PROCESS\_END ()} - Define the end of a process. 
+\item \texttt{PROCESS\_YIELD ()} - Yields the currently running process
+\item \texttt{PROCESS\_WAIT\_EVENT\_UNTIL (c)} - Wait for an event to be posted to the process, with an extra condition.
+This macro is very similar to PROCESS\_WAIT\_EVENT() in that it blocks the currently running process until the process receives 
+an event. But PROCESS\_WAIT\_EVENT\_UNTIL() takes an extra condition which must be true for the process to continue.
+\item \texttt{PROCESS\_PAUSE} - Yield the process for a short while.
+This macro yields the currently running process for a short while, thus letting other processes run before the process continues. 
+\end{itemize}
+
+\section{uIP functions}
+\begin{itemize}
+ \item \texttt{PSOCK\_INIT (psock, buffer, buffersize)} -  Initializes a proto-socket.
+This macro initializes a protosocket and must be called before the protosocket is used. The initialization also 
+specifies the input buffer for the protosocket.
+\item \texttt{PSOCK\_SEND (psock, data, datalen)} - Send data.
+This macro sends data over a protosocket. The protosocket protothread blocks until all data has been 
+sent and is known to have been received by the remote end of the TCP connection.
+\item \texttt{PSOCK\_READBUF (psock)} - Read data until the buffer is full.
+This macro will block waiting for data and read the data into the input buffer specified with the call to 
+PSOCK\_INIT(). Data is read until the buffer is full..
+\item \texttt{CCIF process\_event\_t tcpip\_event} - The uIP event.
+This event is posted to a process whenever a uIP event has occurred. 
+\item \texttt{CCIF void tcp\_listen (u16\_t port)} - Open a TCP port.
+This function opens a TCP port for listening. When a TCP connection request occurs for the port, 
+the process will be sent a tcpip\_event with the new connection request.
+\item \texttt{struct uip\_conn *tcp\_connect(uipipaddr\_t *ripaddr,u16 port, 
+void *appstate)} - This function opens a TCP connection to the specified port at the host specified with an IP address. 
+Additionally, 
+an opaque pointer can be attached to the connection. This pointer will be sent together with uIP events to the process.
+\item \texttt{uip\_connected()} - Has the connection just been connected? 
+\item \texttt{uip\_closed()} - Has the connection been closed by the other end? 
+\item \texttt{uip\_aborted()} - Has the connection been aborted by the other end? 
+\item \texttt{uip\_timedout()} - Has the connection timed out? 
+\item \texttt{uip\_newdata()} - Is new incoming data available? 
+\item \texttt{uip\_close()} -  Close the current connection. 
+\end{itemize}
+
+\chapter{Node capabilities}
+
+\begin{table}[htb]
+ \centering
+\begin{tabular}{|l|c|c|c|}
+\hline
+Task & AVR Raven\texttrademark & Sparrow & Sparrow Power\\
+\hline
+Temperature sensing & \tick & \tick & \\
+\hline
+Humidity sensing & & \tick & \\
+\hline
+Voltage \& Current sensing & & &\tick  \\
+\hline
+Event detection & \tick & \tick & \tick \\
+\hline
+Alarm beep & \tick & & \\
+\hline
+LED signal & \tick & \tick & \\
+\hline
+\end{tabular}
+\caption{Node capabilities}
+\label{tab:capabilities}
+
+\end{table}

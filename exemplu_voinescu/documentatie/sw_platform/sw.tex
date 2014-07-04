@@ -1,0 +1,162 @@
+\normalfont\normalsize
+\chapter{Software Environment: Contiki Operating System}
+
+The Contiki Operating System is an open-source, highly portable multi-tasking operating system for memory-efficient
+networked embedded systems and wireless sensor networks. It is our choice at the moment as platform for this study. 
+It offers IP communication, both IPv4 and IPv6. Currently the IPv6 implementation is in IPv6 Ready Phase 1, which 
+means that some functionality related to neighbour discovery is not complete, leading to a lack of multi-hop routing.
+Platforms supported by this operating system range from MSP430 from Texas Instruments and AVR Atmegas to old home computers.
+
+The innovations introduced by this system were the introduction of IP communication in low-power wireless sensor networks,
+with the uIP stack and the protothreads system, introduced in 2005. The best feature is the implementation of a network 
+interface on the Raven USB Stick, such that nodes can be communicated with transparently from outside the wireless network.  
+
+Contiki offers a collaborative multi-tasking environment, based on a coroutine mechanism, in which each process must at one
+point yield the processor so that a new process is scheduled. Contiki has some hardware abstraction, especially for commonly used
+part. Network communication is abstractized with a ``protosocket'', and libraries exist for energy estimation, timers, event timers, etc.
+
+\clearpage
+
+\section{Process kernel}
+\subsection{Protothreads}
+
+Protothreads are an innovation made for the Contiki system, although the system is based on the coroutines implementation in C,
+which have been around for quite some time. In the Contiki operating system, they are called \textit{local continuations}, allowing
+a subroutine (a function) to pause and resume execution of its code. These local continuations are formed with normal function that
+call some defined macros.
+
+\lstset{numbers=left, mathescape=true, nolol=false,caption=Coroutines in C (Simon Tatham),label=lst:cr}
+\begin{lstlisting}
+int function(void) {
+    static int i, state = 0;
+    switch (state) {
+        case 0: /* start of function */
+        for (i = 0; i < 10; i++) {
+            /* so we will come back to "case 1" */
+            state = 1; 
+            return i;
+            /* resume control straight after the return */
+            case 1:; 
+        }
+    }
+}
+\end{lstlisting}
+
+The code in \ref{lst:cr} demonstrates the use of coroutines, the repeated call of function() will yield results from 0 to 9. First 
+it will change internal state from 0 to 1, posting a new label for the switch statement to jump to. Based on this example, one can 
+easily define suggestive macros to generalize:
+
+
+\lstset{numbers=left, mathescape=true, nolol=false,caption=Coroutine macros in C (Simon Tatham),label=lst:crmacro}
+\begin{lstlisting}
+#define crBegin static int state=0; switch(state)\
+                       { case 0:
+#define crReturn(i,x) do { state=i; return x;\ 
+                      case i:; } while (0)
+#define crFinish }
+\end{lstlisting}
+
+Indeed, the local continuations in Contiki are similar:
+
+\lstset{numbers=left, mathescape=true, nolol=false,caption=Local Continuations,label=lst:lc}
+\begin{lstlisting}
+typedef unsigned short lc_t;
+
+#define LC_INIT(s) s = 0;
+#define LC_RESUME(s) switch(s) { case 0:
+#define LC_SET(s) s = __LINE__; case __LINE__:
+#define LC_END(s) }
+\end{lstlisting}
+
+The protosocket library build on top of this, adding yield functionality and the possibility to ``block'' waiting for a condition.
+To do this each protothread holds an \texttt{lc\_t} structure together with a semantic of how it was interrupted (\texttt{PT\_WAITING},
+\texttt{PT\_YIELDED}, \texttt{PT\_EXITED}, \texttt{PT\_ENDED}). Yield means giving up the processor, waiting is yielding until the 
+protothread is scheduled and a condition is met, exited resets the state of the protothread (of the local continuation on which it is
+based), end means the protothread has reached the end of the function and the state is reset (not too different from exit).
+
+\subsection{Processes}
+
+Processes are built upon the protothread structure, each process having one protothread. The functionality added to protothread is of 
+context and higher-level abstraction. Processes in Contiki run as a result of responses to \textit{events}. An event can be triggered
+by a timer, by the uIP stack (network event) or even by the process itself (a continue event used by a pause function in the process
+library). 
+
+\lstset{numbers=none, mathescape=true, nolol=false,caption=Process definition,label=lst:process}
+\begin{lstlisting}
+#define PROCESS(name, strname)                          \
+  PROCESS_THREAD(name, ev, data);                       \
+  struct process name = { NULL, strname,                \
+  process_thread_##name }
+\end{lstlisting}
+
+The scheduler is a simple queue on which events are posted. When an event is popped, the associated process is called with the specific event.
+The process is therefore a complex piece of code that retains state (through local continuations) and reacts on new input (through event data).
+This adds versatility to the already existent protothread library.
+
+Commonly, a process will have after declaration a specific thread function, its definition must begin with the macro \texttt{PROCESS\_THREAD},
+it needs \texttt{PROCESS\_BEGIN} and \texttt{PROCESS\_END} macros and can then use wait, yield, pause macros for the control flow of the 
+operating system (the responsiveness of the entire system depends on each process running, latency can very quickly become a problem because
+of a slow process).
+
+
+\section{Tasks in the Contiki context}
+\label{sec:contikitask}
+There are two possibilities regarding the implementation of generic tasks, one is to have them
+all run under a single process, using timer events and with a scheduler similar to real-time operating
+systems. A timer would be set to expire when the first task would be due. The disadvantage to this
+method is a difficulty in coming up with a metric for processor use (versus idling).
+
+The other possibility is to treat a task as a process. There would be a task manager that would be
+able to start and stop tasks, alter settings, append subscribers, etc. A performance metric can be
+calculated using this method concerning the scheduler. One of the tasks would measure the timeframe
+between two succesive schedules of the same task.
+As the system keeps more and more tasks running (as opposed to “waiting”, when they are still
+scheduled), and more and more tasks use more CPU time, time between schedules will increase.
+
+Starting the task would be similar to starting a process in Contiki, while stopping a task means
+marking it as a WAITING process. While it is marked thus, in its (presumed) main infinite loop it
+would wait until it is taken out of this state.
+
+Obtaining information from the task can be done in two ways:
+\begin{itemize}
+ \item Collecting data directly, with get/set <parameter>
+ \item Data sink method, where the entity that connects to the sensor can register itself or another
+entity as a data sink for the output that is generated from the task. Parameters can be given such as the frequency 
+with which data is forwarded to the subscriber (division of the frequency with which data is generated
+\end{itemize}
+
+\lstset{numbers=none, mathescape=true, nolol=false,caption=Task definition,label=lst:task}
+\begin{lstlisting}
+#define TASK(title, process)\
+PROCESS(process, title);\
+static struct task_list_t el_##process ={\
+        .value={\
+                .name=title,\
+                .status=WAITING,\
+                .app=&process}\
+}
+\end{lstlisting}
+
+A list of processes can be kept with the linked list API available in Contiki. The structure that represents the task would be:
+
+\lstset{numbers=none, mathescape=true, nolol=false,caption=Task structure definition,label=lst:taskstruct}
+\begin{lstlisting}
+typedef struct
+{
+        struct process * app;
+        uint8_t status;
+        char name[10];
+        subscriber_list_t subscribers;
+} task_t;
+\end{lstlisting}
+
+\section{Energest - Energy Estimation Module}
+
+Energest is at the base of the \textit{Communications Power Accounting} power in the Contiki Operating system. The aim is to 
+present proportional data regarding the types of wireless transmission taking place, with the scope of finally determining
+which component uses more power. Energest supports multiple levels of accounting for energy tasks, and has a counter for each.
+Time is measured with a real time clock between checkpoints and it is added to the counter of the active levels. This is how
+the communications power accounting measures transmit and listen times, and will be useful for MAC protocols that have power
+management. However, the stack on the AVR does not support this, so we will opt for a hardware alternative of measuring power,
+as shown in \ref{sec:metrics}.
+

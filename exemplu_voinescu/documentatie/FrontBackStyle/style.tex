@@ -100,24 +100,7 @@
 \definecolor{white}         {cmyk}{0   , 0   , 0   , 0   } 
 
 % *************** Enable hyperlinks in PDF documents ***************
-\ifpdf
-    \pdfcompresslevel=9
-        \usepackage[plainpages=false,pdfpagelabels,bookmarksnumbered,%
-        colorlinks=true,%
-        linkcolor=sepia,%
-        citecolor=sepia,%
-        filecolor=maroon,%
-        pagecolor=red,%
-        urlcolor=sepia,%
-        pdftex,%
-        unicode]{hyperref} 
-    \input supp-mis.tex
-    \input supp-pdf.tex
-    \pdfimageresolution=600
-    \usepackage{thumbpdf} 
-\else
-    \usepackage{hyperref}
-\fi
+\usepackage{hyperref}
 
 \usepackage{memhfixc}
 

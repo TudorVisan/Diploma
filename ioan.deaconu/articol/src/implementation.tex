@@ -2,51 +2,31 @@
 
  \subsection{Hardware Details}
 
-The hardware components present on the SparrowDongle board are split according
-to functionality. The part of the board that handles the wireless communication
-has similar hardware with that of a Sparrowv3.2 wireless sensor node:
-
+The hardware components used are the following:
 \begin{itemize}
 
-\item RF-enabled microcontroller unit: The ATMega128RFA1 is an 8-bit
-microcontroller from Atmel that has an on-chip 2.4GHz wireless transceiver.
+\item a SparrowDongle with two microcontrollers: The 8-bit ATMega128RFA1 which has an on-chip 2.4GHz wireless transceiver and the ATMega32U4, both from Atmel.
 
-\item On-board antenna/External antenna connector and the appropriate RF
-interface circuit enables wireless communication in the 2.4GHz band
+\item a SparrowV3.2  with an ATMega128RFA1 microcontroller 
 
-\item 16MHz MCU clock is used as the main clock domain
+\item a AR Parrot Drone v2.0
 
-\item 32768 Hz real-time clock is used to keep track of tight timings in the
-wireless network protocol
+\item an laptop or mobile phone with android/ios for controlling the drone
 
 \end{itemize}
 
-On the USB side, an ATMega32U4 is used as an USB Controller Unit.
-
-Since the Radio Controller Unit needs 3.3V to operate, an additional power
-supply from the USB's 5V to 3.3V is needed, as well as level adjusters for the
-signals connecting the two controllers on SparrowDongle.
-
+Because of the addition of SparrowDongle, the drone's poliester hull has been carved a little in order to accomodate it.
 
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.35\textwidth]{img/nivel.png} \caption{Level shifters
-for inter-controller communication} \end{figure}
+\includegraphics[width=0.5\textwidth]{img/sparrow.jpg} \caption{SparrowV3.2 and SparrowDongle} \end{figure}
 
 
 
 \subsection{Software Implementation}
 
-Software for the SparrowDongle gateway is found on the two controllers.
-Firmware on the Radio Controller Unit will contain the wireless communication stack we developed for the Sparrowv3.2 wireless node.
+The SparrowDongle gateway dumps every data received on the serial. It is always in a listen for data state. When it receives the data, it sends back an ack to let the SparrowV3.2 know that it can begin sending the entire data to the mobile gateway.
 
-Firmware on the USB controller unit contains the USB stack. While there are a
-few libraries available for an USB stack on the ATMega32U4, our tests indicate
-that the highest reliability and performance (with the smallest memory
-footprint) can be obtained with "bare metal" USB code. So far the Virtual
-Serial Port and Ethernet Emulation device classes have been implemented and
-tested. The VirtualSerialPort works both on Windows and on Linux, while the
-Ethernet Emulation device only works on Linux currently, since no open-source
-drivers exist for this USB class on Windows. 
+The SparrowV3.2 node is sending periodicaly a small data packet to check if a gateway is available. When it receives the ack for the packet it starts sending the stored data to the gateway. The data sent can vary, from sensor readings, to debuging informations in order to check the state of the Wireless Sensor Network.
 
-
+The data gattered by the gateway is saved into the AR Parrot Drone's internal memory. The data can be accesed at any time by any device connected to the drone's wireless network via ftp.

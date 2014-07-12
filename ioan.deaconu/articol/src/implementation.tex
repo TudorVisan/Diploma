@@ -15,7 +15,7 @@ The hardware components used are the following:
 
 \end{itemize}
 
-Because of the addition of SparrowDongle, the drone's poliester hull has been carved a little in order to accomodate it.
+Because of the addition of the SparrowDongle, the drone's poliester hull has had to been carved a little in order to accomodate it.
 
 
 \begin{figure}[ht] \centering
@@ -25,8 +25,8 @@ Because of the addition of SparrowDongle, the drone's poliester hull has been ca
 
 \subsection{Software Implementation}
 
-The SparrowDongle gateway dumps every data received on the serial. It is always in a listen for data state. When it receives the data, it sends back an ack to let the SparrowV3.2 know that it can begin sending the entire data to the mobile gateway.
+The SparrowDongle gateway dumps every data received on the serial. It is always in a listen for data state. When it receives the data, it sends back an ack to let the SparrowV3.2 node know that it can begin sending the entire data to the mobile gateway. 
 
 The SparrowV3.2 node is sending periodicaly a small data packet to check if a gateway is available. When it receives the ack for the packet it starts sending the stored data to the gateway. The data sent can vary, from sensor readings, to debuging informations in order to check the state of the Wireless Sensor Network.
 
-The data gathered by the gateway is saved into the AR Parrot Drone's internal memory. The data can be accesed at any time by any device connected to the drone's wireless network via ftp.
+The data gathered by the gateway is saved into diferent files the AR Parrot Drone's internal memory. The file also contains informations about the node identification tag and time of the transfer. The data can be accesed at any time by any device connected to the drone's wireless network via ftp.

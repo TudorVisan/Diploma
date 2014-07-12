@@ -6,12 +6,12 @@
 
 Te classic way of implementing a gateway is by using stationary devices or mobile devices like laptops or phones connected to at least one wireless node. The problem with this type of mobile devices is that you have to be in close proximity of the node in order to communicate with it. This might not be a problem if the nodes are easily accesible, but if a node is situated at a high altitude or over a clif, or even at an unknown location, using drones seems to be the best alternative.
 
-Having this to say, our design has a number of features useful in everyday interaction with a wireless node outlined in \ref{sec:inter}. 
+Having this to say, our design has a number of features useful in everyday interaction with a wireless node outlined in \ref{sec:inter},\ref{sec:prox}. 
 
 They can be launch from anyware, fly to any place a node might be placed and gather all the information collected by the nodes.
 
 Additionally, a number of design features were included for ease-of-use in
-research and development, outlined in \ref{sec:prox}
+research and development, outlined in \ref{sec:eng},\ref{sec:data}.
 
 
 \subsection{\textit{Ease of interaction}} 
@@ -27,6 +27,21 @@ The drone automaticaly detects and initiates a comunication with a nearby node. 
 The SparrowDongle can supply informations regarding the nearby nodes by reading the strength of the received signal. Using this information, the pilot can direct the drone closer to the nodes location, either for a faster transfer or to find its exact location. 
 
 Besides the signal strength offered by the SparrowDongle, the drone features an onboard camera with a resolution of 1280x720 pixels streaming at 30 fps. This is very useful in determining the exact location of a wireless sensor node.
+
+
+\subsection{\textit{Energy Saver}} 
+
+\label{sec:eng}
+
+Due to the comunication protocol implemented, the SparrowV3.2 node uses very little power when not connected to the drone. It broadcasts just a small packet at fixed intervals for low consumtion, and enters on a high bandwith mode when it detecs the presence of a drone for a fast data transfer. 
+
+
+\subsection{\textit{Latest Data}} 
+
+\label{sec:data}
+
+The data is stored on the flash microcontroller of the node. In this way, the data is persistent in the memory even the power drops and can be recovered when the power is restored. When the memory is full, the oldest data is deleted in order to make space for new one. The data sent to the drone is from the oldest to the newest, so that in the event of a connection lost the node has free space for new data. 
+
 
 
 \ref{fig:progr}.

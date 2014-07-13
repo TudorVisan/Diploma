@@ -1,8 +1,8 @@
 \label{chap:arch}
 
 \begin{figure*}[ht] \centering
-\includegraphics[width=0.9\textwidth]{img/Architecture.png}
-\caption{SparrowDongle stick architecture} \end{figure*}
+\includegraphics[width=1\textwidth]{img/app.png}
+\caption{FreeFlight 2.0 with WSN features } \end{figure*}
 
 Te classic way of implementing a gateway is by using stationary devices or mobile devices like laptops or phones connected to at least one wireless node. The problem with this type of mobile devices is that you have to be in close proximity of the node in order to communicate with it. This might not be a problem if the nodes are easily accesible, but if a node is situated at a high altitude or over a clif, or even at an unknown location, using drones seems to be the best alternative.
 
@@ -42,14 +42,9 @@ Due to the comunication protocol implemented, the SparrowV3.2 node uses very lit
 
 The data is stored on the flash microcontroller of the node. In this way, the data is persistent in the memory even the power drops and can be recovered when the power is restored. When the memory is full, the oldest data is deleted in order to make space for new one. The data sent to the drone is from the oldest to the newest, so that in the event of a connection lost the node has free space for new data. 
 
+ 
 
-
-\ref{fig:progr}.
-
-
-\begin{figure}[ht] \centering \label{fig:progr}
-\includegraphics[width=0.35\textwidth]{img/progr.png} \caption{Header selection
-for programming clock signals} \end{figure}
+ 
 
 
 

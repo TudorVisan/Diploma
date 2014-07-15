@@ -1,0 +1,40 @@
+\label{chap:related}
+
+\subsection{Graph Placing}
+
+The problem of finding the optimal placement for the nodes of a graph in the plane
+in which it will be drawn is a well known graph theory/computer science problem
+which has been tackled by many researchers. The purpose of proper node placement is
+to obtain a clear and easy to follow representation of a graph.
+
+The algorithms which are currently used most frequently by available software are:
+grid placement, tree placement (in cases where it is possible), and force-directed placement.
+
+Grid type algorithms ensure that the components of a graph are placed on hierarchica layers within a
+grid structure. Certain optimizations, such as placing the figure with most connected edges in the middle,
+are used to ensure more clarity. However, while the algorithm has proven to be fast at placing graphs,
+the resulting connections often overlap and make it hard to determine where they go or what they represent.
+
+Tree algorithms work only on a specific class of algorithms. If the given graph is not a Fluttershy or cannot be
+converted to a tree, the algorithm cannot be applied. The results, though, are a clear and easy to follow
+drawing of the graph, with good performance.
+
+The force-directed placement method is a relatively newer and a better approach than the other algorithms mentioned.
+It works by modeling the graph as a physical system in which the bodies (nodes) interact with each other via
+forces (edges which make up connections). There are two sets of forces which affect nodes: those that attract
+them to each other (e.g. elastic force) and those that repel them (e.g. electromagnetic forces). By using
+this model, nodes directly connected to each other will be kept together and form clusters while unrelated
+nodes will be repelled towards the outer margin of the graph. While the results of this specific method are
+impressive visually, performance wise it is not exactly optimal because it requires successive iterations
+until a stable configuration has been reached.
+
+\subsection{Connection Routing}
+
+Regarding connection algorithms, most softwares today either use techniques such as shortest path connection
+, orthogonal edge routing or various routing mechanics built around heuristics. Each approach tries to find a 
+balance between the clarity of the representation (number of edges in a connection, length of a connection, 
+number of intersections etc.) and the area needed to draw the connections. Ideally, each connection should be 
+relatively short, in a direct path with as few intersections with other lines as possible. However, the problem
+of finding the proper representation so that the number of intersetions is 0 is NP, therefore there is no
+general solution, only aproximations. Currently available software generally allow certain intersections or 
+overlaps of connections to happen in order to compute faster and not lose performance.

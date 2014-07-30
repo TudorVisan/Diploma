@@ -4,11 +4,11 @@
 \includegraphics[width=1\textwidth]{img/app.png}
 \caption{FreeFlight 2.0 with WSN features } \end{figure*}
 
-Te classic way of implementing a gateway is by using stationary devices or mobile devices like laptops or phones connected to at least one wireless node. The problem with this type of mobile devices is that you have to be in close proximity of the node in order to communicate with it. This might not be a problem if the nodes are easily accessible, but if a node is situated at a high altitude or over a cliff, or even at an unknown location, using drones seems to be the best alternative.
+The classic way of implementing a gateway is by using stationary devices or mobile devices like laptops or phones connected to at least one wireless node. The problem with this type of mobile devices is that you have to be in close proximity of the node in order to communicate with it. This might not be a problem if the nodes are easily accessible, but if a node is situated in a remote location (e.g. at a high altitude or over a cliff, or even at an unknown location), using drones seems to be the best alternative.
 
 Having this to say, our design has a number of features useful in everyday interaction with a wireless node outlined in \ref{sec:inter},\ref{sec:prox}. 
 
-They can be launch from anywhere, fly to any place a node might be placed and gather all the information collected by the nodes.
+They can be launched from anywhere, fly to any place a node might be placed and gather all the information collected by the nodes.
 
 Additionally, a number of design features were included for ease-of-use in
 research and development, outlined in \ref{sec:eng},\ref{sec:data}.
@@ -18,7 +18,7 @@ research and development, outlined in \ref{sec:eng},\ref{sec:data}.
 
 \label{sec:inter}
 
-The drone automatically detects and initiates a communication with a nearby node. It searches permanently for any signal emitted by a node and sends an ack back to it when it receives any signal. After this first handshake is complete, the node has green light to transmit the information to the gateway installed on the drone. If a node has been detected, the pilot is informed of its presence and if the data transaction completed successfully so that he may continue in the search for another node.
+The drone automatically detects and initiates a communication with a nearby node. It searches permanently for any signal emitted by a node and sends an acknowledgement packet back to it when it receives any signal. After this first handshake is complete, the node has green light to transmit the information to the gateway installed on the drone. If a node has been detected, the pilot is informed of its presence and if the data transaction completed successfully so that he may continue in the search for another node.
 
 \subsection{\textit{Proximity function}} 
 

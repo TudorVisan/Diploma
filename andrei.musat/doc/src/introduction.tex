@@ -1,27 +1,25 @@
-Wireless Sensor Networks are not yet the ubiquitous tools that help us interact
-with the physical world, but they gather more and more deployments, both for
-research and business. These deployments vary widely in assumptions and
-conditions, as they range from the wireless sensor network put inside a home to
-monitor basic parameters, to agricultural WSNs
-\cite{burrell2004vineyard,baggio2005wireless} used for fine-grained irrigation
-control, to space exploration applications \cite{ulmer2003wireless} etc. All
-these applications require different types of interfaces with the rest of the
-world and impose restrictions on the gateway/base-station. Current gateway
-platforms \cite{hill2004platforms,da2011design,da2011design2} are bulky devices
-or PCs connected to one of the wireless nodes that serve as a base-station. We
-aim to show in this paper that there exists a solution for gateway design that
-is more versatile - can be included in any application -, is smaller and
-cheaper and offers ease of use and programming.
+Diagrams are a tool which is widely used in various domains in order to represent
+various concepts, hierarchies, architectures etc. However, there is a field in 
+which diagrams are a key part of development: FPGA design. Here, diagrams are used
+to describe blocks [1], to represent the way the modules of a chip are connected at a 
+logical level, to show how multiple micro-chips are connected on a board. In FPGA 
+and ASIC verification, they are used to represent class hierarchies and inheritence, 
+agents, sequencers and general test flows.
 
-We introduce SparrowDongle, a USB stick featuring two microcontrollers that is
-designed to be included in wireless networks composed of 2.4GHz Zigbee nodes,
-especially our own design, Sparrowv3.2. We will show an overview of the system
-architecture in Chapter \ref{chap:arch}, the hardware and software
-implementation in Chapter \ref{chap:impl} and results of using the gateway in
-Chapter \ref{chap:results}. 
+Even though they are an important part of the FPGA design and verification world, 
+diagrams do not receive the required attention from the developer community. Despite 
+their utility in understanding and maintaining the coherence and logical flow of a
+design, they are not always taken into consideration by developers of IDEs and other 
+design and verification solutions. Usually, an FPGA design consists of tens, maybe hundreds 
+of thousands of design elements; the equivalent of a graph with the same number of nodes. 
+Representing such a design as a diagram would be, in turn, equivalent to drawing said graph 
+in a plane [12]. For current algorithms and software, this is a well known problem which is 
+difficult to solve in a decent amount of time and also yield a pleasant and easy to 
+understand result. We aim to show in this paper that there exists a solution for graph 
+and diagram layouts that is more versatile, uses newer technologies and programming 
+techniques and gives results which feel more natural for the user.
 
-\begin{figure}[ht] \centering
-\includegraphics[width=0.4\textwidth]{img/Sparrowv32.jpg} \caption{Sparrow v3.2
-wireless node} \end{figure}
-
-
+We introduce a layout and routing solution which uses genetic algorithms and orthogonal
+routing [2]. We will show an overview of the system architecture in Chapter \ref{chap:arch}, 
+the hardware and software implementation for the two algorithms in Chapter \ref{chap:impl} 
+and results of using the algorithm in Chapter \ref{chap:results}. 

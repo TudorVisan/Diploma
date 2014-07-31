@@ -185,3 +185,12 @@
   publisher={na}
 }
 
+
+[18]
+@book{rubel2011eclipse,
+  title={The Eclipse Graphical Editing Framework (GEF)},
+  author={Rubel, Dan},
+  year={2011},
+  publisher={Addison-Wesley Professional}
+}
+

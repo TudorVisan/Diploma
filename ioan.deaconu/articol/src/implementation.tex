@@ -20,6 +20,8 @@ Because of the addition of the SparrowDongle, the drone's polyester hull has had
 
 \subsection{Software Implementation}
 
+The parrot drone, with a Linux based operating system, allow the software to be organized in different modules. The modules can be modified individually  to add more features to the system.
+
 The SparrowDongle gateway dumps every data received on the serial. It is always in a listen for data state. When it receives the data, it sends back an ack to let the SparrowV3.2 node know that it can begin sending the entire data to the mobile gateway. 
 
 The SparrowV3.2 node is sending periodically a small data packet to check if a gateway is available. When it receives the ack for the packet it starts sending the stored data to the gateway. The data sent can vary, from sensor readings, to debugging informations in order to check the state of the Wireless Sensor Network.

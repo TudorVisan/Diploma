@@ -6,7 +6,7 @@ specialized algorithms which work together in order to achieve a clear and easy 
 which facilitates the routing process, and the routing algorithm which traces the
 connections between the nodes. 
 
-The output of these algorithms is displayed using a Java technology library called Draw2D [17].
+The output of these algorithms is displayed using a Java technology library called Draw2D \cite{wurthinger2006visualization}.
 This library provides an API which allows the programmer to draw various shapes and forms or
 embed external components such as images into a canvas. The advantages of using such a 
 library instead of directly drawing on the canvas with native functions is that the entire
@@ -31,3 +31,7 @@ Finally, after having places each node, the system passes this data to the routi
 Here, the connections will be determined in regard to the specified restrictions. The result of 
 this step is the information about each node and connection which is needed by the graphical
 library functions to draw the graph.
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.5\textwidth]{src/systemWorkflow.png}
+\caption{Routing algorithm workflow} \end{figure}

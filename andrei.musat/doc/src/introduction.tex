@@ -1,7 +1,7 @@
 Diagrams are a tool which is widely used in various domains in order to represent
 various concepts, hierarchies, architectures etc. However, there is a field in 
 which diagrams are a key part of development: FPGA design. Here, diagrams are used
-to describe blocks [1], to represent the way the modules of a chip are connected at a 
+to describe blocks \cite{jeon2007verification}, to represent the way the modules of a chip are connected at a 
 logical level, to show how multiple micro-chips are connected on a board. In FPGA 
 and ASIC verification, they are used to represent class hierarchies and inheritence, 
 agents, sequencers and general test flows.
@@ -13,13 +13,13 @@ design, they are not always taken into consideration by developers of IDEs and o
 design and verification solutions. Usually, an FPGA design consists of tens, maybe hundreds 
 of thousands of design elements; the equivalent of a graph with the same number of nodes. 
 Representing such a design as a diagram would be, in turn, equivalent to drawing said graph 
-in a plane [12]. For current algorithms and software, this is a well known problem which is 
+in a plane \cite{de1990draw}. For current algorithms and software, this is a well known problem which is 
 difficult to solve in a decent amount of time and also yield a pleasant and easy to 
 understand result. We aim to show in this paper that there exists a solution for graph 
 and diagram layouts that is more versatile, uses newer technologies and programming 
 techniques and gives results which feel more natural for the user.
 
 We introduce a layout and routing solution which uses genetic algorithms and orthogonal
-routing [2]. We will show an overview of the system architecture in Chapter \ref{chap:arch}, 
+routing \cite{wybrow2010orthogonal}. We will show an overview of the system architecture in Chapter \ref{chap:arch}, 
 the hardware and software implementation for the two algorithms in Chapter \ref{chap:impl} 
 and results of using the algorithm in Chapter \ref{chap:results}. 

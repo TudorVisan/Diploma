@@ -1,18 +1,18 @@
 % vim: set tw=78 sts=2 sw=2 ts=8 aw et ai:
-%\documentclass[conference]{IEEEtran}
+\documentclass[conference]{IEEEtran}
 
-\usepackage{ucs}
+%\usepackage{ucs}
 \usepackage{url}
-\usepackage[utf8x]{inputenc}
+%\usepackage[utf8x]{inputenc}
 \usepackage[english]{babel}
 %\usepackage{hyperref}	  % use \url{http://$URL} or \href{http://$URL}{Name}
 \usepackage{underscore}	  % underscores need not be escaped
-\usepackage{subfigure}
+%\usepackage{subfigure}
 \usepackage{verbatim}
 \usepackage{float}
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{parskip}
-\usepackage{flushend}
+%\usepackage{flushend}
 
 % Support for including graphics
 \usepackage{graphicx}
@@ -46,22 +46,22 @@ Diagrams, Orthogonal Routing, Genetic Algorithm, FPGA Design
 \label{sec:introduction}
 \input{src/introduction}
 
+\section{Related work}
+\label{sec:relatedwork}
+\input{src/relatedwork}
+
 \section{System architecture}
 \label{sec:architecture}
 \input{src/architecture}
 
 \section{Implementation}
-\label{sec:implementation} User-friendly, Innovative Layout and Routing Algorithm for Diagram
+\label{sec:implementation}
 \input{src/implementation}
 
 
 \section{Results} 
 \label{sec:results}
 \input{src/results}
-
-\section{Future work} 
-\label{sec:future}
-\input{src/future}
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -73,6 +73,6 @@ Intelligence: FCINT” No.181/18.06.2010
 
 
 \bibliographystyle{abbrv}
-\bibliography{roedunet-gateway}
+\bibliography{orthogonal-routing}
 
 \end{document}

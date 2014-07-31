@@ -69,16 +69,17 @@ void *pthread_server(void *x_void_ptr)
     //while( (read_size = recv(client_sock , client_message , 2000 , 0)) > 0 )
 	while(1)    
 	{
+		sleep(1);
         current_timestamp = get_current_timestamp();
 		if(current_timestamp - read_time_stamp < delta)
 		{
-			status = 1;
+			client_message[0] = '1';
 		} else {
-			status = 0;	
+			client_message[0] = '0';	
 		}
 		//printf("%lli\n\r",current_timestamp - read_time_stamp);
-		sleep(1);
-		write(client_sock , &status , 1);
+		client_message[1] = '\n';
+		write(client_sock , client_message , 2);
     }
      
     if(read_size == 0)

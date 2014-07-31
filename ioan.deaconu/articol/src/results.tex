@@ -8,48 +8,42 @@ In this chapter we will cover the results obtained with this gateway platform.
  
 \subsection{Performance}
 
-Throughput testing was done with back-to-back packets sent at 250kbps over
-2.4GHz with one sending node in acceptable range, with no losses. This is due
-to the double-buffering used in receiving packets from the wireless network.
-As soon as one packet ends, a signal is sent to the radio controller unit with
-a small delay of 9$\mu S$. Even if a new packet starts in that small interval,
-receipt of the new packet goes unhindered as the first bytes of the old packet
-have already been transfered to a different memory location from which they
-will be sent to the USB controller unit via the serial connection.
+The platform can detect multiple wireless sensors and offer real time feedback. 
+The delay is small, but it can vary directly proportional with the distance 
+between the drone and the phone and between the drone and sensor. Usually, this 
+delay can start from 10 ms and pass 150ms for high distance connection. Also,
+thanks to the transmission speed of 250kbps, big data is transfered in under 3 
+seconds. After the transfer is complete, it can be uploaded to the remote sever 
+for further processing.
+ 
+
+\subsection{Hardware}
+
+Because the drone has a powerful arm processor, it can do most of the processing 
+required to fly and to detect and collect data from nodes. By using this approach,
+even when the drone loses connection to the mobile phone, it can hover on its own 
+until the connection is reestablished.
+
+The dongle fits tightly between the body and the shell of the drone. This can 
+represent a future problem on different types of drones where a smaller dongle 
+may be required. 
 
 \subsection{Software configurations}
 
-A great advantage of using a dedicated USB Controller Unit for the gateway is
-that it can be programmed as one of several USB Communication Classes. The USB
-Controller Unit is not limited in implementing any of these classes since most
-of the computing power at its disposal is reserved for USB.  SparrowDongle can
-appear as different USB devices:
+The software solution is very versatile. It can be ported on every platform and 
+programing language that supports sockets, also the dongle and the nodes ca be
+reprogrammed following the application specifications in which they are used.
+ 
+At the moment, the following modes of operation are available, but more are to follow:
 
 \begin{itemize}
 
-\item \textit{Virtual Serial Port}: Communication with the wireless island
-around the gateway can be made via a serial link, incoming packets will appear
-on the receive end of this port and packets will be sent on the transmit end.
-In typical Unix fashion, our implementation sends packet in ASCII for ease of
-use and debugging. They are converted to binary form on the Radio Controller
-Unit of the gateway
+\item \textit{Node discovery}: Nodes can be discovered and located easily when the drone
+is in proximity.
 
-\item \textit{Ethernet Emulation}: In this fashion, packets are received on the
-gateway and then encapsulated in an Ethernet packet sent over the USB link
-(Ethernet is emulated between the USB device and USB host)
-
-\item \textit{Network card}: SparrowDongle behaves as a wireless network card,
-the operating system will register a network interface for the gateway and
-addresses assigned to this interface will change the gateway's address in the
-wireless medium (as opposed to changing the address for the emulated Ethernet)
-
-\item \textit{Mass Storage}: SparrowDongle can offer a virtual filesystem
-interface for innovative data acquisition from the wireless sensor network. In
-accordance with the Unix philosophy of "everything is a file", the virtual
-filesystem offered by the USB stick could have a file for each wireless node
-where it stores recent data (as much as the gateway can store in its volatile
-memory, 1-2 records per node). The software implementation for this interface
-is under development.
+\item \textit{Data server}: This mode allows the drone to save the data and to
+be accessed even when the drone's power supply is removed or it is not flying 
+or connected to any node 
 
  \end{itemize}
 

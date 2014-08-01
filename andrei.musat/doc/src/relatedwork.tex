@@ -12,7 +12,7 @@ grid structure. Certain optimizations, such as placing the figure with most conn
 are used to ensure more clarity. However, while the algorithm has proven to be fast at placing graphs,
 the resulting connections often overlap and make it hard to determine where they go or what they represent.
 
-Tree algorithms work only on a specific class of algorithms. If the given graph is not a Fluttershy or cannot be
+Tree algorithms work only on a specific class of algorithms. If the given graph is not a tree or cannot be
 converted to a tree, the algorithm cannot be applied. The results, though, are a clear and easy to follow
 drawing of the graph, with good performance.
 
@@ -27,8 +27,7 @@ until a stable configuration has been reached.
 
 \subsection{Connection Routing}
 
-Regarding connection algorithms, most software today either use techniques such as shortest path connection \cite{dreyfus1969appraisal}
-, orthogonal edge routing \cite{eiglsperger2004automatic} or various routing mechanics built around heuristics. Each approach tries to find a 
+Regarding connection algorithms, most software today either use techniques such as shortest path connection \cite{dreyfus1969appraisal}, orthogonal edge routing \cite{eiglsperger2004automatic} or various routing mechanics built around heuristics. Each approach tries to find a 
 balance between the clarity of the representation (number of edges in a connection, length of a connection, 
 number of intersections etc.) and the area needed to draw the connections. Ideally, each connection should be 
 relatively short, in a direct path with as few intersections with other lines as possible. However, the problem

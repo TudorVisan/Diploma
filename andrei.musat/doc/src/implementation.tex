@@ -18,14 +18,14 @@ individual is by computing its fitness. This will yield a subset of layouts whic
 are the closest aproximation of what the user desired. At this point, for each 
 part of individual (i.e. a node) it further computes a score, depending on the
 number of connections and where it has been placed. Then, two individuals are 
-picked recombination will be performed. Four new individuals shall be obtained:
+picked and a recombination will be performed. Four new individuals shall be obtained:
 one which has the best positions from both parents, one which has the worst positions
 from each parent and the last two which have the best from one parent and the 
 worst from the other, and vice-versa.
 
 At the end of recombination, a new generation will have been obtained. This selective 
-evolution process \cite{back1996evolutionary} will continue until either stability has been achieved: there is an
-individual with the best fitness which appears constantly in every generation or, for 
+evolution process \cite{back1996evolutionary} will continue until either stability has been achieved (there is an
+individual with the best fitness which appears constantly in every generation) or, for 
 performance reasons, a certain number of generations has passed. The individual with 
 the best fitness shall represent the final layout.
 
@@ -42,7 +42,7 @@ to be connected is computed, ensuring that it avoids obstacles. Then, all redund
 are eliminated (a redundant point is any point C which is on a valid segment [AB]). After 
 this step, the path is "orthogonalized", meaning that all edges which are not orthogonal are 
 broken into smaller, orthogonal edges. Should any of these new segments intersect an obstacle,
-that segment shall be trated as a separate route and re-computed so that it no longer 
+that segment shall be treated as a separate route and re-computed so that it no longer 
 intersects the obstacle.
 
 Should the computed path intersect any other already existing path, a new one shall be 

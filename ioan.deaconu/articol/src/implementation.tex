@@ -2,6 +2,9 @@
 
  \subsection{Hardware Details}
 
+\begin{figure}[hb] \centering
+\includegraphics[width=0.45\textwidth]{img/dronedongle.jpg} \caption{SparrowDongle connected to AR Parrot Drone 2.0 } \end{figure}
+
 The hardware components used are the following:
 \begin{itemize}
 
@@ -27,6 +30,8 @@ The SparrowDongle gateway dumps every data received on the serial. It is always 
 The SparrowV3.2 node is sending periodically a small data packet to check if a gateway is available. When it receives the ack for the packet it starts sending the stored data to the gateway. The data sent can vary, from sensor readings, to debugging informations in order to check the state of the Wireless Sensor Network.
 
 The data gathered by the gateway is saved into different files the AR Parrot Drone's internal memory. The file also contains informations about the node identification tag and time of the transfer. The data can be accessed at any time by any device connected to the drone's wireless network via FTP.
+
+
 
 All the collected data is processed on the drone. It awaits a socket connection in order to start sending informations regarding the state of the connected nodes.
 

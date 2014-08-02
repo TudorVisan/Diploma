@@ -1,0 +1,25 @@
+Research has been done in the area of wireless sensor networks with mobile
+gateways, but none include the same constraints as in our networks. Where most
+research focuses on routing packets to a mobile sink, we consider applications
+where network lifetime and low-maintenance are more important, and as such
+energy consumption on the nodes must be kept to a minimum (in order to have 3+
+years of network lifetime with no maintenance/battery changes). Shifting the
+energy consumption to the sink is a direct consequence of this decision, under
+the assumption that there exists a flight path that allows the gateway to
+collect information from all the nodes. 
+
+Two-Tier Data Dissemination\cite{ttdd}, Line-Based Dissemination\cite{lbd} are
+protocols with mobile sinks for very specific networks. TTDD assumes sensor
+platforms are arranged in a perfect grid pattern, while LBD establishes a
+communication pattern over a virtual infrastructure, derived from the position
+of the nodes. Nodes in both protocols do not have duty-cycles in their activity
+and have either fixed-pattern positions or have GPS or equivalent equipped. This
+is very different from the small, energy constrained sensor platforms we wish to
+use and the mechanisms used by these protocols are not applicable in our system.
+
+Another type of mobile sink system involves proactive routing as a variation to
+the directed diffusion protocol\cite{dirduf}, such as XYLS\cite{xyls}, which
+disseminates data reports in two geographically-opposite directions, such that
+it intersects a corresponding data query. This is once again a system which
+offers a query system to a mobile sink, but cannot offer the collection of all
+measured data since its last fly-by.

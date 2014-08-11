@@ -1,0 +1,30 @@
+nod frunza:
+	- doar pe baterie
+	- super low duty cycle
+	- masuratori oricand in perioada de inactivitate (preferabil cat mai
+	  aproape de transmisia datelor)
+	- callback void *(*foo)(void *)
+	- asculta o perioada de timp pentru intrarea in retea
+	- metrici: hop-count, signal-strength, number of children?
+	- mesaj de inregistrare
+
+nod radacina:
+	- planifica perioadele de transmisie pentru toti fiii
+	- inregistrare/deinregistrare nod fiu
+	- router advertisements
+	- alocare sloturi de la dreapta la stanga
+	- doar un nod transmite la un moment dat
+	- ceri cate sloturi ai nevoie
+	- se aloca blocuri de 16 sloturi
+	- intr-un bloc de 16 sloturi: 1-8 receptie, 9-14 transmisie, 15
+	  transmisia datelor nodului, 0 RA
+	- un nod radacina poate cere sloturi in plus de la parintele sau. daca
+	  acesta are sloturi disponibile atunci include in ACK si aceste
+	  sloturi. daca nu are atunci include un raspuns negativ in ACK si face
+	  interogare mai departe. nodul initial continua sa ceara sloturi in
+	  plus ca si asa nu are ceva mai bun de facut.
+	- sincronizare in RA
+	- daca pentru N perioade la rand nu primesti ACK atunci consideri ca
+	  nodul a plecat si cauti alt parinte
+	- daca timp de N perioade un nod nu transmite nimic atunci consideri ca
+	  nodul a plecat si slotul devine liber

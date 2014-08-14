@@ -28,7 +28,7 @@ public class SocketConnection {
 		try {
 			//this.ipAddress = InetAddress.getLocalHost();
 
-			this.ipAddress = InetAddress.getByName("127.0.0.1");//ipAddress.getHostAddress());
+			this.ipAddress = InetAddress.getByName("127.0.0.1");//192.168.1.1");//ipAddress.getHostAddress());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

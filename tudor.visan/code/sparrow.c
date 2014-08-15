@@ -28,7 +28,7 @@ static uint8_t node_id		= 0xFF;
 static uint8_t parent_id	= 0xFF;
 static uint16_t parent_score	= 0x115F; // WORST SCORE EVAAAAR!
 static uint8_t battery		= 100;
-static uint8_t wakeup_period	= 30;
+static uint8_t wakeup_period	= 0;
 static state_t state		= INIT;
 
 static RX_callback user_rx	= 0;
@@ -107,7 +107,7 @@ void trx_wakeup(void)
 			// build new frame
 			tx_frame.data[NODE_ID]	= node_id;
 			tx_frame.data[BATTERY]	= battery; // TODO: measure battery
-			tx_frame.data[TYPE]	= FRAME_DATA; // TODO: different frame types
+			tx_frame.data[TYPE]	= FRAME_DATA;
 			tx_frame.phr = 3;
 
 			// send new frame
@@ -187,11 +187,26 @@ void rx_end(void)
 }
 
 /*
+ * puts the uC to sleep
+ */
+inline void sleep(void)
+{
+	// go to sleep
+	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
+
+	cli();
+	sleep_enable();
+	sei();
+	sleep_cpu();
+
+	// stop sleeping
+	sleep_disable();
+}
+
+/*
  * initialise sparrow protocol
  * THE FUNCTION DOES NOT RETURN!
  * 
- * @param period
- * 	wakeup period; if 0 then the default 30 second period will be used
  * @param rx
  * 	a function to be called after a packet is received
  * @param tx
@@ -201,7 +216,7 @@ void rx_end(void)
  * 	must be less than or equal to period
  * 	if only taken into account if tx is not NULL
  */
-void __noreturn__ sparrow_leaf_init(uint8_t period, RX_callback rx, TX_callback tx,
+void __noreturn__ sparrow_leaf_init(RX_callback rx, TX_callback tx, 
 		uint8_t tx_delay)
 {
 	uint8_t user_tx_delay = 0, registered = 0;
@@ -225,13 +240,8 @@ void __noreturn__ sparrow_leaf_init(uint8_t period, RX_callback rx, TX_callback 
 				if (tx != 0)
 				{
 					user_tx = tx;
-
-					if (period - tx_delay >= 0)
-						user_tx_delay = period - tx_delay;
+					user_tx_delay = tx_delay;
 				}
-
-				if (period != 0)
-					wakeup_period = period;
 
 				state = REGISTER;
 				break;
@@ -242,33 +252,18 @@ void __noreturn__ sparrow_leaf_init(uint8_t period, RX_callback rx, TX_callback 
 
 				// wait for transceiver to wake up
 				while (radio_get_state() == SLEEP)
-				{
-					// go to sleep
-					set_sleep_mode(SLEEP_MODE_PWR_SAVE);
+					sleep();
 
-					cli();
-					sleep_enable();
-					sei();
-					sleep_cpu();
-
-					// stop sleeping
-					sleep_disable();
-				}
+				// the network period is still unknown so sleep
+				// until you receive a RA
+				while (wakeup_period == 0)
+					sleep();
 
 				// collect all RAs for one time period
 				scounter_delay(wakeup_period, 0, OCR1);
 				while (!scounter_timeout_expired(OCR1))
-				{
-					set_sleep_mode(SLEEP_MODE_PWR_SAVE);
-
-					cli();
-					sleep_enable();
-					sei();
-					sleep_cpu();
-
-					sleep_disable();
-				}
-
+					sleep();
+				
 				// TODO: register to parent node
 
 				// use OCR1 for transmission wakeup
@@ -278,16 +273,7 @@ void __noreturn__ sparrow_leaf_init(uint8_t period, RX_callback rx, TX_callback 
 				break;
 
 			case NORMAL_OPERATION:
-				// go to sleep
-				set_sleep_mode(SLEEP_MODE_PWR_SAVE);
-
-				cli();
-				sleep_enable();
-				sei();
-				sleep_cpu();
-
-				// stop sleeping
-				sleep_disable();
+				sleep();
 				break;
 
 			default:

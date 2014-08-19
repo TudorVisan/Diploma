@@ -1,0 +1,40 @@
+ 
+% *************** LEd - MSc template document ***************
+
+\documentclass[11pt, oneside, a4paper, oldfontcommands]{memoir}
+\input{frontbackstyle/style.tex}
+
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage{pifont}
+\newcommand{\tick}{\ding{52}} 
+\begin{document}
+% *************** Front matter ***************
+\frontmatter
+\input{frontbackstyle/front.tex}
+
+% *************** Main matter ***************
+\mainmatter
+\nocite{*}
+\input{abstract/abstract.tex}
+\input{introduction/introduction.tex}
+\input{related/related.tex}
+\input{hw_platform/hw.tex}
+\input{sw_platform/sw.tex}
+
+% *************** Bibliography ***************
+\bibliographystyle{alpha}
+{\small\bibliography{bibliography/thesis}}
+
+% *************** Appendixes ***************
+\appendix
+%\appendixpage
+\input{appendices/appendix.tex}
+
+% *************** Back matter ***************
+\backmatter
+\input{frontbackstyle/back.tex}
+
+\end{document}
+
+

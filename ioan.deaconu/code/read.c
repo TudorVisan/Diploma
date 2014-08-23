@@ -9,8 +9,15 @@
 #include <sys/socket.h>
 #include <arpa/inet.h> //inet_addr
 #include <unistd.h>    //write
+#include <signal.h> 
 
-int status, read_thread_online,node_nr;
+
+#define DEBUG_ON 1
+
+#define DEBUG_PRINT(a...) { if(DEBUG_ON) printf(a); }
+
+
+int status, read_thread_online,node_nr, dongle_connected, socket_desc;
 long long current_timestamp, delta = 15000, file_timestamp;
 
 pthread_mutex_t data_lock;
@@ -58,14 +65,16 @@ void add_node_data(long long time_stamp , char *p) {
 	
 	for(i = 0 ;i < node_nr;i++) {
 		if(data[i].id == id) {
-			printf("time_stamp update\n");
+			DEBUG_PRINT("data update\n");
 			data[i].time_stamp = time_stamp;
+			data[node_nr].power = power;
 			return;
 		}
 	}
-	printf("new node\n");
+	DEBUG_PRINT("new node\n");
 	data[node_nr].id = id;
 	data[node_nr].time_stamp = time_stamp;
+	data[node_nr].power = power;
 	node_nr ++;
 }
 
@@ -77,22 +86,108 @@ void delete_node_data(int id) {
 	}
 	node_nr --;
 }
+
+char * json_encode(){
+	int i,msg_index = 0;
+
+	char *client_message = (char*)malloc(3000 * sizeof(char));
+	client_message[0]='\0';	
+
+	pthread_mutex_lock(&data_lock);
+    current_timestamp = get_current_timestamp();
+	for(i = 0; i < node_nr;i++) {
+		if(current_timestamp - data[i].time_stamp < delta)
+		{
+			client_message[0]++;
+		} else {
+			delete_node_data(i);
+			i--;
+		}
+	}
+	
+	int local_node_nr = node_nr;
+	struct node_data local_data[node_nr];	
+	memcpy(local_data,data,node_nr * sizeof(struct node_data));
+	pthread_mutex_unlock(&data_lock);  
+	
+
+	msg_index += sprintf(client_message+msg_index, "{ \"dongle_connected\"=%i ,\"nodes\"=[",dongle_connected);
+	
+    current_timestamp = get_current_timestamp();
+	for(i = 0; i <local_node_nr;i++) {
+		if(i > 0 ) {
+			msg_index += sprintf(client_message+msg_index, ",");
+		}	
+		msg_index += sprintf(client_message+msg_index, "{\"node_id\"=%i,\"last_connection_time\"=%i,\"power\"=%i}",local_data[i].id,(int)((current_timestamp - local_data[i].time_stamp)/100),local_data[i].power);	
+	}
+
+	msg_index += sprintf(client_message+msg_index, "]}\n");
+
+	return client_message;
+}
+
+void accept_socket_connection() {
+	
+    struct sockaddr client;
+    char *client_message ;
+	int  client_sock , c , read_size;
+
+    //Accept and incoming connection
+    DEBUG_PRINT("Waiting for incoming connections...\n");
+    c = sizeof(struct sockaddr_in);
+     
+    //accept connection from an incoming client
+    client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c);
+    if (client_sock < 0)
+    {
+        DEBUG_PRINT("accept failed\n");
+       return ;
+    }
+    DEBUG_PRINT("Connection accepted\n");
+     
+    //Receive a message from client 
+	while(1)    
+	{	
+		// sleep in order to avoid flooding the socket
+		sleep(1); 
+ 
+		client_message = json_encode();
+		// error writing - client disconected
+		if (write(client_sock , client_message , strlen(client_message)) != strlen(client_message)) 		{		
+			free(client_message);
+        	DEBUG_PRINT("Client disconnected \n" );
+			// reseting listening procces			
+			return;
+		}
+		free(client_message);
+    }
+     
+    if(read_size == 0)
+    {
+        DEBUG_PRINT("Client disconnected\n");
+        fflush(stdout);
+    }
+    else if(read_size == -1)
+    {
+        DEBUG_PRINT("recv failed\n");
+    }
+} 
  
 /* this function is run by the second thread */
 void *pthread_server(void *x_void_ptr)
 {
+	signal(SIGPIPE, SIG_IGN);
 
-	int socket_desc , client_sock , c , read_size,i;
-    struct sockaddr_in server , client;
-    char client_message[2000];
-     
+    struct sockaddr_in server;
+
     //Create socket
     socket_desc = socket(AF_INET , SOCK_STREAM , 0);
     if (socket_desc == -1)
     {
-        printf("Could not create socket");
+        DEBUG_PRINT("Could not create socket\n");
+		return;
     }
-    puts("Socket created");
+    DEBUG_PRINT("Socket created\n");
      
     //Prepare the sockaddr_in structure
     server.sin_family = AF_INET;
@@ -103,108 +198,85 @@ void *pthread_server(void *x_void_ptr)
     if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
     {
         //print the error message
-        perror("bind failed. Error");
-        return NULL;
+        DEBUG_PRINT("bind failed. Error\n");
+        return ;
     }
-    puts("bind done");
+    DEBUG_PRINT("bind done\n");
      
     //Listen
     listen(socket_desc , 3);
      
-    //Accept and incoming connection
-    puts("Waiting for incoming connections...");
-    c = sizeof(struct sockaddr_in);
-     
-    //accept connection from an incoming client
-    client_sock = accept(socket_desc, (struct sockaddr *)&client, (socklen_t*)&c);
-    if (client_sock < 0)
-    {
-        perror("accept failed");
-       return NULL;
-    }
-    puts("Connection accepted");
-     
-    //Receive a message from client
-    //while( (read_size = recv(client_sock , client_message , 2000 , 0)) > 0 )
-	while(1)    
-	{	
-		sleep(1);
-		client_message[0] = '0';
 
-    	pthread_mutex_lock(&data_lock);
-        current_timestamp = get_current_timestamp();
-		for(i = 0; i < node_nr;i++) { 
-			if(current_timestamp - data[i].time_stamp < delta)
-			{
-				client_message[0]++;
-			} else {
-				delete_node_data(i);
-				i--;
-			}
-		}
-    	pthread_mutex_unlock(&data_lock);
-		//printf("%lli\n\r",current_timestamp - read_time_stamp);
-		client_message[1] = '\n';
-		write(client_sock , client_message , 2);
-    }
-     
-    if(read_size == 0)
-    {
-        puts("Client disconnected");
-        fflush(stdout);
-    }
-    else if(read_size == -1)
-    {
-        perror("recv failed");
-    }
+	while(1){
+	
+		accept_socket_connection();
+	
+	}
 	/* the function must return something - NULL will do */
-	return NULL;
+	return;
+
+}
+
+int check_message_format(char *msg) {
+	if(strlen(msg) == 77 && msg[0] == 'P' && msg[1] == 'a' 
+		&& msg[2]  == 'c' && msg[3]  == 'k' && msg[6] ==':') {
+		return 1;
+	}
+	return 0;
 
 }
 
 int main() {
-	FILE *ptr = NULL;
 
 	mkdir("/node_logs",0777);
 
 	file_timestamp = get_current_timestamp();
 
-	while(ptr == NULL) {	
-		sleep(1);
-		ptr = fopen("/dev/ttyACM0","r");
-	}
-
-	char read_data[100]; 
-
 	node_nr = 0;
+	dongle_connected = 0;
 
 	pthread_t inc_x_thread;
 
 	if (pthread_mutex_init(&data_lock, NULL) != 0)
     {
-        printf("\n mutex init failed\n");
+        DEBUG_PRINT("\n mutex init failed\n");
         return 1;
     }
 
 	/* create a second thread which executes inc_x(&x) */
 	if(pthread_create(&inc_x_thread, NULL, pthread_server, NULL)) {
 
-		fprintf(stderr, "Error creating thread\n");
+		DEBUG_PRINT("Error creating thread\n");
 		return 1;
 
 	}
- 
-	while(fgets(read_data,100,ptr) != NULL) 
-	{ 	 
-		if(strlen(read_data) == 77 && read_data[0] == 'P' && 
-		read_data[1] == 'a' && read_data[2]  == 'c' && read_data[3]  == 'k' &&
-		read_data[6] ==':') {
-   	 		pthread_mutex_lock(&data_lock); 
-			add_node_data(get_current_timestamp(),read_data + 7);
-    		pthread_mutex_unlock(&data_lock);
+
+	while(1) {
+		DEBUG_PRINT("attemting connection to Sparrow Dongle\n");
+		FILE *ptr = NULL;	
+		while(ptr == NULL) {	
+			sleep(1);
+			ptr = fopen("/dev/ttyACM0","r");
 		}
+
+		dongle_connected = 1;
+		DEBUG_PRINT("Sparrow Dongle connected\n");
+		char read_data[100]; 
+	 
+		while(fgets(read_data,100,ptr) != NULL) 
+		{ 	 
+			if(check_message_format(read_data)) {
+	   	 		pthread_mutex_lock(&data_lock); 
+				add_node_data(get_current_timestamp(),read_data + 7);
+				pthread_mutex_unlock(&data_lock);
+			}
+		}
+		dongle_connected = 0;
+		fclose(ptr);
+		DEBUG_PRINT("Sparrow Dongle Disconnected\n");	
 	}
-	printf("Clossing the program\n");
+
+	DEBUG_PRINT("Clossing the program\n");
 
 	return 0;
 }

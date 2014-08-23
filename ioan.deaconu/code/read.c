@@ -12,8 +12,8 @@
 #include <signal.h> 
 
 
-#define DEBUG_ON 1
-
+#define DEBUG_ON 0
+#define DELAY_US 100000
 #define DEBUG_PRINT(a...) { if(DEBUG_ON) printf(a); }
 
 
@@ -21,6 +21,7 @@ int status, read_thread_online,node_nr, dongle_connected, socket_desc;
 long long current_timestamp, delta = 15000, file_timestamp;
 
 pthread_mutex_t data_lock;
+struct timespec lock_timeout;  
 
 struct node_data {
 	int id;	
@@ -35,7 +36,7 @@ long long get_current_timestamp() {
     struct timeval te; 
     gettimeofday(&te, NULL); // get current time
     long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
-    // printf("milliseconds: %lld\n", milliseconds);
+ 
     return milliseconds;
 }
 
@@ -56,7 +57,7 @@ void add_node_data(long long time_stamp , char *p) {
 	int i;
 	int id = get_hex(p,2);
 	int power = -90 + 3* (get_hex(p + 64,2)-1);
-	printf("node id %i %i\n",id,power);
+	DEBUG_PRINT("node id %i %i\n",id,power);
 	char file_name[100];
 	sprintf(file_name, "/node_logs/%lli_%i",file_timestamp,id);
 	FILE *fptr = fopen(file_name,"a");	
@@ -93,7 +94,7 @@ char * json_encode(){
 	char *client_message = (char*)malloc(3000 * sizeof(char));
 	client_message[0]='\0';	
 
-	pthread_mutex_lock(&data_lock);
+	pthread_mutex_timedlock(&data_lock,&lock_timeout); 
     current_timestamp = get_current_timestamp();
 	for(i = 0; i < node_nr;i++) {
 		if(current_timestamp - data[i].time_stamp < delta)
@@ -118,7 +119,7 @@ char * json_encode(){
 		if(i > 0 ) {
 			msg_index += sprintf(client_message+msg_index, ",");
 		}	
-		msg_index += sprintf(client_message+msg_index, "{\"node_id\"=%i,\"last_connection_time\"=%i,\"power\"=%i}",local_data[i].id,(int)((current_timestamp - local_data[i].time_stamp)/100),local_data[i].power);	
+		msg_index += sprintf(client_message+msg_index, "{\"node_id\"=%i,\"last_connection_time\"=%i,\"power\"=%i}",local_data[i].id,(int)((current_timestamp - local_data[i].time_stamp)/10),local_data[i].power);	
 	}
 
 	msg_index += sprintf(client_message+msg_index, "]}\n");
@@ -149,7 +150,7 @@ void accept_socket_connection() {
 	while(1)    
 	{	
 		// sleep in order to avoid flooding the socket
-		sleep(1); 
+		usleep(DELAY_US);
  
 		client_message = json_encode();
 		// error writing - client disconected
@@ -218,7 +219,7 @@ void *pthread_server(void *x_void_ptr)
 }
 
 int check_message_format(char *msg) {
-	if(strlen(msg) == 77 && msg[0] == 'P' && msg[1] == 'a' 
+	if(strlen(msg) > 75 && msg[0] == 'P' && msg[1] == 'a' 
 		&& msg[2]  == 'c' && msg[3]  == 'k' && msg[6] ==':') {
 		return 1;
 	}
@@ -236,6 +237,9 @@ int main() {
 	dongle_connected = 0;
 
 	pthread_t inc_x_thread;
+
+	lock_timeout.tv_sec=0;
+	lock_timeout.tv_nsec= 1000 * DELAY_US;
 
 	if (pthread_mutex_init(&data_lock, NULL) != 0)
     {
@@ -255,8 +259,8 @@ int main() {
 		DEBUG_PRINT("attemting connection to Sparrow Dongle\n");
 		FILE *ptr = NULL;	
 		while(ptr == NULL) {	
-			sleep(1);
-			ptr = fopen("/dev/ttyACM0","r");
+			usleep(DELAY_US);
+			ptr = fopen("/dev/ttyACM0","r"); 
 		}
 
 		dongle_connected = 1;
@@ -264,9 +268,10 @@ int main() {
 		char read_data[100]; 
 	 
 		while(fgets(read_data,100,ptr) != NULL) 
-		{ 	 
+		{
+			
 			if(check_message_format(read_data)) {
-	   	 		pthread_mutex_lock(&data_lock); 
+	   	 		pthread_mutex_timedlock(&data_lock,&lock_timeout); 
 				add_node_data(get_current_timestamp(),read_data + 7);
 				pthread_mutex_unlock(&data_lock);
 			}

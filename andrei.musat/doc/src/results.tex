@@ -29,3 +29,11 @@ restriction imposed on routes not crossing each other. However, once we reach
 bigger graphs, the ones containing over 10000 nodes, the solution is smoother and
 scales better, mainly because everything is already placed correctly and connections 
 are shorter and do not have to go around too many elements.
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.5\textwidth]{src/under_10000.png}
+\caption{Performance graph for tests containing under 10000} \end{figure}
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.5\textwidth]{src/over_10000.png}
+\caption{Performance graph for tests containing over 10000} \end{figure}

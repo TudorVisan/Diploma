@@ -5,17 +5,18 @@
 #include <sys/stat.h>
 
 #include <pthread.h>
-#include <string.h>    //strlen
+#include <string.h> 
 #include <sys/socket.h>
-#include <arpa/inet.h> //inet_addr
-#include <unistd.h>    //write
+#include <arpa/inet.h>
+#include <unistd.h>     
 #include <signal.h> 
 
 
+/* activates/deactivates printf debuf information*/
 #define DEBUG_ON 0
+/* delay yime in microseconds*/
 #define DELAY_US 100000
 #define DEBUG_PRINT(a...) { if(DEBUG_ON) printf(a); }
-
 
 int status, read_thread_online,node_nr, dongle_connected, socket_desc;
 long long current_timestamp, delta = 15000, file_timestamp;
@@ -56,22 +57,33 @@ int get_hex(char *p, int nr){
 void add_node_data(long long time_stamp , char *p) {
 	int i;
 	int id = get_hex(p,2);
+
+	/* the power of the signal calculated in dB */
 	int power = -90 + 3* (get_hex(p + 64,2)-1);
+
+	/* creating a file with unique name */
 	DEBUG_PRINT("node id %i %i\n",id,power);
 	char file_name[100];
 	sprintf(file_name, "/node_logs/%lli_%i",file_timestamp,id);
+
+	/* saving the new data at the end of the file */
 	FILE *fptr = fopen(file_name,"a");	
 	fprintf(fptr,"%s",p);
 	fclose(fptr);
 	
+	/* searching for previous connection of the same node*/
 	for(i = 0 ;i < node_nr;i++) {
 		if(data[i].id == id) {
+
+			/* timestamp update - node is stil reachable and sending data */
 			DEBUG_PRINT("data update\n");
 			data[i].time_stamp = time_stamp;
 			data[node_nr].power = power;
 			return;
 		}
 	}
+	
+	/* new node found by the drone */
 	DEBUG_PRINT("new node\n");
 	data[node_nr].id = id;
 	data[node_nr].time_stamp = time_stamp;

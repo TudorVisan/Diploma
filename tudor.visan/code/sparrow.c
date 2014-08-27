@@ -73,7 +73,9 @@ void user_wakeup(void)
 			break;
 
 		default:
-			// TODO: report error
+			// report error
+			debug_print("sparrow %u: user wakeup in wrong"\
+					"protocol state\n", node_id);
 	}
 }
 
@@ -91,7 +93,9 @@ void tx_wakeup(void)
 			break;
 
 		default:
-			// TODO: report error
+			// report error
+			debug_print("sparrow %u: tx wakeup in wrong protocol"\
+				       "state\n", node_id);
 	}
 }
 
@@ -118,7 +122,9 @@ void trx_wakeup(void)
 			break;
 
 		default:
-			// TODO: report error
+			// report error
+			debug_print("sparrow %u: trx wakeup in wrong protocol"\
+				       "state\n", node_id);
 	}
 }
 
@@ -166,8 +172,6 @@ void rx_end(void)
 					// chosen parent, choose this new node
 					parent_id = rx_frame.data[NODE_ID];
 					parent_score = score;
-
-					// TODO: choose a slot from this node
 				}
 			} 
 
@@ -182,25 +186,10 @@ void rx_end(void)
 			break;
 
 		default:
-			// TODO: report error
+			// report error
+			debug_print("sparrow %u: rx in wrong protocol state\n",
+					node_id);
 	}
-}
-
-/*
- * puts the uC to sleep
- */
-inline void sleep(void)
-{
-	// go to sleep
-	set_sleep_mode(SLEEP_MODE_PWR_SAVE);
-
-	cli();
-	sleep_enable();
-	sei();
-	sleep_cpu();
-
-	// stop sleeping
-	sleep_disable();
 }
 
 /*
@@ -277,7 +266,9 @@ void __noreturn__ sparrow_leaf_init(RX_callback rx, TX_callback tx,
 				break;
 
 			default:
-				// TODO: report error
+				// report error
+				debug_print("sparrow %u: protocol entered"\
+						"unknown state", node_id);
 				state = INIT;
 		}
 	}

@@ -2,10 +2,10 @@
 
 The problem of finding the optimal placement for the nodes of a graph in the plane
 in which it will be drawn is a well known graph theory/computer science problem
-which has been tackled by many researchers \cite{battista1994algorithms}.
+which has been tackled by many researchers \cite{gansner2005graph}.
 
 The algorithms which are currently used most frequently by available software are:
-grid placement \cite{tamassia1987embedding}, tree placement (in cases where it is possible), and force-directed placement \cite{fruchterman1991graph}.
+grid placement \cite{tamassia1987embedding}, tree placement (in cases where it is possible), and force-directed placement \cite{hu2005efficient}.
 
 Grid type algorithms ensure that the components of a graph are placed on hierarchical layers within a
 grid structure. Certain optimizations, such as placing the figure with most connected edges in the middle,
@@ -27,10 +27,10 @@ until a stable configuration has been reached.
 
 \subsection{Connection Routing}
 
-Regarding connection algorithms, most software today either use techniques such as shortest path connection \cite{dreyfus1969appraisal}, orthogonal edge routing \cite{eiglsperger2004automatic} or various routing mechanics built around heuristics. Each approach tries to find a 
+Regarding connection algorithms, most software today either use techniques such as shortest path connection \cite{goldberg2005computing}, orthogonal edge routing \cite{eiglsperger2004automatic} or various routing mechanics built around heuristics. Each approach tries to find a 
 balance between the clarity of the representation (number of edges in a connection, length of a connection, 
 number of intersections etc.) and the area needed to draw the connections. Ideally, each connection should be 
 relatively short, in a direct path with as few intersections with other lines as possible. However, the problem
-of finding the proper representation so that the number of intersections is 0 is NP \cite{baker1994approximation}, therefore there is no
-general solution, only aproximations. Currently available software generally allow certain intersections or 
+of finding the proper representation so that the number of intersections is 0 is NP \cite{cabello2006planar}, therefore there is no
+general solution, only approximations. Currently available software generally allow certain intersections or 
 overlaps of connections to happen in order to compute faster and not lose performance.

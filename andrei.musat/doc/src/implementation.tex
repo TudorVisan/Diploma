@@ -2,7 +2,7 @@
 
 \subsection{Placing Algorithm}
  
-The placing algorithm is at its core a genetic algorithm \cite{back1997handbook} which uses
+The placing algorithm is at its core a genetic algorithm \cite{chambers2010practical}, which uses
 a specified set of heuristic functions to compute the fitness of individuals.
 An individual is represented by the configuration of the graph at a certain, i.e.
 the location of each node.
@@ -24,14 +24,14 @@ from each parent and the last two which have the best from one parent and the
 worst from the other, and vice-versa.
 
 At the end of recombination, a new generation will have been obtained. This selective 
-evolution process \cite{back1996evolutionary} will continue until either stability has been achieved (there is an
+evolution process \cite{goldberg2006genetic} will continue until either stability has been achieved (there is an
 individual with the best fitness which appears constantly in every generation) or, for 
 performance reasons, a certain number of generations has passed. The individual with 
 the best fitness shall represent the final layout.
 
-\begin{figure}[ht] \centering
-\includegraphics[width=0.5\textwidth]{src/placingLogic.png}
-\caption{ALU unit components placing: logical units split from arithmetic units.} \end{figure}
+\begin{figure*}[ht] \centering
+\includegraphics[width=0.8\textwidth]{src/placingLogic.png}
+\caption{ALU unit components placing: logical units split from arithmetic units.} \end{figure*}
 
 \subsection{Routing Algorithm}
 

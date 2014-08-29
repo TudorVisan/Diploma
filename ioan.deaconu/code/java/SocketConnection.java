@@ -1,3 +1,4 @@
+ 
 //Deaconu Ioan 342C1
 //Tema 1 - IA
 
@@ -22,19 +23,19 @@ public class SocketConnection {
 	DataOutputStream out;
 	BufferedReader in;
 	String message;
-
-	public SocketConnection() {
-		port = 8888;
+	
+	public static final int NODE_FILES_PORT = 8889, NODE_DATA = 8888;
+ 
+	public SocketConnection(int port) {
+		this.port = port;
 		try {
-			//this.ipAddress = InetAddress.getLocalHost();
-
-			this.ipAddress = InetAddress.getByName(/*"127.0.0.1");//*/"192.168.1.1");//ipAddress.getHostAddress());
+			this.ipAddress = InetAddress.getByName("127.0.0.1");//"192.168.1.1");//ipAddress.getHostAddress());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
-
+	
 	public SocketConnection(int port, String ipAdr) {
 		this.port = port;
 		try {
@@ -50,7 +51,7 @@ public class SocketConnection {
 			requestSocket = new Socket(ipAddress, port); 
 			System.out.println("Connected to "+ ipAddress.getHostAddress()  +" in port " + port);
 			out = new DataOutputStream(  requestSocket.getOutputStream());
- 
+
 			in = new BufferedReader(new InputStreamReader(requestSocket.getInputStream()));
 
 		} catch (Exception exception) {
@@ -59,6 +60,7 @@ public class SocketConnection {
 		return true;
 	}
 
+ 
 	public boolean sendString(String msg) {
 		if(msg.indexOf('\n') == -1) {
 			msg +='\n';
@@ -85,7 +87,21 @@ public class SocketConnection {
 		}
 		return msg;
 	}
-	
+	public char[] receiveChars(int size) {
+		String msg = null;
+		char buffer[] = new char[size];
+		try { 
+			if(in.read(buffer) <=0) {
+				return null;
+			}
+			System.out.println("received: " + msg);
+			return buffer;
+		} catch (Exception exception) {
+			//exception.printStackTrace();
+			msg = null;
+		}
+		return null;
+	}
 	public boolean close() {
 		try {
 			out.close();

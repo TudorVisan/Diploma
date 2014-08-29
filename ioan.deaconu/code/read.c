@@ -46,7 +46,7 @@ int get_hex(char *p, int nr){
 	int value = 0;
 	for(i = 0 ;i < nr;i++){
 		if(p[i] >='a') {
-			value += value*16 + (p[i] - 'a');
+			value += value*16 + 10+(p[i] - 'a');
 		}	else {
 			value += value*16 + (p[i] - '0');
 		}
@@ -59,10 +59,10 @@ void add_node_data(long long time_stamp , char *p) {
 	int id = get_hex(p,2);
 
 	/* the power of the signal calculated in dB */
-	int power = -90 + 3* (get_hex(p + 64,2)-1);
-
+// must take account for \n and \0 on normal linux or just \n for parrot drone
+	int power = -90 + 3* (get_hex(p + strlen(p)-5,2)-1); 
 	/* creating a file with unique name */
-	DEBUG_PRINT("node id %i %i\n",id,power);
+	DEBUG_PRINT("node id %s %i %i \n",p,id,power);
 	char file_name[100];
 	sprintf(file_name, "/node_logs/%lli_%i",file_timestamp,id);
 
@@ -231,7 +231,7 @@ void *pthread_server(void *x_void_ptr)
 }
 
 int check_message_format(char *msg) {
-	if(strlen(msg) > 75 && msg[0] == 'P' && msg[1] == 'a' 
+	if(strlen(msg) > 20 && msg[0] == 'P' && msg[1] == 'a' 
 		&& msg[2]  == 'c' && msg[3]  == 'k' && msg[6] ==':') {
 		return 1;
 	}

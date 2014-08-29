@@ -10,7 +10,7 @@ public class MainClass {
  
 	
 	public static void main(String args[]) { 
-		socketConnection = new SocketConnection();
+		socketConnection = new SocketConnection(SocketConnection.NODE_DATA);
 		
 		socketConnection.openSocket();
  		while(true){

@@ -4,3 +4,6 @@
 # ignore swap files
 *.swp
 *.swo
+
+# ignore pdf thesis
+*.pdf

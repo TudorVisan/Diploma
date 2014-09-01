@@ -1,12 +1,15 @@
 \normalfont\normalsize
 \chapter{Hardware Platform}
 
-In this chapter we will present the hardware platforms uses in order 
-
-chesti ..... help andrei
+In this chapter we will present the hardware platforms used. 
 
 
-\clearpage
+Because we wanted to emphasise not only a new way of aquiring data, but also a simple and low cost one, we have selected The Parrot AR.Drone 2.0 as the work horse that will carry the gateway that will communicate with the nodes from our Sparrow Family . 
+
+
+chesti ..... help .. anybody
+
+ 
 
 \section{The Parrot AR.Drone 2.0}
 
@@ -49,10 +52,7 @@ The arrot AR.Drone 2.0 specifications are :
 \end{itemize}
 
 
-
-\clearpage
-
-\section{The Sparrow Dongle}
+\section{The Sparrow Family}
 
 \begin{figure}[ht]
 \begin{center}
@@ -60,10 +60,28 @@ The arrot AR.Drone 2.0 specifications are :
 \end{center}
 \caption{\small \itshape{The Sparrow Dongle next to the SparrowV32}}
 \end{figure}
+ 
+The Sparrow Family , composed of the Sparrow Dongle and SparrowV32, use a 2,4 GHz wireless network as a medium of communication. 
 
-\clearpage
+At heart,soul and brain of this family lies the ATMega128RFA1. It is an 8bit microcontroller from Atmel that has a very important on-chip 2.4 GHz wireless transceiver that helps in keeping the footprint of the board very small.
 
-\section{The SparrowV32}
+The signal received or sent by the wireless transceiver can be boosted by attaching an external atena. For example, in an ideal situation, with no interferences from the outside world , an 8-dbi omni-directional antenna mounted on both communication devices would amount to an around 200 meters of communication range, well over the 70 meters measured with the default antennas.
+
+\subsection{The Sparrow Dongle}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.9\textwidth]{hw_platform/donge_architecture.png}
+\end{center}
+\caption{\small \itshape{SparrowDongle stick architecture}}
+\end{figure}
+
+The unseen hero of the WSN world, the Sparrow Dongle is the gateway of the Sparrow Family. The Dongle can be connected to any devices that has an usb port and can support USB CDC with ACM module (USB Communications Device Class with Abstract Control Mode). 
+
+The dongle uses Atmega32U4 as a dedicated USB Controller unit. This design allows the RF controller to run any RF communication stack without having the USB code intrude on key timings.
+
+
+\subsection{The SparrowV32}
 
 \begin{figure}[ht]
 \begin{center}
@@ -71,3 +89,6 @@ The arrot AR.Drone 2.0 specifications are :
 \end{center}
 \caption{\small \itshape{The SparrowV32}}
 \end{figure}
+
+
+The main hero of The Sparrow Family, the SparrowV32 nodes does all the dirty work of collecting data from the surrounding environment and send it to the Sparrow Dongle. The collected data depends on the sensors of the SparrowV32. The standard implementation has a light, temperature and humidity sensor. Besides this information, it also sends the battery level.

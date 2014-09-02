@@ -1,26 +1,43 @@
 Diagrams are tools which are widely used in various domains in order to represent
-concepts, hierarchies, architectures etc. However, there is a field in 
-which diagrams are a key part of development: FPGA design and verification. Here, diagrams are used
-to describe blocks, to represent the way the modules of a chip are connected at a 
-logical level or to show how multiple micro-chips are connected on a board. In FPGA 
-and ASIC verification, they are used to represent class hierarchies and inheritence, 
-agents, sequencers and general test flows. Diagrams are instrumental in all
-stages of FPGA design.
+concepts, hierarchies, architectures etc. In software engineering, they can be found as
+an UML(Unified Modeling Language) visualisation of a system or program or as an inheritence
+tree in the case of OOP(Object Oriented Programming) languages. Diagrams are also present 
+in the hardware world where their usage includes: logical representation of an FSM(Finite State Machine), 
+data flow between components, on-chip dependencies between components. However, there is a field in 
+which diagrams are a key part of development: hardware design and verification. In the case of hardware design, 
+be it ASIC(Application Specific Integrated Circuit), FPGA(Field Programmable Gate Array), processors, memories or
+microcontrollers, diagrams are used to describe the individual blocks which are put together to form the respective chip, 
+to represent the way modules are connected at a logical level or to show how data is passed and manipulated by each component. 
+In hardware verification, they are used to represent hierarchies and inheritence amongst specific units such as agents, 
+sequencers, test scoreboards and general test flows, often corresponding with the guidelines of accepted methodologies such
+as OVM(Open Verification Methodology) and UVM(Universal Verification Methodology). Therefore, one can assert that diagrams 
+are instrumental in all stages of hardware design and verification.
 
-Even though they are an important part of the FPGA design and verification world, 
-diagrams do not receive the required attention from the developer community. Despite 
-their utility in understanding and maintaining the coherence and logical flow of a
-design, they are not always taken into consideration by developers of IDEs and other 
-design and verification solutions. Usually, an FPGA design consists of tens, maybe hundreds 
-of thousands of design elements; the equivalent of a graph with the same number of nodes. 
-Representing such a design as a diagram would be, in turn, equivalent to drawing said graph 
-in a plane. For current algorithms and software, this is a well known problem which is 
-difficult to solve in a reasonable time period and also yield a pleasant and easy to 
-understand result. We aim to show in this paper that there exists a solution for graph 
-and diagram layouts that is more versatile, uses newer technologies and programming 
-techniques and gives results which feel more natural for the user.
+Despite being an important part of the hardware design and verification world, diagrams do not receive the required attention 
+from the developer community. While HDLs(Hardware Description Languages) have been gaining popularity over the years and IDEs 
+have been developing to support them, diagrams have not received the adequate attention from the community. It is often 
+overlooked that their main utility lies in understanding and maintaining the coherence and logical flow of a design
+or a verification testbench. 
 
-We introduce a layout and routing solution which uses genetic algorithms and orthogonal
-routing \cite{wybrow2010orthogonal}. We will show an overview of the system architecture in Section \ref{chap:arch}, 
-the hardware and software implementation for the two algorithms in Section \ref{chap:impl} 
-and results of using the algorithm in Section \ref{chap:results}.
+Usually, a hardware design consists of a number of design elements which can range from hundreds to thousands of design elements; 
+the equivalent of a graph with the same number of nodes. Representing such a design as a diagram would be, in turn, equivalent to 
+drawing said graph in a plane. A given graph must pass through three steps in order to obtain a diagram representation: planarity 
+testing, node placement and connection routing. For current algorithms and software, this is a well known problem which is difficult 
+to solve in a reasonable amount of time and also yield a readable and easy to understand result. However, there are methods and 
+algorithms which can be combined to obtain a feasible diagram representation. 
+
+The layout and routing solution which is presented in this study combines techniques used in current solutions with newer algorithms 
+to in the attempt to obtain representations which respect the following criteria:
+
+- Coherency: The diagram should be easy to understand and follow. Each connection in the diagram represents either 
+data paths(BUS) or logical connections between components. For this reason the user must be able to understand where these paths start, 
+where they end and what components they connect.
+
+- Correctness: As any algorithm, the solution must maintain the correctness of the model when representing it. All nodes have to be
+included and all edges represented according to the corresponding adjacency matrix of the given graph.
+
+- Planarity: Refers to the property of the given graph to be represented in the two dimensional plane. A planar graph does not have 
+intersecting edges. It is expected that the representation preserves the planarity property of the graph.
+
+- Orthogonality: Edges between nodes are represented as orthogonal connectors. Orthogonality implies that a path is composed only
+of perpendicular segments and contains a minimum number of bends. Paths shall not overlap any node.

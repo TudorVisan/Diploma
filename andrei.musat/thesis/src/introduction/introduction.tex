@@ -1,0 +1,26 @@
+Diagrams are tools which are widely used in various domains in order to represent
+concepts, hierarchies, architectures etc. However, there is a field in 
+which diagrams are a key part of development: FPGA design and verification. Here, diagrams are used
+to describe blocks, to represent the way the modules of a chip are connected at a 
+logical level or to show how multiple micro-chips are connected on a board. In FPGA 
+and ASIC verification, they are used to represent class hierarchies and inheritence, 
+agents, sequencers and general test flows. Diagrams are instrumental in all
+stages of FPGA design.
+
+Even though they are an important part of the FPGA design and verification world, 
+diagrams do not receive the required attention from the developer community. Despite 
+their utility in understanding and maintaining the coherence and logical flow of a
+design, they are not always taken into consideration by developers of IDEs and other 
+design and verification solutions. Usually, an FPGA design consists of tens, maybe hundreds 
+of thousands of design elements; the equivalent of a graph with the same number of nodes. 
+Representing such a design as a diagram would be, in turn, equivalent to drawing said graph 
+in a plane. For current algorithms and software, this is a well known problem which is 
+difficult to solve in a reasonable time period and also yield a pleasant and easy to 
+understand result. We aim to show in this paper that there exists a solution for graph 
+and diagram layouts that is more versatile, uses newer technologies and programming 
+techniques and gives results which feel more natural for the user.
+
+We introduce a layout and routing solution which uses genetic algorithms and orthogonal
+routing \cite{wybrow2010orthogonal}. We will show an overview of the system architecture in Section \ref{chap:arch}, 
+the hardware and software implementation for the two algorithms in Section \ref{chap:impl} 
+and results of using the algorithm in Section \ref{chap:results}.

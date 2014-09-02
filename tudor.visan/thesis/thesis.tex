@@ -1,95 +1,47 @@
- 
 % *************** LEd - MSc template document ***************
 
 \documentclass[11pt, oneside, a4paper, oldfontcommands]{memoir}
 \input{style/style.tex}
-
 \usepackage{wrapfig}
 \usepackage{listings}
 \usepackage{pifont}
 \newcommand{\tick}{\ding{52}} 
+
 \begin{document}
+
 % *************** Front matter ***************
+
 \frontmatter
 \input{style/front.tex}
 
 % *************** Main matter ***************
+
 \mainmatter
-%\nocite{*}
 \input{src/abstract.tex}
-\chapter{Introduction}
-\chapter{Related Work}
-\chapter{Hardware Platform}
-Voi folosi o super-referință S-MAC\cite{hui} și un rahat \cite{rahat2001candidate}
-\chapter{Software Platform}
-\begin{figure}[ht]
- \begin{center}
-  \includegraphics[scale=0.5]{img/starttask.pdf}
- \end{center}
- \caption{\small \itshape{The exchange of messages while starting/stopping tasks}}
-\end{figure}
-
-
-\lstset{numbers=left, mathescape=true, nolol=false,caption=Task server snippet,label=lst:taskserver}
-\begin{lstlisting}
-PROCESS_THREAD(task_server_process, ev, data)
-{
-	PROCESS_BEGIN();
-
-	list_init(task_list);
-
-	list_add(task_list,&el_monitor_process);
-	list_add(task_list,&el_delay_process);
-	list_add(task_list,&el_temperature_sensing);
-
-	tcp_listen(HTONS(1010));
-
-	while(1) 
-	{
-		PROCESS_WAIT_EVENT_UNTIL(ev == tcpip_event);
-
-		if(uip_connected()) 
-		{
-			PSOCK_INIT(&ps, buffer, sizeof(buffer));
-
-			while(!(uip_aborted() || uip_closed() 
-			    || uip_timedout())) 
-			{
-				PROCESS_WAIT_EVENT_UNTIL
-				      (ev == tcpip_event);
-				handle_connection(&ps);
-			}
-		}
-	}
-	PROCESS_END();
-}
-\end{lstlisting}
-
+\input{src/acknowledgements.tex}
+\input{src/introduction.tex}
+\input{src/related_work.tex}
+\input{src/hardware_platform.tex}
+\input{src/software_platform.tex}
 \chapter{Other Chapters, TBD}
-\chapter{Conclusions and Future Work}
-% all chapters should be in a different text file
-%\input{src/related.tex}
-%\input{src/implementation.tex}
-%\input{src/results.tex}
-%\input{src/conclusions.tex}
+\input{src/conclusions_and_future_work.tex}
 
 % *************** Bibliography ***************
+
 \clearpage
 \bibliographystyle{plainnat}
-
 \bibliography{thesis}
-%{\small\bibliography{paper}}
 
 % *************** Appendixes ***************
+
 \appendix
 %\appendixpage
 \input{appendices/appendix.tex}
 %\input{appendices/Appendix2.tex}
 
 % *************** Back matter ***************
+
 \backmatter
 \input{style/back.tex}
 
 \end{document}
-
-

@@ -16,8 +16,11 @@ nod radacina:
 	- doar un nod transmite la un moment dat
 	- ceri cate sloturi ai nevoie
 	- se aloca blocuri de 16 sloturi
-	- intr-un bloc de 16 sloturi: 1-8 receptie, 9-14 transmisie, 15
-	  transmisia datelor nodului, 0 RA
+	- dimensiunea sotului 1ms
+	- intr-un bloc de 16 sloturi: 0-5 receptie, 6-11 transmisie, 12
+	  transmisia datelor nodului, 15 RA, 13 contentie, 14 inregistrare
+	- inregistrare: asculti random, transmiti, transmiti catre root, root
+	  intoarce ACK, posibil inca un schimb de pachete
 	- un nod radacina poate cere sloturi in plus de la parintele sau. daca
 	  acesta are sloturi disponibile atunci include in ACK si aceste
 	  sloturi. daca nu are atunci include un raspuns negativ in ACK si face

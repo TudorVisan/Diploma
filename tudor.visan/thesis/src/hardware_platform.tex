@@ -3,9 +3,9 @@
 \chapter{Hardware platform}
 
 This protocol was developed and tested entirely on the Sparrowv3 wireless
-sensing platform. This platform was developed by As. Drd. Ing. Andrei Voinescu 
-and Sl. Dr. Ing. Dan Tudose at the Faculty of Automatic Control and Computers, 
-University Politehnica of Bucharest. The development kit consists of Sparrowv3 
+sensing platform. This platform was developed by As. Drd. Ing. Andrei Voinescu
+and Sl. Dr. Ing. Dan Tudose at the Faculty of Automatic Control and Computers,
+University Politehnica of Bucharest. The development kit consists of Sparrowv3
 sensing nodes and the SparrowDongle USB stick.
 
 \begin{figure}[ht]
@@ -23,18 +23,18 @@ research.
 \section{The Sparrowv3 nodes}
 
 The Sparrowv3 wireless sensing nodes are small, battery powered devices capable
-of IEEE 802.15.4 and ZigBee compatible communication. They are built around
-the \mbox{ATmega128RFA1}, a microcontroller made by Atmel which is based on the
-\mbox{ATmega128}. It incorporates a powerful and energy-efficient AVR
-core and comes equipped with all the standard AVR peripherals such as multiple 
-8 and 16-bit synchronous timers, an 8-bit asynchronous timer, SPI (Serial
-Peripheral Interface), USART (Universal Synchronous and Asynchronous Receiver
-and Transmitter) and TWI (Two Wire serial Interface) communication interfaces 
-and an ADC (Analog-to-Digital Converter). The controller offers an advanced power 
-management interface and sleep modes. This permits the user to deactivate 
-peripherals and put the CPU into various sleep modes in order to preserve 
-power. In its most efficient sleep state the microcontroller utilises only 
-0.25 uA of current (at a supply voltage of 3V). The controller is clocked from an
+of IEEE 802.15.4 and ZigBee compatible communication. They are built around the
+\mbox{ATmega128RFA1}, a microcontroller made by Atmel which is based on the
+\mbox{ATmega128}. It incorporates a powerful and energy-efficient AVR core and
+comes equipped with all the standard AVR peripherals such as multiple 8 and
+16-bit synchronous timers, an 8-bit asynchronous timer, SPI (Serial Peripheral
+Interface), USART (Universal Synchronous and Asynchronous Receiver and
+Transmitter) and TWI (Two Wire serial Interface) communication interfaces and
+an ADC (Analog-to-Digital Converter). The controller offers an advanced power
+management interface and sleep modes. This permits the user to deactivate
+peripherals and put the CPU into various sleep modes in order to preserve
+power. In its most efficient sleep state the microcontroller utilises only 0.25
+uA of current (at a supply voltage of 3V). The controller is clocked from an
 external 16 MHz crystal oscillator.
 
 \begin{figure}[ht]
@@ -46,18 +46,18 @@ external 16 MHz crystal oscillator.
 
 The \mbox{ATmega128RFA1} has 4 Kbytes of EEPROM memory used to hold
 write-protected configuration and calibration data, 128 Kbytes of In-System
-Self-Programmable Flash memory, which is used to store the firmware and 16 
+Self-Programmable Flash memory, which is used to store the firmware and 16
 Kbytes of SRAM, used for storing data during execution.
 
 The microcontroller also incorporates a low-power 2.4 GHz transceiver and a MAC
 symbol counter. The transceiver has a maximum sensitivity of -100 dBm and
 includes a 128-bit hardware AES accelerator and a 2-bit true random number
-generator. An antenna and a balun are be connected to the controller in 
-order to ensure optimal radio performance but a connector for an external 
-antenna is also present, to allow attaching a larger, more powerful
-antenna. The MAC symbol counter is a 32-bit counter that provides the timing 
-information for the transceiver. The counter runs by deriving a 62.5 kHz clock 
-from a 32.768 kHz low-drift crystal oscillator. 
+generator. An antenna and a balun are be connected to the controller in order
+to ensure optimal radio performance but a connector for an external antenna is
+also present, to allow attaching a larger, more powerful antenna. The MAC
+symbol counter is a 32-bit counter that provides the timing information for the
+transceiver. The counter runs by deriving a 62.5 kHz clock from a 32.768 kHz
+low-drift crystal oscillator. 
 
 The Sparrowv3 sensing nodes are capable of measuring three aspects of their
 surrounding environment: ambient light, temperature and humidity. The measuring
@@ -66,24 +66,24 @@ the range is 0 to 100 \%RH with an accuracy of 0.04 \%RH. Ambient light can be
 measured in the range of 0 to 75 Lux.
 
 The node exposes both JTAG (Joint Test Action Group) and ISP (In-System
-Programmer) programming connectors through an expansion
-header, along with an USART connection and several GPIO (General Purpose
-Input/Output) lines. It can also be powered through this header however supply
-voltage must be externally regulated to 3.3 V or the board might be damaged.
-The on board power comes from a CR2477N battery on the front of the board.
+Programmer) programming connectors through an expansion header, along with an
+USART connection and several GPIO (General Purpose Input/Output) lines. It can
+also be powered through this header however supply voltage must be externally
+regulated to 3.3 V or the board might be damaged.  The on board power comes
+from a CR2477N battery on the front of the board.
 
 \section{The SparrowDongle}
 
 The SparrowDongle is a USB interface device between a USB host and the 2.4 GHz
 network. It is built around two microcontrollers: an ATmega128RFA1 and an
 ATmega32U4. The first is responsible for interfacing with the wireless network,
-receiving packets of data and delivering packets of data to the host. The 
-second is responsible for transferring these packets to the host via the USB 
+receiving packets of data and delivering packets of data to the host. The
+second is responsible for transferring these packets to the host via the USB
 protocol. The ATmega32U4 is well suited for this role as it incorporates a full
 speed USB controller. The communication between the two controllers is done via
 a USART interface.
 
-The board exposes ISP and JTAG interfaces for both controllers. It also has 4 
+The board exposes ISP and JTAG interfaces for both controllers. It also has 4
 LEDs for debugging purposes or displaying the current status.
 
 \begin{figure}[ht]

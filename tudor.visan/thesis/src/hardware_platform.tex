@@ -23,16 +23,16 @@ research.
 \section{The Sparrowv3 nodes}
 
 The Sparrowv3 wireless sensing nodes are small, battery powered devices capable
-of IEEE 802.15.4 and ZigBee compatible communication. At the center they have
-an \mbox{ATmega128RFA1}, a microcontroller made by Atmel which is based on the
+of IEEE 802.15.4 and ZigBee compatible communication. They are built around
+the \mbox{ATmega128RFA1}, a microcontroller made by Atmel which is based on the
 \mbox{ATmega128}. It incorporates a powerful and energy-efficient AVR
 core and comes equipped with all the standard AVR peripherals such as multiple 
 8 and 16-bit synchronous timers, an 8-bit asynchronous timer, SPI (Serial
-Peripheral Interface), USART (Universal Synchronous Asynchronous Receiver
+Peripheral Interface), USART (Universal Synchronous and Asynchronous Receiver
 and Transmitter) and TWI (Two Wire serial Interface) communication interfaces 
 and an ADC (Analog-to-Digital Converter). The controller offers an advanced power 
 management interface and sleep modes. This permits the user to deactivate 
-peripherals and put the CPU into varied sleep modes in order to preserve 
+peripherals and put the CPU into various sleep modes in order to preserve 
 power. In its most efficient sleep state the microcontroller utilises only 
 0.25 uA of current (at a supply voltage of 3V). The controller is clocked from an
 external 16 MHz crystal oscillator.
@@ -75,7 +75,7 @@ The on board power comes from a CR2477N battery on the front of the board.
 \section{The SparrowDongle}
 
 The SparrowDongle is a USB interface device between a USB host and the 2.4 GHz
-network. It is built around two microcontrollers: an ATmega128RFA1 and 
+network. It is built around two microcontrollers: an ATmega128RFA1 and an
 ATmega32U4. The first is responsible for interfacing with the wireless network,
 receiving packets of data and delivering packets of data to the host. The 
 second is responsible for transferring these packets to the host via the USB 
@@ -83,10 +83,8 @@ protocol. The ATmega32U4 is well suited for this role as it incorporates a full
 speed USB controller. The communication between the two controllers is done via
 a USART interface.
 
-The board exposes ISP interfaces for both controllers and a JTAG interface for
-the ATmega128RFA1. It also has 4 LEDs for displaying the current status.
-
-
+The board exposes ISP and JTAG interfaces for both controllers. It also has 4 
+LEDs for debugging purposes or displaying the current status.
 
 \begin{figure}[ht]
 	\begin{center}

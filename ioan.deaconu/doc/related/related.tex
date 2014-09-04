@@ -1,7 +1,10 @@
 \normalfont\normalsize
 \chapter{Related Work}
 
+Research has been done in the area of wireless sensor networks with mobile gateways, but very few include the same constraints as in our networks. Such constrains consits of long distances between nodes, simple, fast implementation and the posibility to run 
 
+Where most research focuses on routing packets to a mobile sink, we consider applications where network lifetime and low-maintenance are more important, and as such energy consumption on the nodes must be kept to a minimum (in order to have 3+ years of network lifetime
+with no maintenance/battery changes). Shifting the energy consumption to the sink is a direct consequence of this decision, under the assumption that there exists a flight path that allows the gateway to collect information from all the nodes.
 
 \section{Standard WSN Protocols}
 
@@ -11,11 +14,20 @@ The protocols implemented in Wireless Sensor Network are based on sourounding no
 
 A reasearch of using a drone for crop monitoring has been conducted at a vineyard. Their system was comprised of a unamed quadcopter, an arduino with a gprs module for theoretical long distance communication with drone, but the drone was controlled using a Spektrum DX7SE 2.4 GHz remote control and ZigBee and Crossbow’s TelosB as the nodes.
 
-They demonstrated that a preprogramed UAV can be used to monitor multiple crops were a standard WSN can not be applied because of the unique constrains imposed by the the environment.
+They demonstrated that a preprogramed UAV can be used to monitor multiple crops were a standard WSN cannot be applied because of the unique constrains imposed by the the environment.
 
-The cost of the implementation was relatively high compared to ours, the remote is 300\$, the same as the entire drone that we propose and the TelosB is 99\$. This data suggests that for their experiment the drone with arduino and the gprs module, and the remote control were half the cost of the equipment.
+The cost of the implementation was relatively high compared to ours, the remote is 300\$, the same as the entire drone that we propose and the TelosB is 99\$. This data suggests that for their experiment the drone, communication module and the remote control were half the cost of the equipment.
 
-\section{Military segment}
+Another problem was that they were not saving the data localy, but sending it back to the base station were it was proccesed and saved. This cand represent a problem because the system cannot function propely unless a base station is supplied.
+
+\section{Aware platform}
+
+The Aware platform, proposed by Ays. Egül Tüysüz Erman, Lodewijk Van Hoesel and Paul Havinga from
+University of Twente, is a platform that integrates WSNs, UAVs, and actuators into a disaster response setting and provides facilities for event detection, autonomous network repair by UAVs, and quick response by integrated operational forces\cite{erman2008enabling}.
+
+They uses the UAVs to deploy new nodes that will replace the damaged ones an check if they function. The entire system still relies on a sink to collect the data and to send them to a base station.
+
+
 
 
 

@@ -29,15 +29,19 @@ algorithms which can be combined to obtain a feasible diagram representation.
 The layout and routing solution which is presented in this study combines techniques used in current solutions with newer algorithms 
 to in the attempt to obtain representations which respect the following criteria:
 
-- Coherency: The diagram should be easy to understand and follow. Each connection in the diagram represents either 
+\begin{itemize}
+
+\item Coherency: The diagram should be easy to understand and follow. Each connection in the diagram represents either 
 data paths(BUS) or logical connections between components. For this reason the user must be able to understand where these paths start, 
 where they end and what components they connect.
 
-- Correctness: As any algorithm, the solution must maintain the correctness of the model when representing it. All nodes have to be
+\item Correctness: As any algorithm, the solution must maintain the correctness of the model when representing it. All nodes have to be
 included and all edges represented according to the corresponding adjacency matrix of the given graph.
 
-- Planarity: Refers to the property of the given graph to be represented in the two dimensional plane. A planar graph does not have 
+\item Planarity: Refers to the property of the given graph to be represented in the two dimensional plane. A planar graph does not have 
 intersecting edges. It is expected that the representation preserves the planarity property of the graph.
 
-- Orthogonality: Edges between nodes are represented as orthogonal connectors. Orthogonality implies that a path is composed only
+\item Orthogonality: Edges between nodes are represented as orthogonal connectors. Orthogonality implies that a path is composed only
 of perpendicular segments and contains a minimum number of bends. Paths shall not overlap any node.
+
+\end{itemize}

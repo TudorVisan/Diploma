@@ -1,14 +1,14 @@
 %========================= Algorithm Design =========================
 This chapter presents how the application is designed at a logical level and describes the 
-main algorithms used by the application.
+main algorithms and techniques which are combined and used by the implementation.
 
-\subsection{Planarity testing}
+\section{Planarity testing}
 
 The first algorithm used by the application is the planarity testing method known as "path addition". In 
 order to properly present this algorithm, we must first introduce the necessary notions regarding graph planarity 
 and methods of testing this property.
 
-\subsubsection{Planarity property and criteria}
+\subsection{Planarity property and criteria}
 
 A given graph G=(V,E) is planar if it can be drawn on a plane and its edges never cross each other, i.e. they 
 intersect only at their endpoints. This type of drawing is also known as a planar embedding of the graph.
@@ -30,24 +30,28 @@ a finite graph is planar if and only if it does not have K5 or K3,3 as a minor.
 While these theorems manage to correctly define the planarity problem in a mathematical way, they are not optimal 
 criterions to use in practice. The main reason is efficiency; we would like the complexity of such an algorithm 
 to be linear O(n). In practice, there exist other theorems and criteria which fit in the linear complexity. For 
-example, given a finite, connected planar graph with \iv the number of vertices, \ie the number of edges and 
-\if the number of faces (regions bounded by edges, including the outer, infinitely large region), the following 
+example, given a finite, connected planar graph with v the number of vertices, e the number of edges and 
+f the number of faces (regions bounded by edges, including the outer, infinitely large region), the following 
 hold true:
 
-Theorem 1: If \iv ≥ 3 then \ie ≤ 3\iv − 6;
-Theorem 2: If \iv ≥ 3 and there are no cycles of length 3, then \ie ≤ 2\iv − 4;
+Theorem 1: If v ≥ 3 then e ≤ 3v − 6;
+Theorem 2: If v ≥ 3 and there are no cycles of length 3, then e ≤ 2v − 4;
 Theorem 3: v − e + f = 2 (Euler's formula).
 
 Unfortunately, these theorems are only necessary conditions, not sufficient conditions. They can only be used to 
 prove that a graph is not planar; they cannot prove that a graph is planar.
 
-\subsubsection{Vertex addition method}
+\subsection{Vertex addition method}
 
 The edge addition algorithm is the result an intensive research started in the 1960s by Abraham Lempel, Shimon Even
 and Cederbaum. They created an algorithm to determine whether a graph is planar or not and embed it in the plane in 
 O(n2) time. Later on, Even and Tarjan developed a method to generate the st-numbering of a graph in linear O(n) time.
 
-***describe st-numbering here***
+An st-numbering of a graph G is a subgraph H which has a set of properties, as follows. First, nodes in G are numbered. 
+Then the vertex with the lowest number is designated as source vertex, \emph{s}, and the one with the highest number 
+is designated target, \emph{t}. All the remaining vertexes which are not the source or target must be connected to a 
+vertex numbered lower than them, and a vertex numbered higher than them. In order to achieve this configuration, the 
+subgraph H may add additional nodes to the graph G. 
 
 Finally, Kellogg Booth and George Lueker created a data structure which represents the possible embeddings of a graph 
 (or, in practice, induced subgraphs of a graph) called a PQ-tree. Using this data structure and the previous methods, 
@@ -57,10 +61,12 @@ the general steps of an implementation of the Vertex addition method as proposed
 First, it computes the st-numbering of the given graph. It then creates a PQ-tree which contains only one P node, the 
 source, and all the other nodes are leaves. Next, a loop is entered which, for every leaf node, shall perform two steps:
 
-a) A reduction step which attempts to gather all matching leaves into a P node which respects the st-numbering. If this 
-step fails, then the graph is not planar.
+****** itemizeu de mai jos o sa-l inlocuiescu cu un listing cu pseudocod *****
 
-b) A vertex addition step, in which full nodes are replaced by a single P node and all the neighbours of that node 
+\begin{itemize}
+\item A reduction step which attempts to gather all matching leaves into a P node which respects the st-numbering. If this 
+step fails, then the graph is not planar.
+\item A vertex addition step, in which full nodes are replaced by a single P node and all the neighbours of that node 
 numbered higher than itself are added as leaves.
 
 Figures x to y below present the steps of this algorithm applied on a graph G(3,3).
@@ -68,7 +74,7 @@ Figures x to y below present the steps of this algorithm applied on a graph G(3,
 ****** Insert figures here ******
 
 
-\subsection{Graph placement}
+\section{Graph placement}
 
 Graph placement refers to assigning a position (set of coordinates) to each node of the graph in the space where 
 the graph has to be represented.
@@ -83,11 +89,10 @@ knowing that two or more of its edges will cross one another.
 For this reason, a logical positioning of each node in the given plane is required. This step greatly facilitates 
 the routing process and also helps reduce the time and complexity of said operation.
 
-The placing algorithm presented in this thesis combines methods used by algorithms found in popular diagram drawing open 
-source software(Grid placement, Force-directed placement) with notions from genetic algorithms (popultions, fitness functions).
-We shall first present the ideas behind these algorithms and then discuss how they are used in the implementation.
+Commonly used methods which are also incorporated in the solution proposed by this thesis include grid placement and 
+force directed graph-drawing. We shall continue by presenting these methods in the following sections.
 
-\subsubsection{Grid placement}
+\subsection{Grid placement}
 
 Grid placement is one of the most popular and most used techniques by diagram drawing algorithms. It splits the space in 
 which the representation is done into a grid and then starts placing the nodes in a certain order. Different approaches 
@@ -107,15 +112,15 @@ they were non-planar, i.e. intersecting various edges.
 
 ***** Aici poze cu grid-uri *****
 
-\subsubsection{Force directed placement}
+\subsection{Force directed graph-drawing}
 
-Force directed placement is a technique which borrows concepts from physiques. In order to apply this method, one must model the graph as a 
+Force directed drawing is a technique which borrows concepts from physiques. In order to apply this method, one must model the graph as a 
 physical system in which elements (nodes) interract with each other through forces. Connected nodes will be pulled towards each other by 
-attraction forces (consider gravity), while unrelated nodes reject each other (consider magnetic forces). These effect of these forces is 
-applied continuously until the system reaches stability.
+attraction forces (such as spring forces base on Hooke's Law), while unrelated nodes reject each other (similar to electrically charged particles
+according to Coulomb's Law). These forces are applied continuously until the system reaches stability.
 
 Using such a technique will yield a graph placement which has the strongly connected nodes pulled in the middle of the assigned drawing spaced, while the 
-individual or loosely connected nodes are pushed towards the edges. The same holds if the graph is split into multiple independet conex components: 
+individual or loosely connected nodes are pushed towards the edges. The same holds if the graph is split into multiple independet connected components: 
 the nodes of each component shall be pulled towards each other, while the individual components will reject one another.
 
 ***** Poze cu mici galaxii dinastea ******
@@ -124,4 +129,53 @@ This approach is better suited to ease the routing process and reduce its time a
 improperly drawn and routes will be shorter and clearer. However, unlike Grid placement, it is an iterative process which may take considerable 
 amounts of time to reach stability, while also consuming more resources.
 
-\subsubsection{Al meu algorithm mirific}
+\section{Edge routing}
+
+The final step in drawing a diagram or a graph is represented by edge routing. Its purpose is to highlit the connections and dependencies between 
+nodes via a set of lines which add up to make paths between nodes. An important aspect is that paths must not cross over other nodes, even though 
+this may increase the length of a path by adding extra segments to it. Depending on how the paths are represented, edge routing may b:
+
+\begin{itemize}
+
+\item Shortest path routing: Nodes are connected only by straight which go directly from the source to the destination. In some implementations, it 
+is acceptable for these lines to cross other nodes, while in others extra segments are added in order to go around obstacles.
+\item Arc routing: This approach represents paths as arcs. Nodes are usually placed in a linear layout (all nodes are placed on the same axis) and 
+each edge is considered a diameter line for a circle. Then an arc of corresponding length is drawn to join the pair of nodes.
+\item Orthogonal routing: In orthogonal routing, paths are composed only of vertical and horizontal lines, joined by 90 degree bends. While it is 
+not the most efficient method with regards to the space occupied by the drawing, it does provied clear and direct paths which do not cross over other 
+elements.
+
+\subsection{Rules based genetic routing algorithm --adica implementarea mea, open for a better name--}
+
+Having presented the a range of algorithms which help achieve the goal of representing and drawing diagrams, we can now explain and exemplify how 
+the implementation of this thesis works. We shall go through each of the three stepts: planarity testing, node placement and edge routing and 
+detail the design of each level.
+
+The proposed implementation starts by testing the planarity of the input graph using the criteria derived from Euler's theorem. These theorems are 
+applied first because of their reduced complexity and because all the needed information is computed when the graph is first constructed. Should the 
+result be negative, there is sufficient information to decide that the graph is not planar and that the drawing will have crossing edges. 
+If, otherwise, the result is positive, we know that the theorems are only a necessary condition, not a sufficient one. At this point, the PQ-tree 
+algorithm is applied to thoroughly decide if the graph is planar.
+
+With the planarity property of the graph decided, the algorithm proceeds to the placing step. Here, the nodes will be assigned positions in the 
+drawing space (the canvas) based on certain criteria. First of all, as seen in grid placing, the node with the highest numbed of connections is 
+placed in the center of the canvas. Then, an are called the "restricted area" is computed around this central node. The central node's neighbours 
+shall be placed in this area in a random order, and no other node may be placed in this area. This step ensures that the random factor is eliminated 
+and a certain consistency is kept amongst consecutive drawings of the same graph. All the other nodes are placed randomly in the remaining area.
+
+At this point, notions from genetic algorithms are introduced. The graph is considered a population and each node represents an individiual. For the 
+remaining steps, each individual shall be evaluated by a fitness function and suffer modifications depending of the result. In order to change and evolve 
+the population, the position of a node shall be "recombined". Each node outside the "restricted area" shall generate, along with its neighbour closest to 
+the center, a new pair of nodes which are either closer to each other (attracted) or further apart from each other (rejected), as described by the force 
+directed method. This step shall continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) 
+or the system has reached stability.
+
+**** Sa pun poze care ilustreaza in cativa pasi ce balmajesc aici? ******
+
+**** also pentru fitness folosesc niste registri care tin minte ce reguli fute un nod. pomenesc aici sau la architecture? ******
+
+The last step is the edge routing. The method used is orthogonal edge routing, however the process starts as a shortest path routing. The initial paths 
+are direct lines between two nodes. Then, the paths are checked to see if they do not cross any obstacles. Should it cross another node, the path is split 
+into orthogonal segments which go around the obstacle. This step is repeated until the path is clear of all obstacles and is incidental only to the source and 
+destination. Lastly, should the dawn graph be planar, the drawing is checked for edge intersection. Paths which do not respect the planarity property 
+are recomputed.

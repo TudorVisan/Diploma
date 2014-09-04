@@ -1,0 +1,77 @@
+%========================= Algorithm Design =========================
+This chapter presents how the application is designed at a logical level and describes the 
+main algorithms used by the application.
+
+\subsection{Planarity testing}
+
+The first algorithm used by the application is the planarity testing method known as "path addition". In 
+order to properly present this algorithm, we must first introduce the necessary notions regarding graph planarity 
+and methods of testing this property.
+
+\subsubsection{Planarity property and criteria}
+
+A given graph G=(V,E) is planar if it can be drawn on a plane and its edges never cross each other, i.e. they 
+intersect only at their endpoints. This type of drawing is also known as a planar embedding of the graph.
+
+In order to determine if a graph possesses the planarity property, a series of theorems and criteria have been 
+stated over the years. Amongst the first of these criteria is a theorem published by the Polish mathematician 
+Kazimierz Kuratowski in 1930. The theorem deals with subdivisions, i.e. graphs which result from inserting vertices 
+into edges. It states that a planar graph shall not contain a subdivision of the forbidden graphs K5(the complete 
+graph on five vertices) or K3,3(complete bipartite graph on six vertices, three of which connect to each of the other 
+three, also known as the utility graph). It is formulated as follows:
+
+A finite graph is planar if and only if it does not contain a subgraph that is a subdivision of K5 or K3,3 .
+
+Another important theorem which deals with planarity was formulated by the German mathematician Klaus Wagner. 
+This theorem takes into consideration graph minors instead of subdivisions. A graph H is called a minor of a given 
+graph G if H is obtained by deleting vertexes and edges or by contracting edges. The Wagner theorem states that 
+a finite graph is planar if and only if it does not have K5 or K3,3 as a minor.
+
+While these theorems manage to correctly define the planarity problem in a mathematical way, they are not optimal 
+criterions to use in practice. The main reason is efficiency; we would like the complexity of such an algorithm 
+to be linear O(n). In practice, there exist other theorems and criteria which fit in the linear complexity. For 
+example, given a finite, connected planar graph with \iv the number of vertices, \ie the number of edges and 
+\if the number of faces (regions bounded by edges, including the outer, infinitely large region), the following 
+hold true:
+
+Theorem 1: If \iv ≥ 3 then \ie ≤ 3\iv − 6;
+Theorem 2: If \iv ≥ 3 and there are no cycles of length 3, then \ie ≤ 2\iv − 4;
+Theorem 3: v − e + f = 2 (Euler's formula).
+
+Unfortunately, these theorems are only necessary conditions, not sufficient conditions. They can only be used to 
+prove that a graph is not planar; they cannot prove that a graph is planar.
+
+\subsubsection{Vertex addition method}
+
+The edge addition algorithm is the result an intensive research started in the 1960s by Abraham Lempel, Shimon Even
+and Cederbaum. They created an algorithm to determine whether a graph is planar or not and embed it in the plane in 
+O(n2) time. Later on, Even and Tarjan developed a method to generate the st-numbering of a graph in linear O(n) time.
+
+***describe st-numbering here***
+
+Finally, Kellogg Booth and George Lueker created a data structure which represents the possible embeddings of a graph 
+(or, in practice, induced subgraphs of a graph). Using this data structure and the previous methods, they managed to 
+created a linear time algorithm to determine planarity and possible embeddings. We will next present the general steps 
+of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizekii.
+
+First, it computes the st-numbering of the given graph. It then creates a PQ-tree which contains only one P node, the 
+source, and all the other nodes are leaves. Next, a loop is entered which, for every leaf node, shall perform two steps:
+
+a) A reduction step which attempts to gather all matching leaves into a P node which respects the st-numbering. If this 
+step fails, then the graph is not planar.
+
+b) A vertex addition step, in which full nodes are replaced by a single P node and all the neighbours of that node 
+numbered higher than itself are added as leaves.
+
+Figures x to y below present the steps of this algorithm applied on a graph G(3,3).
+
+****** Insert figures here ******
+
+
+\subsection{Graph placement}
+
+Graph placement refers to assigning a position (set of coordinates) to each node of the graph in the space where 
+the graph has to be represented.
+
+We saw in the previous chapter that algorithms which determine if a graph is planar can also generate its 
+embedings.

@@ -25,58 +25,76 @@ while keeping the compilation process fast and the resulting code efficient.
 Next we will present some of the most important modules and their
 implementation.
 
-\section{Radio module}
+\section{Radio}
 
-This module allows the user to interact with the ATmega128RFA1 radio
-transceiver. 
+This module allows the user to enable the ATmega128RFA1 radio transceiver and
+use it in either a non-interactive or an interactive way. 
 
-\section{Symbol counter module}
+The interactive interface consists of a series of functions that can be called
+to manipulate the device. They allow the user to put the transceiver into 
+sleep state or into active mode, check it's availability to accept new
+commands, transmit and receive a frame (both blocking and non-blocking).
 
-\section{Debug module}
-
-\section{Sleep module}
-
+The programmer can also choose to work with the radio in a non-interactive
+manner. This is achieved through four callbacks that can be passed to the
+initialization function which are automatically called by interrupts that
+the transceiver generates: a wake-up callback, a reception start callback, a
+reception end callback and a transmission end callback. 
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[scale=0.5]{img/starttask.pdf}
+		\includegraphics{img/placeholder.jpg}
 	\end{center}
-	\caption{\small \itshape{The exchange of messages while starting/stopping tasks}}
+	\caption{\small \itshape{Transceiver operating modes}}
 \end{figure}
 
-\lstset{numbers=left, mathescape=true, nolol=false,caption=Task server snippet,label=lst:taskserver}
+The two methods of interaction allow for more flexible application design.
+The device can easily be integrated in both procedural and event-based systems.
+
+\section{Symbol counter}
+
+The symbol counter module provides an interface for enabling and interacting
+with the ATmega128RFA1 MAC symbol counter which is used as the primary time
+source in Sparrow-based applications. It allows the user to set two independent
+timeouts as large as 4294967296 seconds and put the microcontroller to sleep
+for up to 4294967296 milliseconds. As with the radio, the symbol counter module
+provides two callbacks that can be called when one of the timeouts expires.
+
+\lstset{
+	language=C, numbers=none, caption=Time critical action snippet,
+	label=lst:scounter_snippet
+}
 \begin{lstlisting}
-PROCESS_THREAD(task_server_process, ev, data)
+#define TIMEOUT	30
+
+void timeout_callback()
 {
-	PROCESS_BEGIN();
+	do_time_critical_work();
+	scounter_set_timeout(TIMEOUT, 0, OCR1);
+}
 
-	list_init(task_list);
+int main()
+{
+	scounter_init(timeout_callback, NULL);
+	scounter_set_timeout(TIMEOUT, 0, OCR1);
 
-	list_add(task_list,&el_monitor_process);
-	list_add(task_list,&el_delay_process);
-	list_add(task_list,&el_temperature_sensing);
-
-	tcp_listen(HTONS(1010));
-
-	while(1) 
+	while (1)
 	{
-		PROCESS_WAIT_EVENT_UNTIL(ev == tcpip_event);
-
-		if(uip_connected()) 
-		{
-			PSOCK_INIT(&ps, buffer, sizeof(buffer));
-
-			while(!(uip_aborted() || uip_closed() 
-			|| uip_timedout())) 
-			{
-				PROCESS_WAIT_EVENT_UNTIL
-				(ev == tcpip_event);
-				handle_connection(&ps);
-			}
-		}
+		do_non_time_critical_work();
 	}
-	PROCESS_END();
+
+	return 0;
 }
 \end{lstlisting}
+
+\section{Debugging}
+
+Though unessential, the debugging module is certainly one of the most useful.
+It provides methods of configuring a debug interface and printing information
+through it. Furthermore, debugging functionality can be enabled and disable
+through the build system, thus the programmer does not need to modify the code
+in order to change to a release configuration. Simply deactivating the debug
+option and regenerating the makefiles will cause the build process to generate
+debug-free code.
 
 % ********** End of Software platform **********

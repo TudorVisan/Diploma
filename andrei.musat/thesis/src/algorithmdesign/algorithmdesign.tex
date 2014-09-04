@@ -50,9 +50,9 @@ O(n2) time. Later on, Even and Tarjan developed a method to generate the st-numb
 ***describe st-numbering here***
 
 Finally, Kellogg Booth and George Lueker created a data structure which represents the possible embeddings of a graph 
-(or, in practice, induced subgraphs of a graph). Using this data structure and the previous methods, they managed to 
-created a linear time algorithm to determine planarity and possible embeddings. We will next present the general steps 
-of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizekii.
+(or, in practice, induced subgraphs of a graph) called a PQ-tree. Using this data structure and the previous methods, 
+they managed to created a linear time algorithm to determine planarity and possible embeddings. We will next present 
+the general steps of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizekii.
 
 First, it computes the st-numbering of the given graph. It then creates a PQ-tree which contains only one P node, the 
 source, and all the other nodes are leaves. Next, a loop is entered which, for every leaf node, shall perform two steps:
@@ -74,4 +74,54 @@ Graph placement refers to assigning a position (set of coordinates) to each node
 the graph has to be represented.
 
 We saw in the previous chapter that algorithms which determine if a graph is planar can also generate its 
-embedings.
+embedings. However, this is not the same as actually drawing the graph. In reality, we are constrained by the 
+limitations of the space in which we want to draw the diagram. Therefore, even though we know that a possible 
+arrangement of the nodes will allow us to represent the graph in a plane, we cannot be certain that the 
+representation is feasible or understandable. Furthermore, one may want to draw even graphs which are not planar, 
+knowing that two or more of its edges will cross one another.
+
+For this reason, a logical positioning of each node in the given plane is required. This step greatly facilitates 
+the routing process and also helps reduce the time and complexity of said operation.
+
+The placing algorithm presented in this thesis combines methods used by algorithms found in popular diagram drawing open 
+source software(Grid placement, Force-directed placement) with notions from genetic algorithms (popultions, fitness functions).
+We shall first present the ideas behind these algorithms and then discuss how they are used in the implementation.
+
+\subsubsection{Grid placement}
+
+Grid placement is one of the most popular and most used techniques by diagram drawing algorithms. It splits the space in 
+which the representation is done into a grid and then starts placing the nodes in a certain order. Different approaches 
+can be found here, depending on the type of the graph. 
+
+Trees are often placed in layeres. The root of the tree is first fixed on an edge of the grid, and then each level of the tree 
+visited in breadth-first order forms a layer of nodes. Layers can be arranged vertically or horizontally, depending on the implementation.
+
+More general graphs may also follow this pattern, by computing the spanning tree of the graph and placing nodes as stated above, 
+starting with the spanning tree's root. Other approaches for general graphs may place and pin the node with the highest number of 
+connections in the middle of the grid.
+
+The advantages of this method are represented by its ease of implementation, small consumption of resources and low complexity. A main drawback 
+is that it generally interfers with the routing process and does not facilitate it. It also poses the risk of drawing planar graphs as though 
+they were non-planar, i.e. intersecting various edges.
+
+
+***** Aici poze cu grid-uri *****
+
+\subsubsection{Force directed placement}
+
+Force directed placement is a technique which borrows concepts from physiques. In order to apply this method, one must model the graph as a 
+physical system in which elements (nodes) interract with each other through forces. Connected nodes will be pulled towards each other by 
+attraction forces (consider gravity), while unrelated nodes reject each other (consider magnetic forces). These effect of these forces is 
+applied continuously until the system reaches stability.
+
+Using such a technique will yield a graph placement which has the strongly connected nodes pulled in the middle of the assigned drawing spaced, while the 
+individual or loosely connected nodes are pushed towards the edges. The same holds if the graph is split into multiple independet conex components: 
+the nodes of each component shall be pulled towards each other, while the individual components will reject one another.
+
+***** Poze cu mici galaxii dinastea ******
+
+This approach is better suited to ease the routing process and reduce its time and complexity. It is less likely that planar graphs shall be 
+improperly drawn and routes will be shorter and clearer. However, unlike Grid placement, it is an iterative process which may take considerable 
+amounts of time to reach stability, while also consuming more resources.
+
+\subsubsection{Al meu algorithm mirific}

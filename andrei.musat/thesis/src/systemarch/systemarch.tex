@@ -1,0 +1,45 @@
+\chapter{System Architecture}
+
+In this chapter we shall discuss how data is processed and transformed in order to obtain 
+the information required by the graphical library. We shall highlight the main system components 
+which perform modifications on the graph data, starting with the Tokenizer which reads the input 
+files and ending with the Eclipse Draw-2D API.
+
+\section{Input file processor}
+
+Input graphs are initially described in a source text file in a pseudo programming language (discussed in 
+chapter \ref{Software implementation}). These files must be analyzed in order to extract the information 
+regarding edges and vertexes. This is achieved by using a parser.
+
+This parser splits the input file into a list of tokens and then traverses this list, searching for certain 
+keywords and constructs, as specified by the grammar. When a keyword describing a graph element is encountered, 
+subsequent tokens are extracted until the expression for that graph element is completed. Using this expression 
+and the information it contains, a corresponding vertex or edge object is created.
+
+After the parser is finished extracting the data from the input file, it aggregates the vertexes and 
+edges and constructs an object representing the graph. This object shall be hence forth the main container 
+of information. It is shared by the other components of the system, but all modifications are perfromed 
+itteratively, never concurrently.
+
+\section{Planarity tester}
+
+After the graph container object is created, the first computational unit notified is the planarity tester. 
+From the data which is provided by the graph container, the tester utilizes at first only the number of edges 
+and vertexes in order to apply the theorems mentioned in the \ref{Algorithm Design} chapter. Should it fail 
+to prove that the graph is not planar, the complete information regarding vertexes and edges is extracted 
+in order to apply the Booth-Lueker PQ-tree algorithm.
+
+This unit does not modify the graph data in any way. Its result is stored internally and accessed by the 
+drawing library, which shall display it as a relevant message for the user. Once the result has been stored, 
+the layout processor is notified that it can access and perform operations on the container object.
+
+\section{Layout processor}
+
+This is the first unit which performs persistent modifications on the graph data. Its purpose is to determine 
+the final coordinates for each node on the canvas, and mark the nodes as pinned, ensuring that no operation may 
+modify their coordinates as a side-effect. Information about edges is also necessary, but only as an indication 
+for the relationship between nodes.
+
+Initially, the layout processor shall decided, based on the number of nodes, whether a grid layout or the genetic 
+layout is more efficient. Generally, if the number of nodes is below a certain threshold, i.e. the algorithm is 
+presented with a simple graph, it shall be layed out as a grid, otherwise the custom set of rules is applied.

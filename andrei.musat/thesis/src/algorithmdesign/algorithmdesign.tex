@@ -20,16 +20,19 @@ into edges. It states that a planar graph shall not contain a subdivision of the
 graph on five vertices) or K3,3(complete bipartite graph on six vertices, three of which connect to each of the other 
 three, also known as the utility graph). It is formulated as follows:
 
+
+\textit{
 A finite graph is planar if and only if it does not contain a subgraph that is a subdivision of K5 or K3,3 .
+}
 
 Another important theorem which deals with planarity was formulated by the German mathematician Klaus Wagner. 
 This theorem takes into consideration graph minors instead of subdivisions. A graph H is called a minor of a given 
-graph G if H is obtained by deleting vertexes and edges or by contracting edges. The Wagner theorem states that 
+graph G if H is obtained by deleting vertices and edges or by contracting edges. The Wagner theorem states that 
 a finite graph is planar if and only if it does not have K5 or K3,3 as a minor.
 
 While these theorems manage to correctly define the planarity problem in a mathematical way, they are not optimal 
-criterions to use in practice. The main reason is efficiency; we would like the complexity of such an algorithm 
-to be linear O(n). In practice, there exist other theorems and criteria which fit in the linear complexity. For 
+criteria to use in practice. The main reason is efficiency: we would like the complexity of such an algorithm 
+to be linear - O(n). In practice, there are other theorems and criteria which fit in the linear complexity. For 
 example, given a finite, connected planar graph with v the number of vertices, e the number of edges and 
 f the number of faces (regions bounded by edges, including the outer, infinitely large region), the following 
 hold true:
@@ -80,7 +83,7 @@ Graph placement refers to assigning a position (set of coordinates) to each node
 the graph has to be represented.
 
 We saw in the previous chapter that algorithms which determine if a graph is planar can also generate its 
-embedings. However, this is not the same as actually drawing the graph. In reality, we are constrained by the 
+embeddings. However, this is not the same as actually drawing the graph. In reality, we are constrained by the 
 limitations of the space in which we want to draw the diagram. Therefore, even though we know that a possible 
 arrangement of the nodes will allow us to represent the graph in a plane, we cannot be certain that the 
 representation is feasible or understandable. Furthermore, one may want to draw even graphs which are not planar, 
@@ -94,11 +97,11 @@ force directed graph-drawing. We shall continue by presenting these methods in t
 
 \subsection{Grid placement}
 
-Grid placement is one of the most popular and most used techniques by diagram drawing algorithms. It splits the space in 
+Grid placement is one of the most popular and most used techniques by diagram-drawing algorithms. It splits the space in 
 which the representation is done into a grid and then starts placing the nodes in a certain order. Different approaches 
 can be found here, depending on the type of the graph. 
 
-Trees are often placed in layeres. The root of the tree is first fixed on an edge of the grid, and then each level of the tree 
+Trees are often placed in layers. The root of the tree is first fixed on an edge of the grid, and then each level of the tree 
 visited in breadth-first order forms a layer of nodes. Layers can be arranged vertically or horizontally, depending on the implementation.
 
 More general graphs may also follow this pattern, by computing the spanning tree of the graph and placing nodes as stated above, 
@@ -106,7 +109,7 @@ starting with the spanning tree's root. Other approaches for general graphs may 
 connections in the middle of the grid.
 
 The advantages of this method are represented by its ease of implementation, small consumption of resources and low complexity. A main drawback 
-is that it generally interfers with the routing process and does not facilitate it. It also poses the risk of drawing planar graphs as though 
+is that it generally interferes with the routing process and does not facilitate it. It also poses the risk of drawing planar graphs as though 
 they were non-planar, i.e. intersecting various edges.
 
 
@@ -131,9 +134,9 @@ amounts of time to reach stability, while also consuming more resources.
 
 \section{Edge routing}
 
-The final step in drawing a diagram or a graph is represented by edge routing. Its purpose is to highlit the connections and dependencies between 
+The final step in drawing a diagram or a graph is represented by edge routing. Its purpose is to highlight the connections and dependencies between 
 nodes via a set of lines which add up to make paths between nodes. An important aspect is that paths must not cross over other nodes, even though 
-this may increase the length of a path by adding extra segments to it. Depending on how the paths are represented, edge routing may b:
+this may increase the length of a path by adding extra segments to it. Depending on how the paths are represented, edge routing may be:
 
 \begin{itemize}
 
@@ -142,14 +145,12 @@ is acceptable for these lines to cross other nodes, while in others extra segmen
 \item Arc routing: This approach represents paths as arcs. Nodes are usually placed in a linear layout (all nodes are placed on the same axis) and 
 each edge is considered a diameter line for a circle. Then an arc of corresponding length is drawn to join the pair of nodes.
 \item Orthogonal routing: In orthogonal routing, paths are composed only of vertical and horizontal lines, joined by 90 degree bends. While it is 
-not the most efficient method with regards to the space occupied by the drawing, it does provied clear and direct paths which do not cross over other 
-elements.
+not the most efficient method with regards to the space occupied by the drawing, it does provide clear and direct paths which do not cross over other elements.
 
-\subsection{Rules based genetic routing algorithm --adica implementarea mea, open for a better name--}
+\subsection{Rule-based genetic routing algorithm --adica implementarea mea, open for a better name--}
 
-Having presented the a range of algorithms which help achieve the goal of representing and drawing diagrams, we can now explain and exemplify how 
-the implementation of this thesis works. We shall go through each of the three stepts: planarity testing, node placement and edge routing and 
-detail the design of each level.
+Having presented the range of algorithms which help achieve the goal of representing and drawing diagrams, we can now explain and exemplify how 
+the implementation of this thesis works. We shall go through each of the three steps: planarity testing, node placement and edge routing, explaining in detail the design of each level.
 
 The proposed implementation starts by testing the planarity of the input graph using the criteria derived from Euler's theorem. These theorems are 
 applied first because of their reduced complexity and because all the needed information is computed when the graph is first constructed. Should the 
@@ -158,24 +159,23 @@ If, otherwise, the result is positive, we know that the theorems are only a nece
 algorithm is applied to thoroughly decide if the graph is planar.
 
 With the planarity property of the graph decided, the algorithm proceeds to the placing step. Here, the nodes will be assigned positions in the 
-drawing space (the canvas) based on certain criteria. First of all, as seen in grid placing, the node with the highest numbed of connections is 
-placed in the center of the canvas. Then, an are called the "restricted area" is computed around this central node. The central node's neighbours 
+drawing space (the canvas) based on certain criteria. First of all, as seen in grid placing, the node with the highest number of connections is 
+placed in the center of the canvas. Then, TODO an are called the "restricted area" is computed around this central node. The central node's neighbours 
 shall be placed in this area in a random order, and no other node may be placed in this area. This step ensures that the random factor is eliminated 
 and a certain consistency is kept amongst consecutive drawings of the same graph. All the other nodes are placed randomly in the remaining area.
 
-At this point, notions from genetic algorithms are introduced. The graph is considered a population and each node represents an individiual. For the 
+At this point, notions from genetic algorithms are introduced. The graph is considered a population and each node represents an individual. For the 
 remaining steps, each individual shall be evaluated by a fitness function and suffer modifications depending of the result. In order to change and evolve 
 the population, the position of a node shall be "recombined". Each node outside the "restricted area" shall generate, along with its neighbour closest to 
-the center, a new pair of nodes which are either closer to each other (attracted) or further apart from each other (rejected), as described by the force 
-directed method. This step shall continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) 
+the center, a new pair of nodes which are either closer to each other (attracted) or further apart from each other (rejected), as described by the force-directed method. This step shall continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) 
 or the system has reached stability.
 
-**** Sa pun poze care ilustreaza in cativa pasi ce balmajesc aici? ******
+**** Sa pun poze care ilustreaza in cativa pasi ce balmajesc aici? DA ******
 
-**** also pentru fitness folosesc niste registri care tin minte ce reguli fute un nod. pomenesc aici sau la architecture? ******
+**** also pentru fitness folosesc niste registri care tin minte ce reguli fute un nod. pomenesc aici sau la architecture? AICI ******
 
 The last step is the edge routing. The method used is orthogonal edge routing, however the process starts as a shortest path routing. The initial paths 
 are direct lines between two nodes. Then, the paths are checked to see if they do not cross any obstacles. Should it cross another node, the path is split 
 into orthogonal segments which go around the obstacle. This step is repeated until the path is clear of all obstacles and is incidental only to the source and 
-destination. Lastly, should the dawn graph be planar, the drawing is checked for edge intersection. Paths which do not respect the planarity property 
+destination. Lastly, should the drawn graph be planar, the drawing is checked for edge intersection. Paths which do not respect the planarity property 
 are recomputed.

@@ -10,17 +10,18 @@ its functionality but its stability and user-friendliness.
 The main focus of this library is to provide a C interface for working with the
 Sparrow nodes and dongle. It must also be compatible with past and future
 Sparrow devices, thus it must support multiple platforms and do this in a
-scalable manner. To this end we divided the library into boards and platforms.
-Each device must declare exactly one board and one platform, with the board
-defining the physical components that make up the device (sensors, LEDs etc.)
-and the platform defining the microcontroller (ADC, timers etc.). 
+scalable manner. To this end we divided the library into board and platform
+sections.  Each device must declare exactly one board and one platform, with
+the board defining the physical components that make up the device (sensors,
+LEDs etc.) and the platform defining the microcontroller (ADC, timers etc.). 
 
 In order to facilitate switching between different devices we used a
 cross-platform build system (CMAKE) and divided the library into modules. The
 build system allows the user to select the device that his/her code is to be
 compiled for and Makefiles will be automatically generated to suit while
-modularization of the library means that new code can be easily added to it
-while keeping the compilation process fast and the resulting code efficient.
+modularization of the library means that new code can be easily added to it, all
+of this while keeping the compilation process fast and the resulting code
+efficient.
 
 Next we will present some of the most important modules and their
 implementation.
@@ -32,12 +33,12 @@ use it in either a non-interactive or an interactive way.
 
 The interactive interface consists of a series of functions that can be called
 to manipulate the device. They allow the user to put the transceiver into 
-sleep state or into active mode, check it's availability to accept new
+sleep state or into active mode, check its availability to accept new
 commands, transmit and receive a frame (both blocking and non-blocking).
 
 The programmer can also choose to work with the radio in a non-interactive
 manner. This is achieved through four callbacks that can be passed to the
-initialization function which are automatically called by interrupts that
+initialization function, which are automatically called by interrupts that
 the transceiver generates: a wake-up callback, a reception start callback, a
 reception end callback and a transmission end callback. 
 
@@ -54,7 +55,7 @@ The device can easily be integrated in both procedural and event-based systems.
 \section{Symbol counter}
 
 The symbol counter module provides an interface for enabling and interacting
-with the ATmega128RFA1 MAC symbol counter which is used as the primary time
+with the ATmega128RFA1 MAC symbol counter, which is used as the primary time
 source in Sparrow-based applications. It allows the user to set two independent
 timeouts as large as 4294967296 seconds and put the microcontroller to sleep
 for up to 4294967296 milliseconds. As with the radio, the symbol counter module
@@ -91,7 +92,7 @@ int main()
 
 Though unessential, the debugging module is certainly one of the most useful.
 It provides methods of configuring a debug interface and printing information
-through it. Furthermore, debugging functionality can be enabled and disable
+through it. Furthermore, debugging functionality can be enabled and disabled
 through the build system, thus the programmer does not need to modify the code
 in order to change to a release configuration. Simply deactivating the debug
 option and regenerating the makefiles will cause the build process to generate

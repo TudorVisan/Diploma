@@ -10,7 +10,7 @@ chestii ..... help .. anybody
 
  
 
-\section{The Parrot AR.Drone 2.0}
+\section{The Parrot AR.Drone 2.0}\cite{parrot2012drone}
 
 Parrot AR.Drone is a WiFi radio controlled flying quadcopter built by the French company Parrot.
 The original drone was released in 2010 and in 2012 it was replaced by version 2.0. Since the launch of the original AR.Drone, more the half a milion units have been sold, making it one of the, if not, the most popular drone on the market.
@@ -77,9 +77,10 @@ The signal received or sent by the wireless transceiver can be boosted by attach
 \end{figure}
 
 % Aici totuși cred că poți scoate "the unseen hero"
-The unseen hero of the WSN world, the Sparrow Dongle is the gateway of the Sparrow Family. The Dongle can be connected to any device that has an USB port and can support USB CDC with ACM module (USB Communications Device Class with Abstract Control Mode). 
+% am inlocuit 
+The link between the the wireless sensor networks and the rest of the digital world, the Sparrow Dongle is the gateway of the Sparrow Family. The Dongle can be connected to any device that has an USB port and can support USB CDC with ACM module (USB Communications Device Class with Abstract Control Mode). 
 
-The dongle uses Atmega32U4 as a dedicated USB Controller unit. This design allows the RF controller to run any RF communication stack without having the USB code intrude on key timings.
+The dongle uses Atmega32U4 as a dedicated USB Controller unit. This design allows the RF controller to run any RF communication stack without having the USB code intrude on key timings.\cite{voinescu2013lightweight}
 
 
 \subsection{The SparrowV3.2}
@@ -92,4 +93,7 @@ The dongle uses Atmega32U4 as a dedicated USB Controller unit. This design allow
 \end{figure}
 
 % lose the hero here too 
-The main hero of The Sparrow Family, the SparrowV32 nodes does all the dirty work of collecting data from the surrounding environment and sending it to the Sparrow Dongle. The collected data depends on the sensors attached to the SparrowV3.2. The standard implementation has a light, temperature and humidity sensor. Besides this information, it also sends the battery level.
+% am schimbat
+The other member of The Sparrow Family, the SparrowV32 nodes are responsible of collecting data from the surrounding environment and sending it to the Sparrow Dongle. The collected data depends on the sensors attached to the SparrowV3.2. The standard implementation has a light, temperature and humidity sensor. Besides this information, it also sends the battery level.
+
+The SparrowV32 can be modiffied by adding aditional sensors for a better understanding of the environment.

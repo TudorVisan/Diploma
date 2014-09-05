@@ -12,22 +12,16 @@ The protocols implemented in Wireless Sensor Network are based on sourounding no
 
 \section{Crop Monitoring}
 
-A reasearch of using a drone for crop monitoring has been conducted at a vineyard. Their system was comprised of a unamed quadcopter, an arduino with a gprs module for theoretical long distance communication with drone, but the drone was controlled using a Spektrum DX7SE 2.4 GHz remote control and ZigBee and Crossbow’s TelosB as the nodes.
+A reasearch of using a drone for crop monitoring has been conducted at a vineyard. Their system was comprised of a unmanned quadcopter, an Arduino board with a GPRS module for long distance communication with  the drone and ZigBee and Crossbow’s TelosB as wireless sensing nodes. The drone was not controlled via the long-distance link, but through a Spektrum DX7SE 2.4 GHz remote control.
 
-They demonstrated that a preprogramed UAV can be used to monitor multiple crops were a standard WSN cannot be applied because of the unique constrains imposed by the the environment.
+They demonstrated that a preprogramed UAV can be used to monitor multiple crops where a standard WSN could not be deployed because of the unique constrains imposed by the environment.
 
 The cost of the implementation was relatively high compared to ours, the remote is 300\$, the same as the entire drone that we propose and the TelosB is 99\$. This data suggests that for their experiment the drone, communication module and the remote control were half the cost of the equipment.
 
-Another problem was that they were not saving the data localy, but sending it back to the base station were it was proccesed and saved. This cand represent a problem because the system cannot function propely unless a base station is supplied.
+Another problem was that they were not saving the data localy, but sending it back to the base station where it was proccesed and saved. This can represent a problem because the system cannot function propely unless a base station is supplied.
 
 \section{Aware platform}
 
-The Aware platform, proposed by Ays. Egül Tüysüz Erman, Lodewijk Van Hoesel and Paul Havinga from
-University of Twente, is a platform that integrates WSNs, UAVs, and actuators into a disaster response setting and provides facilities for event detection, autonomous network repair by UAVs, and quick response by integrated operational forces\cite{erman2008enabling}.
+The Aware platform, proposed by Ays. Egül Tüysüz Erman, Lodewijk Van Hoesel and Paul Havinga from University of Twente, is a platform that integrates WSNs, UAVs, and actuators into a disaster response setting and provides facilities for event detection, autonomous network repair by UAVs, and quick response by integrated operational forces\cite{erman2008enabling}.
 
-They uses the UAVs to deploy new nodes that will replace the damaged ones an check if they function. The entire system still relies on a sink to collect the data and to send them to a base station.
-
-
-
-
-
+They use multiple UAVs to deploy new nodes that will replace the damaged ones and check if they function. The entire system still relies on a sink to collect the data and to send them to a base station.

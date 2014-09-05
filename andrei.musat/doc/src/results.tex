@@ -24,16 +24,16 @@ When it comes to small data models (graphs), the proposed orthogonal routing
 solution varies in time needed to route the connections. It can go from being 
 faster than the other software to being approximately 10-15 percent slower than 
 classical shortest path or manhattan distance based grid solutions, depending on 
-the complexity of the model and its connections. This is mainly because of the 
+the complexity of the model and its connections, as can be seen in Figure \ref{fig:under9000}. This is mainly because of the 
 restriction imposed on routes not crossing each other. However, once we reach 
 bigger graphs, the ones containing over 10000 nodes, the solution is smoother and
 scales better, mainly because everything is already placed correctly and connections 
-are shorter and do not have to go around too many elements.
+are shorter and do not have to go around too many elements. This can be seen in Figure \ref{fig:over9000}. 
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.5\textwidth]{src/under_10000.png}
-\caption{Performance graph for tests containing under 10000} \end{figure}
+\includegraphics[width=0.5\textwidth]{src/under10000.png}
+\caption{Performance graph for tests containing under 10000 nodes. Graph is shown with both logarithmic scales\label{fig:over9000}} \end{figure}
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.5\textwidth]{src/over_10000.png}
-\caption{Performance graph for tests containing over 10000} \end{figure}
+\includegraphics[width=0.5\textwidth]{src/over10000.png}
+\caption{Performance graph for tests containing over 10000 nodes. Graph is shown with both logarithmic scales\label{fig:under9000}} \end{figure}

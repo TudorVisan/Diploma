@@ -38,16 +38,20 @@ commands, transmit and receive a frame (both blocking and non-blocking).
 
 The programmer can also choose to work with the radio in a non-interactive
 manner. This is achieved through four callbacks that can be passed to the
-initialization function, which are automatically called by interrupts that
-the transceiver generates: a wake-up callback, a reception start callback, a
+initialization function and are automatically called by interrupts that the
+transceiver generates: a wake-up callback, a reception start callback, a
 reception end callback and a transmission end callback. 
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics{img/placeholder.jpg}
+		\includegraphics[width=\textwidth]
+		{img/transceiver_operating_modes.png}
 	\end{center}
-	\caption{\small \itshape{Transceiver operating modes}}
+	\caption{\small \itshape{Transceiver operating
+	modes\protect\footnotemark}}
 \end{figure}
+\footnotetext{Image taken from ATmega128RFA1 datasheet. Copyright 2012 Atmel
+Corporation.}
 
 The two methods of interaction allow for more flexible application design.
 The device can easily be integrated in both procedural and event-based systems.

@@ -5,7 +5,10 @@
 \usepackage{wrapfig}
 \usepackage{listings}
 \usepackage{pifont}
+\usepackage{mathtools}
 \newcommand{\tick}{\ding{52}} 
+\renewcommand{\thefootnote}{\textcolor{black}{\arabic{footnote}}} 	
+\newcommand{\todo}[1]{\emph{\textcolor{red}{TODO: #1}}}
 
 \begin{document}
 
@@ -23,7 +26,7 @@
 \input{src/related_work.tex}
 \input{src/hardware_platform.tex}
 \input{src/software_platform.tex}
-\input{src/protocol.tex}
+\input{src/sparrow_protocol.tex}
 \input{src/conclusions_and_future_work.tex}
 
 % *************** Bibliography ***************

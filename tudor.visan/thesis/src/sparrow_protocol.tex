@@ -1,0 +1,90 @@
+% ********** Sparrow protocol **********
+
+\chapter{Sparrow Protocol}
+
+\todo{intro}
+
+As mentioned earlier, the main focus of this protocol is to increase network
+bandwidth and responsiveness. This is achieved through larger windows of
+activity of nodes closer to the gateway. 
+
+\section{Initialization and registering into the network}
+
+After power-on all Sparrow nodes will first read their pre-programmed id from
+EEPROM memory and then attempt to register into a network. No restrictions such
+as network address or parent id are imposed so any distribution of Sparrow
+nodes where all leaf nodes are within communication distance of at least one
+root node and a path can be formed from any root node to the gateway will
+eventually form a network. 
+
+There are two major approaches to registering into a network: the new node can
+request registration information from the existing nodes or the existing nodes
+can periodically advertise this information for new nodes. 
+
+The first method implies that any new node must broadcast a discovery message,
+wait for responses, choose the best parent node from the offers received and
+finally register to that node. With this method registration can be
+unsuccessful for five reasons. Firstly, there may be no root nodes within
+communication distance of the new node, however, as the node communication
+distance can be calculated beforehand and cannot be affected by the protocol,
+the most we can do is set a timeout and, if this timeout is reached and no
+offer is received, place the node in a sleep state and retry the procedure
+after a certain amount of time. Secondly, there may be root nodes in range but
+none are awake or in listening state. This can be partially solved by
+prolonging root node listening periods, albeit to the detriment of power
+consumption. Thirdly, there may be root nodes in listening mode and in range
+but the discovery message may be corrupted by an already scheduled
+transmission. The possibility of this happening can be reduced by spacing
+transmissions evenly within the root nodes listening period. Fourthly,
+considering that the discovery message was successfully received, the offer
+message may be corrupted because two nodes attempt to respond at the same time.
+This means that a contention period must precede any response, lengthening the
+registering node's listening window and requiring multiple attempts on the
+behalf of the root nodes in order to respond. Lastly, considering that the
+discovery message was received and there was at least one offer, the following
+message sequence, i.e. the actual registration process, may be corrupted by a
+scheduled transmission or other phenomena and the process will have to be
+repeated.
+
+The second method involves all root nodes periodically transmitting a beacon,
+or Router Advertisement, that contains all the information necessary to
+register into the network. New nodes must listen for these messages and then
+communicate with their chosen parent in order to register into the network.
+There are X issue that we must address with this procedure. Firstly, there may
+be no root nodes in range of the new node so, as with the first method, we can
+set a timeout for the registration process. Secondly, although there is at
+least one root node in range, the request may interfere with a scheduled
+transmission. To avoid this, we schedule a registration slot for each root node
+in which it listens for incoming request and no other communication is
+scheduled. Thirdly, although the request was sent within the root nodes
+registration slot, it was corrupted by another node attempting to register to
+with the same node. This can be resolved by adding a contention slot before the
+registration. A node must first listen for a random period of time and then
+successfully transmit a message to the root node in the contention period in
+order to begin the registration process. Finally, there is no guarantee that
+there will be a victor after the contention process. Sparrowv3 nodes have a 17
+μs transition delay between listening and transmitting states which means that
+if two nodes are offset by less than this they cannot avoid each other and a
+collision will happen. This cannot be resolved because two nodes may choose the
+same listening period randomly.
+
+As can be seen from the comparison the first method implies longer listening
+periods for both the registering node and existing root nodes. It also scales poorly
+with the number of nodes in the network as the probability of interfering with
+scheduled transmissions increases. This means that as the network grows it will
+become increasingly difficult for new nodes to join. The second method implies
+a longer listening period just for registering nodes and just during the
+registration process. It also scales relatively well with the number of nodes
+in the network. If all contentions have a winner then the mean waiting time to
+join into the network in \emph{n} nodes attempt to register with the same root
+node is 
+
+\[wait_{avg} = \frac{n-1}{2}\]
+
+\section{Leaf node operation}
+
+\section{Root node operation}
+
+\section{Fault conditions and solutions}
+
+% ********** End of Sparrow protocol **********

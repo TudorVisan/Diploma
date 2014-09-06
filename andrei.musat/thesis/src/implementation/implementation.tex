@@ -1,0 +1,52 @@
+In this chapter we shall discuss the programming techniques, language characteristics and APIs
+used in implementing each system component and algorithm. We shall highlight the APIs used and the 
+integration with the Eclipse platform, as well as how OOP techniques and patterns are used to implement 
+some of the algorithm presented in chapter \ref{Algorithm Design}.
+
+\section{Eclipse platform and Draw-2D graphics API}
+
+The Eclipse platform is an open source, cross-platform IDE(Integrated Development Environment) environment 
+developed and maintained mainly by a consortium which includes companies such as IBM, Red Hat and SuSE. 
+It mainly targets Java developers, but it also supports the plug-in additions to extend its functionalities 
+for various programming languages. It can also work with typesetting languages such as LaTeX and be integrated 
+with revision control systems like CVS(Concurrent Versions System) and GIT.
+
+Eclipse has become popular amongst both software and hardware developers. Its main advantages are: faster 
+code navigation and visualisation, better code understanding through tracing, referencing and hierarchical 
+display functionalities and resource usage management and monitorization. The platform is also able to 
+handle makefile generation, compilation and, most importantly, integration with debugging and profiling tools.
+
+This IDE enviroment has been chosen mainly because of it can operate cross-platform and it is open source. 
+Moreover, the code does not have to be written and organized differently in order to function on different 
+platforms, such as Windows or OS-X. The drawbacks are also relevant, since running any application requires 
+the entire platform to load, which is significantly more taxing on resources than a command line application 
+would be. Thus, the IDE can be considered suboptimal from this perspective if the user is not fully interested 
+in all of its capabilities.
+
+Since it is an open source project, the Eclipse platform offers developers various APIs to facilitate and 
+encourage the community to extend or improve existing functionality or add new capabilities. One such 
+API is the Draw-2D graphics library, which is an extension of the SWT library. This library is generally used 
+to implement small widgets which handle the drawing of charts and diagrams.
+
+By default, the API can render any object which the SWT library can handle. In addition, it adds a series of 
+classes and methods which allow the user control over the position of each object, its contents and other 
+graphical characteristics such as colour and style. We shall continue by enumerating and discussing some of 
+the main Draw-2D classes used in the implementation.
+
+\subsection{Draw 2D Point class}
+
+Points represent the basic operating unit of the library. They do not refer to a graphical entity, but a 
+spatial one. They are used to define the location (coordinates) of a figure or shape, designate an axis 
+or segment or define the cornes of a polygon when placed in an ordered list.
+
+The class exposes API for accesing and manipulating coordinates, as well as basic mathematical computations 
+such as transposing points and calculating the euclidian distance between two points. Still, the API lacked more 
+advanced computations such as: manhattan distance, determining the angle between the X axis and the line 
+designated by two poins and moving the point in a general direction with a given speed. These functions 
+have been implemented and are shown below:
+
+***************** aici bag cu functiile pe care le-am pus in biblioteca *****************
+
+\subsection{Draw 2D Rectangle class}
+
+

@@ -1,5 +1,3 @@
-\chapter{System Architecture}
-
 In this chapter we shall discuss how data is processed and transformed in order to obtain 
 the information required by the graphical library. We shall highlight the main system components 
 which perform modifications on the graph data, starting with the Tokenizer which reads the input 
@@ -40,6 +38,36 @@ the final coordinates for each node on the canvas, and mark the nodes as pinned,
 modify their coordinates as a side-effect. Information about edges is also necessary, but only as an indication 
 for the relationship between nodes.
 
-Initially, the layout processor shall decided, based on the number of nodes, whether a grid layout or the genetic 
+Initially, the layout processor shall decide, based on the number of nodes, whether a grid layout or the genetic 
 layout is more efficient. Generally, if the number of nodes is below a certain threshold, i.e. the algorithm is 
-presented with a simple graph, it shall be layed out as a grid, otherwise the custom set of rules is applied.
+presented with a simple graph, it shall be layed out as a grid, otherwise the custom set of rules is applied. 
+Next, the chosen algorithm is applied and the modifications are stored by the graph container object. A notification 
+is then given to the connection router that it may begin the operating on the edges.
+
+\section{Connection router}
+
+At this point, all that is left before the graph is ready to be displayed is to compute the sets of points which compose 
+the paths between nodes. The router is responsible with performing this operation.
+
+The connection router analyses the existing edges in the graph container and builds corresponding orthogonal connectors.
+This is a three-step operation:
+
+\begin{itemize}
+
+\item First, all nodes are connected directly using the shortest path method. All connections which are represented by 
+vertical or horizontal lines that do not cross any other element are kept.
+
+\item Second, those connections which did not match the criterias from step one are corrected (they are deviated to avoid 
+obstacles). Also, connections which were not orthogonal before are orthogonalized.
+
+\item Finally, a performance optimization is performed on connections. Redundant points are removed from paths (for example 
+a segment which contains three points shall have the middle one removed) and paths which can be shortened without breaking 
+the routing rules are modified accordingly.
+
+\end{itemize}
+
+Once this step is done, the graph container object holds all the data necessary for the drawing. This object shall be passed on 
+to the drawing unit which utilizes the Eclipse draw-2D API.
+
+
+************** diagrama cu arhitectura, una mai draguta decat in articol :) ************** 

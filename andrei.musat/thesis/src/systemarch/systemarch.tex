@@ -6,7 +6,7 @@ files and ending with the Eclipse Draw-2D API.
 \section{Input file processor}
 
 Input graphs are initially described in a source text file in a pseudo programming language (discussed in 
-chapter \ref{Software implementation}). These files must be analyzed in order to extract the information 
+Chapter \ref{Software implementation}). These files must be analyzed in order to extract the information 
 regarding edges and vertexes. This is achieved by using a parser.
 
 This parser splits the input file into a list of tokens and then traverses this list, searching for certain 
@@ -15,20 +15,21 @@ subsequent tokens are extracted until the expression for that graph element is c
 and the information it contains, a corresponding vertex or edge object is created.
 
 After the parser is finished extracting the data from the input file, it aggregates the vertexes and 
-edges and constructs an object representing the graph. This object shall be hence forth the main container 
-of information. It is shared by the other components of the system, but all modifications are perfromed 
-itteratively, never concurrently.
+edges and constructs an object representing the graph. This object shall be the main container 
+of information from now on. It is shared by the other components of the system, but all modifications are perfromed 
+iteratively, never concurrently.
+%era prea fancy exprimarea
 
 \section{Planarity tester}
 
 After the graph container object is created, the first computational unit notified is the planarity tester. 
 From the data which is provided by the graph container, the tester utilizes at first only the number of edges 
-and vertexes in order to apply the theorems mentioned in the \ref{Algorithm Design} chapter. Should it fail 
-to prove that the graph is not planar, the complete information regarding vertexes and edges is extracted 
+and vertices to apply the theorems mentioned in the \ref{Algorithm Design} chapter. Should it fail 
+to prove that the graph is not planar, the complete information regarding vertices and edges is extracted 
 in order to apply the Booth-Lueker PQ-tree algorithm.
 
-This unit does not modify the graph data in any way. Its result is stored internally and accessed by the 
-drawing library, which shall display it as a relevant message for the user. Once the result has been stored, 
+This unit does not modify the graph data in any way. Its result is stored internally and is accessed by the 
+drawing library, which will display it as a relevant message for the user. Once the result has been stored, 
 the layout processor is notified that it can access and perform operations on the container object.
 
 \section{Layout processor}
@@ -42,10 +43,11 @@ Initially, the layout processor shall decide, based on the number of nodes, whet
 layout is more efficient. Generally, if the number of nodes is below a certain threshold, i.e. the algorithm is 
 presented with a simple graph, it shall be layed out as a grid, otherwise the custom set of rules is applied. 
 Next, the chosen algorithm is applied and the modifications are stored by the graph container object. A notification 
-is then given to the connection router that it may begin the operating on the edges.
+is then given to the connection router, so that it may begin the operating on the edges.
 
 \section{Connection router}
 
+% lol sună ca și cum e deja gata
 At this point, all that is left before the graph is ready to be displayed is to compute the sets of points which compose 
 the paths between nodes. The router is responsible with performing this operation.
 
@@ -57,7 +59,7 @@ This is a three-step operation:
 \item First, all nodes are connected directly using the shortest path method. All connections which are represented by 
 vertical or horizontal lines that do not cross any other element are kept.
 
-\item Second, those connections which did not match the criterias from step one are corrected (they are deviated to avoid 
+\item Second, those connections which did not match the criteria from step one are corrected (they are deviated to avoid 
 obstacles). Also, connections which were not orthogonal before are orthogonalized.
 
 \item Finally, a performance optimization is performed on connections. Redundant points are removed from paths (for example 

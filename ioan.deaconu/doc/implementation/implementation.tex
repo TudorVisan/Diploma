@@ -33,7 +33,7 @@ In order to see those messages, the debug option must be activated and then this
 
 \lstset{ literate={\$}{{\$}}1, numbers=none,  nolol=false,caption=Simple display message command,label=lst:task}
 \begin{lstlisting}
-p=$(pidof read) \&\& strace -p $p
+p=$(pidof read) && strace -p $p
 \end{lstlisting}
 
 Enabling the debug is just a matter of setting  a define from 0 to 1, recompile and upload the code to the drone to see the messages.
@@ -47,7 +47,7 @@ Enabling the debug is just a matter of setting  a define from 0 to 1, recompile 
 #define DEBUG_PRINT(a...) { if(DEBUG_ON) printf(a); }
 \end{lstlisting}
 
-Also, in certain parts of the modules, a wait action is needed in order to wait for an action to be executed. The value can be changed to any level, but you must be carefull in doing this. A small delay will send data more often but it could use alot of processing power, while a big delay could be to slow for the data to be usable. Now the delay is set at 100 ms, for a 10 times per second data update.
+In certain parts of the modules a sleep action is needed in order to wait for an action to be executed. The value can be changed to any level, but you must be carefull in doing this. A small delay will send data more often but it could use alot of processing power, while a big delay could be to slow for the data to be usable. Now the delay is set at 100 ms, for a 10 times per second data update.
 
 
 
@@ -75,7 +75,9 @@ The mutex is used similarly in the Communication Module when it consumes the inf
 
 \subsection{Fault tolerance}
 
-Because the Dongle is connected to an USB port on a machine that has a lot of vibrations, it might desconnect / reconnect for a very short period of time, so this module has been designed  with multiple USB disconnects and reconnects without the need to reset the Drone. This infomation is vital, because you can check if the Dongle is still connected to the dron without the need to inspect it visualy or to connect to a debug terminal.
+Because the Dongle is connected to an USB port on a machine that has a lot of vibrations, it might desconnect / reconnect for a very short period of time, so this module has been designed  with multiple USB disconnects and reconnects without the need to reset the Drone. This infomation is vital, because you can check if the Dongle is still connected to the drone without the need to inspect it visualy or to connect to a debug terminal.
+
+Besides the possible dongle usb diconnects, an out of range signal loss may be experienced. It this happens, the drone will hover until the connection is reestablished.
 
 \section{The Communication Module}
 
@@ -99,7 +101,7 @@ The communication is done through socket connections listening on port 8888. The
 
 If a connected client decides to disconnect before or while a write operation is in progress, a SIGPIPE error signal will be thrown, stopping all the modules. This is prevented by ignoring the signal, forcing the write action to return a EPIPE, and exiting gracefully.
 
-The main process will use the callback \texttt{ accept\_socket\_connection} to reestablish a new connection. Once a connection is established, it will send information once every DELAY\_US microseconds. The program was configured and tested with a 100 ms wait period that leads to a ten times per second information update.
+The main process will use the callback \text{ accept\_socket\_connection} to reestablish a new connection. Once a connection is established, it will send information once every DELAY\_US microseconds. The program was configured and tested with a 100 ms wait period that leads to a ten times per second information update.
 
 This delay is required because:
 \begin{itemize}
@@ -112,13 +114,11 @@ This delay is required because:
 \subsection{JSON Encoding of Data} \cite{json}
 
 % Mai pe larg
-JSON is an open-standard that uses text to encode data and it is an alternative to XML.
+JSON is an open-standard that uses text to encode data and it is an alternative to XML. Derived from the javascript scripting language, it is a language-independed data format available in most of the programing languages.
 
-JSON is best suitable for this application as a data encode format becuase it is data oriented, unlike XML which is document oriented. 
+JSON is best suitable for this application as a data encode format becuase it is data oriented, unlike XML which is document oriented. Also it is very easy to encode because it has a code like structure, the result is smaller than the XML alternative and all devices can decode it. 
 
-Also it is very easy to encode, the result is smaller than the XML alternative and all devices can decode it. 
-
-The informations encoded are
+The informations encoded by the drone are:
 \begin{itemize}
 
 \item Dongle connection status
@@ -163,7 +163,7 @@ The class offers 5 very important methods that can be overwritten, 3 running on 
 
 The Piloting screen of the application has been modified to the display the received data from the drone.
 
-The information displayed consists of the dongle being functional and at most, 9 nodes sorted descending after their signal strength.
+The information displayed is comprised of the state of the dongle being functional or not. Besides that, it can show the signal strenght, unique id and last connection time of up to 9 nodes sorted descending after their signal strength.
 
 \subsection{FTP communication module}
 
@@ -174,6 +174,8 @@ The information displayed consists of the dongle being functional and at most, 9
 \caption{\small \itshape{ARFreeflight FTP downloading files}}
 \end{figure}
 
-The drone has a built-in FTP server that can be configured to allow access to any folders/files on the drone. We have configured the drone so that the folder that contains the saved data can be accessed at any time using the 4242 port by any device that has FTP client capabilities. We have added this feature to the Android application as well.
+The drone has a built-in FTP server that can be configured to allow access to any folders/files on the drone. We have configured the drone so that the folder in which the data is saved can be accessed at any time using the 4242 port by any device that has FTP client capabilities. 
+
+This feature is add to the Android application as well to have a better out of the box experience.
 
 The application will download all the files from the drone to the local storage of the user's Android device while displaying the progress.

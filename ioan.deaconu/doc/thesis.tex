@@ -7,6 +7,11 @@
 \usepackage{listings}
 \usepackage{pifont}
 \newcommand{\tick}{\ding{52}}
+
+\lstset{
+        literate={\$}{{\$}}1
+        }
+
 \begin{document}
 % *************** Front matter ***************
 \frontmatter
@@ -29,7 +34,6 @@
 % *************** Bibliography ***************
 \bibliographystyle{alpha}
 {\small\bibliography{bibliography/thesis}}
-
 % *************** Appendixes ***************
 \appendix
 %\appendixpage
@@ -38,6 +42,7 @@
 % *************** Back matter ***************
 \backmatter
 \input{frontbackstyle/back.tex}
+ 
 
 \end{document}
 

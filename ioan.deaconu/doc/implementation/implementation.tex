@@ -31,7 +31,7 @@ When performing modification to the existing code, a debug enabling option whoul
 
 In order to see those messages, the debug option must be activated and then this simple command whill show them:
 
-\lstset{numbers=none, mathescape=true, nolol=false,caption=Simple display message command,label=lst:task}
+\lstset{ literate={\$}{{\$}}1, numbers=none,  nolol=false,caption=Simple display message command,label=lst:task}
 \begin{lstlisting}
 p=$(pidof read) \&\& strace -p $p
 \end{lstlisting}

@@ -1,9 +1,10 @@
+
 In this chapter we shall discuss the programming techniques, language characteristics and APIs
 used in implementing each system component and algorithm. We shall highlight the APIs used and the 
 integration with the Eclipse platform, as well as how OOP techniques and patterns are used to implement 
 some of the algorithm presented in chapter \ref{Algorithm Design}.
 
-\section{Eclipse platform and Draw-2D graphics API}
+\section{Eclipse platform and Draw 2D graphics API}
 
 The Eclipse platform is an open source, cross-platform IDE(Integrated Development Environment) environment 
 developed and maintained mainly by a consortium which includes companies such as IBM, Red Hat and SuSE. 
@@ -49,4 +50,83 @@ have been implemented and are shown below:
 
 \subsection{Draw 2D Rectangle class}
 
+The rectangle in the Draw 2D library does not simply stand for the geometric shape. When drawn, every 
+figure and component placed on the canvas is planced in an enclosing rectangle whcih delimits it's size 
+and relative position by means of five points: the center and four corners. 
 
+Whenever testing for collisions, it is not the figures and shapes which are intersected, but reather their 
+enclosing rectangles. This allows for a certain margin of error to be taken into account. More so, when 
+testing for collisions, the \emph{intersect()} method of the Rectangle class returns a new Rectangle 
+representing the collision area. By doing so, it facillitates the correction step, since the algorithm 
+knows exactly how much each figure must be moved.
+
+********* Pun poza sa arat conceptul, cum este o figura incadrata de rectangles? ********* 
+
+\subsection{Figure and PolylineConnection classes}
+
+By extending the Figure class, one can implement custom Figures (CAPTAIN OBVIOUS WAS HERE! xD ). A figure can 
+range from the simple outline of a geometrical shape to complex elements which can hold labels (titles), text 
+or even other figures. Custom figures may even be modeled as icons or pictograms, since their background can be 
+coloured, their borders can be stylized and by using extended API even animations could be created.
+
+Polyline connections are wrapper classes which essentially hold a list of points. These points are used to create 
+lines or paths. This is achieved by using the inner list of points to draw Rectangles of negligible height. Just 
+as figures, these lines can be stylized and, in case of representations of directed connections, they can be 
+decorated to emphasize these directions.
+
+The implementation extends both of these classes in order to implement graphical elements with user oriented 
+functionalities. First, the Figure class is extended by the NodeFigure and ModuleFigure classes. A NodeFigure 
+is a figure used when drawing a simple graph for which the user does not provide any special information.
+It holds and displays only the name of a node. The ModuleFigure, on the other hand, is used to represent a 
+module as it is seen from a HDL designer point of view. It holds information regarding ports, their direction 
+and where they are connected. This type of figure contains and displays labels and text elements which the user 
+can interact with.
+
+PolylineConnection is extend as a OrthogonalConnection. This special type of connection holds references to the 
+figures which it connects and implements a listener. The role of the listener is to watch for modifications made 
+to the possition of the figures. Whenever one changes, the OrthogonalConnections announces the router that it 
+must be recalculated. If an obstacle has been placed on the path in the meantime, the new path shall be computed 
+to go around it.
+
+\section{Modules implementation}
+
+The modules which compose the application, as listed in chapter \ref{System Architecture}, utilize a set of Java 
+and OOP concepts and patterns. In this section we shall discuss some of these notable patterns.
+
+\subsection{Input file format}
+
+As was previously presented, the input graphs are read from files written in a certain format, akin to a programming 
+language. This facilitates data manipulation and enables the user to easily describe and understand the model. 
+
+The structure of such a file is shown below:
+
+******* aici este mai corect sa pun un listing cu un fisier dinasta deja scris si cu comentarii, sau sa pun o chestie 
+gen o mica gramatica? *******
+
+\subsection{Parser implementation}
+
+The input files parser is implemented using exclusively Java file oriented API. Files are read using a Scanner object, 
+which allows the reading of bytes from the file until certain specified characters are encountered. Upon reaching 
+such a character, the scanner provides a String object containing the read data. 
+
+Next, a StringTokenizer splits the String into tokens. Rules and patterns (of the grammar) are applied on these tokens 
+to determine wether they form valid expressions and provide useful information. ***** intru in detalii despre ce si cum 
+fac Scanner si Tokenizer? sau e de ajuns ca-s pomenite in linii mari? *****
+
+\subsection{Graph data and elements}
+
+The graph object itself is constructed using the Factory pattern. Nodes and Edges are both implementations of a 
+GraphElement interface. The graph keeps a list of GraphElement objects which is populate by the parser as the input 
+files are decoded. In order to differentiate between each type of element, the interface exposes the method 
+\emph{getType()}. Each object returns a different value of an enumeration called ElementType. 
+
+Using this pattern, the graph object does not have to keep two individual lists, one for each type of element. This 
+helps keep the memory usage lower in case of large amounts of data. When another module requires all elements of a 
+certain type, a new list is constructed on the fly and passed to the caller.
+
+*** mic schelet/schema prezentand enumul, lista din graph si cum o populeaza parserul cu shit? A? a? :D *****
+
+\subsection{More stuff?}
+
+*** Mai folosesc niste implementari gen dfs-uri, recursion bla bla. De listeneri am pomenit deja... Mai are sens sa mai 
+umplu aici cu chestii sau ajunge ce e deja?

@@ -56,6 +56,10 @@ Corporation.}
 The two methods of interaction allow for more flexible application design.
 The device can easily be integrated in both procedural and event-based systems.
 
+The module uses double-buffering for frame data. There is an application frame
+buffer and a transceiver frame buffer. Data is transferred between the two
+buffers by the modules transmission and reception functions.
+
 \section{Symbol counter}
 
 The symbol counter module provides an interface for enabling and interacting

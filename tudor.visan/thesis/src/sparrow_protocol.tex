@@ -3,11 +3,8 @@
 \chapter{Sparrow Protocol}
 
 \todo{intro}
-
 \todo{generalities}
-
 \todo{slot time, guard time}
-
 As mentioned earlier, the main focus of this protocol is to increase network
 bandwidth and responsiveness. This is achieved through larger windows of
 activity for nodes closer to the gateway. 
@@ -105,7 +102,7 @@ wake-up timer for the contention slot. In the contention phase the node chooses
 a random listening period that is at most the full contention slot. If another
 transmission is received, the node goes back to sleep and retries registering
 the next period. If there is no other transmission, it sends a registration
-request in which it specifies whether it is a root or a leaf node.  Leaf nodes
+request in which it specifies whether it is a root or leaf node.  Leaf nodes
 are allocated one transmission slot whereas root nodes are implicitly allocated
 16. If this request is received correctly by the root node, i.e. a conflict has
 not occurred, the root node acknowledges the registration and the new node
@@ -113,8 +110,67 @@ transitions into normal operating mode.
 
 \section{Leaf node operation}
 
+The main focus of leaf node operation is low power consumption. They are only
+active during the communication slot with their parent. In this slot they
+transmit a message to their parent and wait for an acknowledgement message. If
+the acknowledgement does not arrive the frame is considered lost but it is not
+retransmitted. If 10 transmissions is a row fail then the parent node is
+considered to have gone off-line and the node tries to re-register to the
+network. The SparrowLibrary allow the user to specify two additional
+activities. The first is a function to be called after a frame is received .
+The second is a function to be called before a frame is to be transmitted.
+Through these functions the programmer may interact with the application frame
+buffer. For the transmission callback the user must also specify how long
+before the transmission window the function should be called. The programmer is
+responsible for estimating the duration of the callback. If the delay is too
+short the transmission timeout will interrupt the function and it's execution
+will be resumed after the transmission is started and may be interrupted again
+when the acknowledge message is received.
+
 \section{Root node operation}
 
-\section{Fault conditions and solutions}
+The root nodes' responsibilities in the network are much more elaborate than
+leaf nodes'. Obviously, this comes with a higher duty cycle and power
+consumption. 
+
+Firstly, in the registration phase root nodes will be allocated 16 time slots
+and they are responsible for allocating them to their sons. In the case that
+these slots become exhausted a root node can request another 16 time slots from
+its parent. After registering the root node will transmit one locally generated
+message to its parent every network period and wait for an acknowledgement.
+This frame is sent during the 13\textsuperscript{th} time slot of this block.
+The 14\textsuperscript{th} and 15\textsuperscript{th} slots are the contention
+and registration slots. Slots 1 through 12 are reserved for receiving data from
+the node's sons and transmitting this data forward. For example, the data
+received from the node in slot 3 is sent forward towards the gateway in slot 4.
+This way only one frame must be buffered, reducing the node's memory usage. The
+16\textsuperscript{th} slot is reserved for the Router Advertisement.
+
+Secondly, the node must be able to allocate time slots for new nodes that wish
+to join the network and existing root nodes that require more slots. In either
+case time slots are allocate from the node's pool in descending order. There
+are two moments when the node may be required to allocate new slots: during the
+registration period and during the reception periods. In the registration slot
+new nodes may requests to join the network and ask for one slot, if it is a
+leaf node, or 16 slots, if it is a root node. In the reception slots the sender
+node may include a request for more slots in the message however, this request
+will only be taken into consideration after the contention period so as to not
+hinder new nodes from joining the network. In either case, the root node will
+respond accept the request if it has enough slots available and deny it
+otherwise.  
+
+Thirdly, root nodes must transmit Router Advertisements in order to allow new
+nodes to join the network. The advertisement message contains the root node's
+id, the network period and the number of free slots that the node has. The fact
+that the advertisement is sent in the last time slot ensures that the number of
+available slots will not change until the next contention period.
+
+Lastly, if during 10 consecutive reception periods no message is received from
+the node in question, the root node must mark the slot as free and advertise it
+as such.
+
+\section{Gateway operation}
+
+The gateway is boss.
 
 % ********** End of Sparrow protocol **********

@@ -4,13 +4,13 @@ main algorithms and techniques which are combined and used by the implementation
 
 \section{Planarity testing}
 
-The first algorithm used by the application is the planarity testing method known as "path addition". In 
+The first algorithm used by the application is the planarity testing method known as "vertex addition". In 
 order to properly present this algorithm, we must first introduce the necessary notions regarding graph planarity 
 and methods of testing this property.
 
 \subsection{Planarity property and criteria}
 
-A given graph G=(V,E) is planar if it can be drawn on a plane and its edges never cross each other, i.e. they 
+A given graph \emph{G=(V,E)} is planar if it can be drawn on a plane and its edges never cross each other, i.e. they 
 intersect only at their endpoints. This type of drawing is also known as a planar embedding of the graph.
 
 In order to determine if a graph possesses the planarity property, a series of theorems and criteria have been 
@@ -20,8 +20,7 @@ into edges. It states that a planar graph shall not contain a subdivision of the
 graph on five vertices) or K3,3(complete bipartite graph on six vertices, three of which connect to each of the other 
 three, also known as the utility graph). It is formulated as follows:
 
-
-\textit{
+\\ \textit{
 A finite graph is planar if and only if it does not contain a subgraph that is a subdivision of K5 or K3,3 .
 }
 
@@ -32,32 +31,36 @@ a finite graph is planar if and only if it does not have K5 or K3,3 as a minor.
 
 While these theorems manage to correctly define the planarity problem in a mathematical way, they are not optimal 
 criteria to use in practice. The main reason is efficiency: we would like the complexity of such an algorithm 
-to be linear - O(n). In practice, there are other theorems and criteria which fit in the linear complexity. For 
+to be linear - O($n$). In practice, there are other theorems and criteria which fit in the linear complexity. For 
 example, given a finite, connected planar graph with v the number of vertices, e the number of edges and 
 f the number of faces (regions bounded by edges, including the outer, infinitely large region), the following 
 hold true:
-
-Theorem 1: If v ≥ 3 then e ≤ 3v − 6;
-Theorem 2: If v ≥ 3 and there are no cycles of length 3, then e ≤ 2v − 4;
-Theorem 3: v − e + f = 2 (Euler's formula).
-
-Unfortunately, these theorems are only necessary conditions, not sufficient conditions. They can only be used to 
+\\ 
+\\ \textit{Theorem 1: If $v \geq 3$ then $e \leq 3v-6$;}
+\\ \textit{Theorem 2: If $v \geq 3$ and there are no cycles of length 3, then $e \leq 2v-4$;}
+\\ \textit{Theorem 3: $v - e + f = 2$} (Euler's formula).
+\\ 
+\\ Unfortunately, these theorems are only necessary conditions, not sufficient conditions. They can only be used to 
 prove that a graph is not planar; they cannot prove that a graph is planar.
 
 \subsection{Vertex addition method}
 
 The edge addition algorithm is the result an intensive research started in the 1960s by Abraham Lempel, Shimon Even
 and Cederbaum. They created an algorithm to determine whether a graph is planar or not and embed it in the plane in 
-O(n2) time. Later on, Even and Tarjan developed a method to generate the st-numbering of a graph in linear O(n) time.
+O($n^{2}$) time. Later on, Even and Tarjan developed a method to generate the st-numbering of a graph in linear O(${n}$) time.
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.75\textwidth]{img/algdesing/st_numbering.png}
+\caption{St-numbering representation of the G(3,3) graph} \end{figure}
 
 An st-numbering of a graph G is a subgraph H which has a set of properties, as follows. First, nodes in G are numbered. 
 Then the vertex with the lowest number is designated as source vertex, \emph{s}, and the one with the highest number 
 is designated target, \emph{t}. All the remaining vertexes which are not the source or target must be connected to a 
 vertex numbered lower than them, and a vertex numbered higher than them. In order to achieve this configuration, the 
-subgraph H may add additional nodes to the graph G. 
+subgraph H may add additional nodes to the graph G.
 
 Finally, Kellogg Booth and George Lueker created a data structure which represents the possible embeddings of a graph 
-(or, in practice, induced subgraphs of a graph) called a PQ-tree. Using this data structure and the previous methods, 
+(or, in practice, induced subgraphs of a graph) called a \emph{PQ-tree}. Using this data structure and the previous methods, 
 they managed to created a linear time algorithm to determine planarity and possible embeddings. We will next present 
 the general steps of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizekii.
 
@@ -72,10 +75,19 @@ step fails, then the graph is not planar.
 \item A vertex addition step, in which full nodes are replaced by a single P node and all the neighbours of that node 
 numbered higher than itself are added as leaves.
 
-Figures x to y below present the steps of this algorithm applied on a graph G(3,3).
+Figures 3.2 to 3.4 below present the steps of this algorithm applied on a graph G(3,3).
 
-****** Insert figures here ******
+\begin{figure}[ht] \centering
+\includegraphics[width=0.75\textwidth]{img/algdesing/vertex_reduction_step_1.png}
+\caption{The initial representation of the graph and the configuration after one merge step} \end{figure}
 
+\begin{figure}[ht] \centering
+\includegraphics[width=0.75\textwidth]{img/algdesing/vertex_reduction_step_2.png}
+\caption{Graph representation after two more reduction steps.} \end{figure}
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.65\textwidth]{img/algdesing/vertex_reduction_3.png}
+\caption{Complete PQ-tree representation and the final merge into a single P node} \end{figure}
 
 \section{Graph placement}
 
@@ -113,7 +125,9 @@ is that it generally interferes with the routing process and does not facilitate
 they were non-planar, i.e. intersecting various edges.
 
 
-***** Aici poze cu grid-uri *****
+\begin{figure}[ht] \centering
+\includegraphics[width=0.65\textwidth]{img/algdesing/grid_example.png}
+\caption{Example of a tournament structure organized as a grid.} \end{figure}
 
 \subsection{Force directed graph-drawing}
 
@@ -126,7 +140,9 @@ Using such a technique will yield a graph placement which has the strongly conne
 individual or loosely connected nodes are pushed towards the edges. The same holds if the graph is split into multiple independet connected components: 
 the nodes of each component shall be pulled towards each other, while the individual components will reject one another.
 
-***** Poze cu mici galaxii dinastea ******
+\begin{figure}[ht] \centering
+\includegraphics[width=0.5\textwidth]{img/algdesing/force_directed_example.jpg}
+\caption{A force-directed graph layout with a central node and multiple connected components.  http://wonderfl.net/images/capture/8/80/80de/80de684bde7ef80b1674983db6151382981cefb9.jpg?t=1286359133} \end{figure}
 
 This approach is better suited to ease the routing process and reduce its time and complexity. It is less likely that planar graphs shall be 
 improperly drawn and routes will be shorter and clearer. However, unlike Grid placement, it is an iterative process which may take considerable 
@@ -159,20 +175,26 @@ If, otherwise, the result is positive, we know that the theorems are only a nece
 algorithm is applied to thoroughly decide if the graph is planar.
 
 With the planarity property of the graph decided, the algorithm proceeds to the placing step. Here, the nodes will be assigned positions in the 
-drawing space (the canvas) based on certain criteria. First of all, as seen in grid placing, the node with the highest number of connections is 
-placed in the center of the canvas. Then, TODO an are called the "restricted area" is computed around this central node. The central node's neighbours 
-shall be placed in this area in a random order, and no other node may be placed in this area. This step ensures that the random factor is eliminated 
-and a certain consistency is kept amongst consecutive drawings of the same graph. All the other nodes are placed randomly in the remaining area.
+drawing space (the canvas) based on certain criteria. This can be achieved in two ways: if the graph is a planar graph with the number of nodes 
+below a specified threshold, the layout shall be a grid. Otherwise, the main routing algorithm is applied. This selection of layout models ensures 
+that the application does not complicate a problem which presents an easy solution.
+
+In the case of the rule-based algorithm, during the first step, as seen in grid placing, the node with the highest number of connections is 
+placed in the center of the canvas. Then, a certain amount of canvas space is reserved around this node. The central node's neighbours 
+shall be placed in this area in a random order, and no other node may be placed in this area. This step ensures that the random factor is mostly eliminated 
+ for this group of nodes and a certain consistency is kept amongst consecutive drawings of the same graph. All the other nodes are placed randomly in the remaining area.
 
 At this point, notions from genetic algorithms are introduced. The graph is considered a population and each node represents an individual. For the 
 remaining steps, each individual shall be evaluated by a fitness function and suffer modifications depending of the result. In order to change and evolve 
 the population, the position of a node shall be "recombined". Each node outside the "restricted area" shall generate, along with its neighbour closest to 
-the center, a new pair of nodes which are either closer to each other (attracted) or further apart from each other (rejected), as described by the force-directed method. This step shall continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) 
-or the system has reached stability.
+the center, a new pair of nodes which are either closer to each other (attracted) or further apart from each other (rejected), as described by the force-directed method. This step shall 
+continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) or the system has reached stability.
 
 **** Sa pun poze care ilustreaza in cativa pasi ce balmajesc aici? DA ******
 
-**** also pentru fitness folosesc niste registri care tin minte ce reguli fute un nod. pomenesc aici sau la architecture? AICI ******
+To easily keep track of which rules a node is currently violating as well as facilitate the computation of fitness, each node keeps track of a byte field. 
+The field acts as a register, each bit representing a certain rule. When the node violates a rule, the corresping is set to one. The usage of this register
+structure relies on the fact that the number of rules is limited.
 
 The last step is the edge routing. The method used is orthogonal edge routing, however the process starts as a shortest path routing. The initial paths 
 are direct lines between two nodes. Then, the paths are checked to see if they do not cross any obstacles. Should it cross another node, the path is split 

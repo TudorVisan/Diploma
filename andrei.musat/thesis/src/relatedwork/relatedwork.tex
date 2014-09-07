@@ -1,17 +1,23 @@
-Research concerning diagrams is present in various forms: articles, algorithms, software applications and it is closely
-related to graph theory. It covers problems such as planarity testing, node placement and edge routing. Some of these 
-problems have been intesively studied and there exists a set of optimal solutions, such as the planarity problem. Others, 
-however, still make the subject of papers and research as the computer science community strives to find the best solution. 
-The chosen related work represents algorithms and 
+Even though graph embedding and diagram drawing is a popular subject which has been the topic of articles and research, 
+actual open source software which can do such operations is scarce. Algorithms which solve embedding problems have been 
+described and implemented since the year 1970. The major impediment for any application which would like to perform 
+diagram drawing is actually the diversity and ambiguity of the problem. Apart from performance analysis (time and 
+memory consumption), and corectness of the drawing, any other aesthetic appreciation of the result is subjective.
+Depending on who the diagram is addressing and which its final scope is, certain styles, connections and layouts are 
+appropriate, while others render the final result unasable.
+
+This does not mean that a middle-ground does not exist and there are no techniques or conventions which are 
+generally accepted as good practice. There two open source libraries of diagram drawers: Graphviz dot and 
+Eclipse GEF. Mai multe despre ele maine cand sper sa termin bullshit-ul.
 
 \subsection{Graph Placing}
 
 The problem of finding the optimal placement for the nodes of a graph in the plane
 in which it will be drawn is a well known graph theory/computer science problem
-which has been tackled by many researchers \cite{gansner2005graph}.
+which has been tackled by many researchers.
 
 The algorithms which are currently used most frequently by available software are:
-grid placement \cite{tamassia1987embedding}, tree placement (in cases where it is possible), and force-directed placement \cite{hu2005efficient}.
+grid placement , tree placement (in cases where it is possible), and force-directed placement \cite{hu2005efficient}.
 
 Grid type algorithms ensure that the components of a graph are placed on hierarchical layers within a
 grid structure. Certain optimizations, such as placing the figure with most connected edges in the middle,
@@ -33,10 +39,10 @@ until a stable configuration has been reached.
 
 \subsection{Connection Routing}
 
-Regarding connection algorithms, most software today either use techniques such as shortest path connection \cite{goldberg2005computing}, orthogonal edge routing \cite{eiglsperger2004automatic} or various routing mechanics built around heuristics. Each approach tries to find a 
+Regarding connection algorithms, most software today either use techniques such as shortest path connection, orthogonal edge routing or various routing mechanics built around heuristics. Each approach tries to find a 
 balance between the clarity of the representation (number of edges in a connection, length of a connection, 
 number of intersections etc.) and the area needed to draw the connections. Ideally, each connection should be 
 relatively short, in a direct path with as few intersections with other lines as possible. However, the problem
-of finding the proper representation so that the number of intersections is 0 is NP \cite{cabello2006planar}, therefore there is no
+of finding the proper representation so that the number of intersections is 0 is NP , therefore there is no
 general solution, only approximations. Currently available software generally allow certain intersections or 
 overlaps of connections to happen in order to compute faster and not lose performance.

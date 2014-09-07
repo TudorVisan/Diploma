@@ -16,7 +16,7 @@ nod radacina:
 	- doar un nod transmite la un moment dat
 	- ceri cate sloturi ai nevoie
 	- se aloca blocuri de 16 sloturi
-	- dimensiunea sotului 1ms
+	- dimensiunea sotului 10ms
 	- intr-un bloc de 16 sloturi: 0-5 receptie, 6-11 transmisie, 12
 	  transmisia datelor nodului, 15 RA, 13 contentie, 14 inregistrare
 	- inregistrare: asculti random, transmiti, transmiti catre root, root

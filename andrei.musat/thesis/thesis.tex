@@ -10,6 +10,11 @@
 \usepackage{mathtools}
 \newcommand{\tick}{\ding{52}} 
 \newcommand{\todo}[1]{\emph{\textcolor{red}{TODO: #1}}}
+
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+
 \begin{document}
 % *************** Front matter ***************
 \frontmatter
@@ -22,6 +27,7 @@
 \chapter{Introduction}
 \input{src/introduction/introduction.tex}
 \chapter{Related Work}
+\input{src/relatedwork/relatedwork.tex}
 \chapter{Algorithm Design}
 \input{src/algorithmdesign/algorithmdesign.tex}
 \chapter{System Architecture}

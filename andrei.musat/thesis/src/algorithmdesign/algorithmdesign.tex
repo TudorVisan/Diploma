@@ -62,18 +62,50 @@ subgraph H may add additional nodes to the graph G.
 Finally, Kellogg Booth and George Lueker created a data structure which represents the possible embeddings of a graph 
 (or, in practice, induced subgraphs of a graph) called a \emph{PQ-tree}. Using this data structure and the previous methods, 
 they managed to created a linear time algorithm to determine planarity and possible embeddings. We will next present 
-the general steps of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizekii.
+the general steps of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizeki.
 
 First, it computes the st-numbering of the given graph. It then creates a PQ-tree which contains only one P node, the 
 source, and all the other nodes are leaves. Next, a loop is entered which, for every leaf node, shall perform two steps:
-
-****** itemizeu de mai jos o sa-l inlocuiescu cu un listing cu pseudocod *****
 
 \begin{itemize}
 \item A reduction step which attempts to gather all matching leaves into a P node which respects the st-numbering. If this 
 step fails, then the graph is not planar.
 \item A vertex addition step, in which full nodes are replaced by a single P node and all the neighbours of that node 
 numbered higher than itself are added as leaves.
+\end{itemize}
+
+\begin{lstlisting}[caption={Vertex addition algorithm as proposed by Chiba and Nishizieki}]
+PROCEDURE PLANAR(G);
+BEGIN
+st_numbering(G);
+make_PQ_tree(s); //construct PQ-tree with root in s
+FOR v := 2 to n:
+	BEGIN
+		// start of reduction step
+		reduction = gather_leaves(template, subtree_root);
+		IF reduction == FAILED:
+		THEN BEGIN
+			set_planar(G) = FALSE;
+			RETURN
+		END
+		// end of reduction step
+			
+		// start of vertex addition step
+		replace_full_node(PQ-tree, P-node)
+		FOR t in neighbours(v):
+			BEGIN
+				IF st_number(t) > st_number(v):
+				THEN BEGIN
+					add_to_PQ_tree(t);
+				END
+			END
+		// end vertex addition step
+	END
+set_planar(G) = TRUE;
+END
+\end{lstlisting}
+
+
 
 Figures 3.2 to 3.4 below present the steps of this algorithm applied on a graph G(3,3).
 
@@ -116,6 +148,10 @@ can be found here, depending on the type of the graph.
 Trees are often placed in layers. The root of the tree is first fixed on an edge of the grid, and then each level of the tree 
 visited in breadth-first order forms a layer of nodes. Layers can be arranged vertically or horizontally, depending on the implementation.
 
+\begin{figure}[ht] \centering
+\includegraphics[width=0.65\textwidth]{img/algdesing/grid_example.png}
+\caption{Example of a tournament structure organized as a grid.} \end{figure}
+
 More general graphs may also follow this pattern, by computing the spanning tree of the graph and placing nodes as stated above, 
 starting with the spanning tree's root. Other approaches for general graphs may place and pin the node with the highest number of 
 connections in the middle of the grid.
@@ -123,11 +159,6 @@ connections in the middle of the grid.
 The advantages of this method are represented by its ease of implementation, small consumption of resources and low complexity. A main drawback 
 is that it generally interferes with the routing process and does not facilitate it. It also poses the risk of drawing planar graphs as though 
 they were non-planar, i.e. intersecting various edges.
-
-
-\begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/algdesing/grid_example.png}
-\caption{Example of a tournament structure organized as a grid.} \end{figure}
 
 \subsection{Force directed graph-drawing}
 
@@ -142,7 +173,7 @@ the nodes of each component shall be pulled towards each other, while the indivi
 
 \begin{figure}[ht] \centering
 \includegraphics[width=0.5\textwidth]{img/algdesing/force_directed_example.jpg}
-\caption{A force-directed graph layout with a central node and multiple connected components.  http://wonderfl.net/images/capture/8/80/80de/80de684bde7ef80b1674983db6151382981cefb9.jpg?t=1286359133} \end{figure}
+\caption{A force-directed graph layout with a central node and multiple connected components.  http://wonderfl.net/} \end{figure}
 
 This approach is better suited to ease the routing process and reduce its time and complexity. It is less likely that planar graphs shall be 
 improperly drawn and routes will be shorter and clearer. However, unlike Grid placement, it is an iterative process which may take considerable 
@@ -163,7 +194,7 @@ each edge is considered a diameter line for a circle. Then an arc of correspondi
 \item Orthogonal routing: In orthogonal routing, paths are composed only of vertical and horizontal lines, joined by 90 degree bends. While it is 
 not the most efficient method with regards to the space occupied by the drawing, it does provide clear and direct paths which do not cross over other elements.
 
-\subsection{Rule-based genetic routing algorithm --adica implementarea mea, open for a better name--}
+\subsection{Rule-based genetic routing algorithm}
 
 Having presented the range of algorithms which help achieve the goal of representing and drawing diagrams, we can now explain and exemplify how 
 the implementation of this thesis works. We shall go through each of the three steps: planarity testing, node placement and edge routing, explaining in detail the design of each level.
@@ -179,6 +210,10 @@ drawing space (the canvas) based on certain criteria. This can be achieved in tw
 below a specified threshold, the layout shall be a grid. Otherwise, the main routing algorithm is applied. This selection of layout models ensures 
 that the application does not complicate a problem which presents an easy solution.
 
+\begin{figure}[ht] \centering
+\includegraphics[width=0.5\textwidth]{img/algdesing/centralnode.png}
+\caption{The reserved area around the central (C) node. Its neighbours (NC) are permitted inside, but other nodes (O) are not.} \end{figure}
+
 In the case of the rule-based algorithm, during the first step, as seen in grid placing, the node with the highest number of connections is 
 placed in the center of the canvas. Then, a certain amount of canvas space is reserved around this node. The central node's neighbours 
 shall be placed in this area in a random order, and no other node may be placed in this area. This step ensures that the random factor is mostly eliminated 
@@ -190,7 +225,13 @@ the population, the position of a node shall be "recombined". Each node outside 
 the center, a new pair of nodes which are either closer to each other (attracted) or further apart from each other (rejected), as described by the force-directed method. This step shall 
 continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) or the system has reached stability.
 
-**** Sa pun poze care ilustreaza in cativa pasi ce balmajesc aici? DA ******
+\begin{figure}[ht] \centering
+\includegraphics[width=0.2\textwidth]{img/algdesing/recombination.png}
+\caption{Node N does not satisfy the distance threshold.} \end{figure}
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.65\textwidth]{img/algdesing/recombinationposib.png}
+\caption{The possibilities for N to be moved. The right image is the better solution.} \end{figure}
 
 To easily keep track of which rules a node is currently violating as well as facilitate the computation of fitness, each node keeps track of a byte field. 
 The field acts as a register, each bit representing a certain rule. When the node violates a rule, the corresping is set to one. The usage of this register

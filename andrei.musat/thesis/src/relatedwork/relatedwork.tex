@@ -6,43 +6,98 @@ memory consumption), and corectness of the drawing, any other aesthetic apprecia
 Depending on who the diagram is addressing and which its final scope is, certain styles, connections and layouts are 
 appropriate, while others render the final result unasable.
 
-This does not mean that a middle-ground does not exist and there are no techniques or conventions which are 
-generally accepted as good practice. There two open source libraries of diagram drawers: Graphviz dot and 
-Eclipse GEF. Mai multe despre ele maine cand sper sa termin bullshit-ul.
+This does not mean that a middle-ground approach does not exist and there are no techniques or conventions which are 
+generally accepted as good practice. There are two commonly used open source libraries which provide support for 
+drawing diagrams: Graphviz dot and Eclipse GEF.
 
-\subsection{Graph Placing}
+\section{Graphviz dot}
 
-The problem of finding the optimal placement for the nodes of a graph in the plane
-in which it will be drawn is a well known graph theory/computer science problem
-which has been tackled by many researchers.
+\emph{Graphviz dot} is, as described by their own documentation, a command line tool which draws directed graphs as 
+hierarchies. It reads its information from text files written in the DOT language and outputs the drawing in 
+graphic formats such as GIF(Graphics Interchange Format), PNG(Portable Network Graphics), SVG(Scalable Vector 
+Graphics) or PDF(Portable Document Format).
 
-The algorithms which are currently used most frequently by available software are:
-grid placement , tree placement (in cases where it is possible), and force-directed placement \cite{hu2005efficient}.
+The DOT language input file specifies general information describing the graph. It accepts the definition of three 
+main objects: graphs, nodes and edges. A simple graph is described only by its name and a list of nodes and edges.
+If the user desires, subgraphs can be defined inside the graph with distinctive characteristics and properties. 
+The same can be done for nodes and edges.
 
-Grid type algorithms ensure that the components of a graph are placed on hierarchical layers within a
-grid structure. Certain optimizations, such as placing the figure with most connected edges in the middle,
-are used to ensure more clarity. However, while the algorithm has proven to be fast at placing graphs,
-the resulting connections often overlap and make it hard to determine where they go or what they represent.
+\begin{lstlisting}[caption={Simple dot file format}]
+digraph G {
+	main -> parse -> execute;
+	main -> init;
+	main -> cleanup;
+	execute -> make_string;
+	execute -> printf
+	init -> make_string;
+	main -> printf;
+	execute -> compare;
+}
+\end{lstlisting}
 
-Tree algorithms work only on a specific class of algorithms. If the given graph is not a tree or cannot be
-converted to a tree, the algorithm cannot be applied. The results, though, are a clear and easy to follow
-drawing of the graph, with good performance.
+In terms of implementation, \emph{dot} uses methods such as force directed placing to layout its graphs. Also, its 
+layout algorithm presumes graphs are acyclical. This is why dot ensures that all cycles are removed from a graph 
+before sending it to the layout routine. 
 
-The force-directed placement method is a relatively newer and a better approach than the other algorithms mentioned.
-It works by modeling the graph as a physical system in which the bodies (nodes) interact with each other via
-forces (edges which make up connections). There are two sets of forces which affect nodes: those that attract
-them to each other (e.g. elastic force) and those that repel them (e.g. electromagnetic forces). By using
-this model, nodes directly connected to each other will be kept together and form clusters while unrelated
-nodes will be repelled towards the outer margin of the graph. While the results of this specific method are
-impressive visually, performance wise it is not exactly optimal because it requires successive iterations
-until a stable configuration has been reached.
+\begin{lstlisting}[caption={Customized graph dot file representation}]
+digraph G {
+	size ="4,4";
+	main [shape=box]; /*this is a comment*/
+	main -> parse [weight=8];
+	parse -> execute;
+	main -> init [style=dotted];
+	main -> cleanup;
+	execute -> { make_string; printf}
+	init -> make_string;
+	edge [color=red]; // so is this
+	main -> printf [style=bold,label="100 times"];
+	make_string [label="make a\nstring"];
+	node [shape=box,style=filled,color=".7 .3 1.0"];
+	execute -> compare;
+}
+\end{lstlisting}
 
-\subsection{Connection Routing}
+As user oriented features, the drawings can be manipulated and customized by the user either from a graphical 
+interface or by directives specified in the DOT input file. A few examples of such features are: setting dimensions 
+and clearence values for node positioning, specifying the direction of edges, label nodes, create hyperlinks.
 
-Regarding connection algorithms, most software today either use techniques such as shortest path connection, orthogonal edge routing or various routing mechanics built around heuristics. Each approach tries to find a 
-balance between the clarity of the representation (number of edges in a connection, length of a connection, 
-number of intersections etc.) and the area needed to draw the connections. Ideally, each connection should be 
-relatively short, in a direct path with as few intersections with other lines as possible. However, the problem
-of finding the proper representation so that the number of intersections is 0 is NP , therefore there is no
-general solution, only approximations. Currently available software generally allow certain intersections or 
-overlaps of connections to happen in order to compute faster and not lose performance.
+Since it is a command line tool, dot can be integrated with many applications and development environments. From 
+custom applications to IDEs, various implementations can use this tool as a means to support diagrams drawing. The 
+only requirement is that such an application posses a means to generate the dot configuration file.
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.45\textwidth]{img/relatedwork/graphviz.png}
+\caption{An example of graphviz integrated with the Eclipse IDE. http://blog.abstratt.com/} \end{figure}
+
+\section{Eclipse GEF}
+
+Eclipse GEF(Graphical Editing Framework) provides support for creating graphical editors and views in the Eclipse IDE environment. The graphical 
+editors created using GEF allow the user to mainly hand draw any desired graph. All the basic elements required for the task are predefined 
+by the underlying library and routing can be performed manually.
+
+Above this basic level, GEF contains classes specialised in layout and connection routing. By default, the library has implementations for 
+layout algorithms such as grid layout and tree layout. However, these classes expose API which can be used to create new and more complex 
+layout implementations.
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.35\textwidth]{img/relatedwork/gefexample.jpg}
+\caption{Example of a graph viewer implemented using the GEF library. http://www.programcreek.com/} \end{figure}
+
+A notable drawback that GEF presents is the lack of documentation for its API. This may represent a reason why it is not widely 
+used, even amongst the Eclipse community. The main sources of information is from articles or community made tutorials, such as 
+those of Lars Vogel. Another way of familiarizing oneself with the API and experiencing its capabilities is by running and experimenting 
+with the examples suite which comes with the library. These examples showcase typical situations and functionalities step by step through 
+simple widgets. While they are educational and helpful for developers, they require an investment of time in order to understand 
+the showcased code and functionality.
+
+An extension of Eclipse GEF is Eclipse Zest, which is a visualization toolkit with implementations for different types of graph 
+viewers. In essence, a graph viewer is a layout algorithm which specializes in a certain representation of the graph. As 
+speciffied on their homepage, Zest includes a predefined layout package containing algorithms for the following types of 
+layouts: Spring, Tree, Radial and Grid. Zest is open to contributions from the community regarding new types of layouts.
+Unlike GEF, Zest is does not give the same amount of liberty regarding the representation of nodes. They are static entities, with 
+fewer available customizations. Nodes can containt only minimal decorations such as text and an image. This shows that the emphasis 
+of this library is on the layout itself.
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.85\textwidth]{img/relatedwork/zest.png}
+\caption{A graph viewer using Zest radial layout. http://pbwhiteboard.blogspot.ro/} \end{figure}

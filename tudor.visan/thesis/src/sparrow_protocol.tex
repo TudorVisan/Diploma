@@ -2,9 +2,10 @@
 
 \chapter{Sparrow Protocol}
 
-\todo{intro}
-\todo{generalities}
-\todo{slot time, guard time}
+\todo{intro}\\
+\todo{generalities}\\
+\todo{slot time, guard time}\\
+
 As mentioned earlier, the main focus of this protocol is to increase network
 bandwidth and responsiveness. This is achieved through larger windows of
 activity for nodes closer to the gateway. 
@@ -80,9 +81,9 @@ period in order to begin the registration process. Finally, there is no
 guarantee that there will be a victor after the contention process. Sparrowv3
 nodes have a 17 μs transition delay between listening and transmitting states
 which means that if two nodes are offset by less than this they cannot avoid
-each other and a collision will happen. \todo{this can be resolved by waiting
-in multiples of 17us or more} This cannot be resolved because two
-nodes may choose the same listening period randomly.
+each other and a collision will happen. This can be resolved by making
+listening periods multiples of 17us or more, so that two nodes that choose a
+different random listening periods cannot interfere with each other.
 
 This method implies a longer listening period for registering nodes however
 this cost must only be paid once. The cost for root nodes is relatively low as

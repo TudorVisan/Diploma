@@ -73,14 +73,15 @@ transmission. To avoid this, we reserve a registration slot for each root node
 in which it listens for incoming requests and no other communication is
 scheduled. Thirdly, although the request may have been sent within the root
 node's registration slot, it was corrupted by another node attempting to
-register to the same node. This can be resolved by adding a contention slot
+register to the same root. This can be resolved by adding a contention slot
 before the registration. A node must first listen for a random period of time
 and then successfully transmit a message to the root node in the contention
 period in order to begin the registration process. Finally, there is no
 guarantee that there will be a victor after the contention process. Sparrowv3
 nodes have a 17 μs transition delay between listening and transmitting states
 which means that if two nodes are offset by less than this they cannot avoid
-each other and a collision will happen. This cannot be resolved because two
+each other and a collision will happen. \todo{this can be resolved by waiting
+in multiples of 17us or more} This cannot be resolved because two
 nodes may choose the same listening period randomly.
 
 This method implies a longer listening period for registering nodes however
@@ -96,7 +97,7 @@ As the comparison shows the advertisement method is the better choice for
 Wireless Sensor Networks as the average cost of registration is lower and it
 scales better with network growth. In our implementation new nodes do not
 initially know the network period, so they must extract it from the first
-Router Advertisement received. They then wait one network period to collect
+Router Advertisement they receive. They then wait one network period to collect
 advertisements, choose the best root node available as their parent and set a
 wake-up timer for the contention slot. In the contention phase the node chooses
 a random listening period that is at most the full contention slot. If another
@@ -109,6 +110,7 @@ not occurred, the root node acknowledges the registration and the new node
 transitions into normal operating mode.
 
 \section{Leaf node operation}
+\label{sec:leaf_node_operation}
 
 The main focus of leaf node operation is low power consumption. They are only
 active during the communication slot with their parent. In this slot they
@@ -116,48 +118,50 @@ transmit a message to their parent and wait for an acknowledgement message. If
 the acknowledgement does not arrive the frame is considered lost but it is not
 retransmitted. If 10 transmissions is a row fail then the parent node is
 considered to have gone off-line and the node tries to re-register to the
-network. The SparrowLibrary allow the user to specify two additional
+network. The SparrowLibrary allows the user to specify two additional
 activities. The first is a function to be called after a frame is received .
 The second is a function to be called before a frame is to be transmitted.
 Through these functions the programmer may interact with the application frame
 buffer. For the transmission callback the user must also specify how long
 before the transmission window the function should be called. The programmer is
 responsible for estimating the duration of the callback. If the delay is too
-short the transmission timeout will interrupt the function and it's execution
+short the transmission timeout will interrupt the function and its execution
 will be resumed after the transmission is started and may be interrupted again
 when the acknowledge message is received.
 
 \section{Root node operation}
+\label{sec:root_node_operation}
 
-The root nodes' responsibilities in the network are much more elaborate than
-leaf nodes'. Obviously, this comes with a higher duty cycle and power
+The root nodes' responsibilities in the network are much more elaborate those
+of the leaf nodes. Obviously, this comes with a higher duty cycle and power
 consumption. 
 
 Firstly, in the registration phase root nodes will be allocated 16 time slots
-and they are responsible for allocating them to their sons. In the case that
-these slots become exhausted a root node can request another 16 time slots from
-its parent. After registering the root node will transmit one locally generated
-message to its parent every network period and wait for an acknowledgement.
-This frame is sent during the 13\textsuperscript{th} time slot of this block.
-The 14\textsuperscript{th} and 15\textsuperscript{th} slots are the contention
-and registration slots. Slots 1 through 12 are reserved for receiving data from
-the node's sons and transmitting this data forward. For example, the data
-received from the node in slot 3 is sent forward towards the gateway in slot 4.
-This way only one frame must be buffered, reducing the node's memory usage. The
-16\textsuperscript{th} slot is reserved for the Router Advertisement.
+and they are responsible for allocating them to their children. In the case
+that these slots become exhausted a root node can request another 16 time slots
+from its parent. After registering, the root node will transmit one locally
+generated message to its parent every network period and wait for an
+acknowledgement.  This frame is sent during the 13\textsuperscript{th} time
+slot of this block.  The 14\textsuperscript{th} and 15\textsuperscript{th}
+slots are the contention and registration slots. Slots 1 through 12 are
+reserved for receiving data from the node's children and transmitting this data
+forward. For example, the data received from the node in slot 3 is sent forward
+towards the gateway in slot 4.  This way only one frame must be buffered,
+reducing the node's memory usage. The 16\textsuperscript{th} slot is reserved
+for the Router Advertisement.
 
 Secondly, the node must be able to allocate time slots for new nodes that wish
 to join the network and existing root nodes that require more slots. In either
-case time slots are allocate from the node's pool in descending order. There
+case time slots are allocated from the node's pool in descending order. There
 are two moments when the node may be required to allocate new slots: during the
 registration period and during the reception periods. In the registration slot
-new nodes may requests to join the network and ask for one slot, if it is a
-leaf node, or 16 slots, if it is a root node. In the reception slots the sender
-node may include a request for more slots in the message however, this request
-will only be taken into consideration after the contention period so as to not
-hinder new nodes from joining the network. In either case, the root node will
-respond accept the request if it has enough slots available and deny it
-otherwise.  
+new nodes may requests to join the network and ask for one slot, if a leaf node
+is registering, or 16 slots, if a root node is registering. In the reception
+slots the sender node may include a request for more slots in the message
+however, this request will only be taken into consideration after the
+contention period so as to not hinder new nodes from joining the network. In
+either case, the root node will accept the request if it has enough slots
+available and deny it otherwise.  
 
 Thirdly, root nodes must transmit Router Advertisements in order to allow new
 nodes to join the network. The advertisement message contains the root node's
@@ -171,6 +175,19 @@ as such.
 
 \section{Gateway operation}
 
-The gateway is boss.
+The gateway is a crucial component of any Wireless Sensor Network. It acts as
+an interface between the network and the end user as they typically forward
+data from the network to a server or database. In our application the gateway
+is the root node with id 0 and is always online. It is also the only node to
+have the network period pre-programmed. All other nodes learn this information
+from Router Advertisements.
+
+The gateway initially owns all time slots within the network period and it
+allocates slots to other nodes if requested. After a slot is allocated to a
+node that node becomes the slot's owner and can use it as described in 
+\ref{sec:leaf_node_operation} and \ref{sec:root_node_operation}.
+
+In our implementation the gateway is represented by a SparrowDongle but may
+also be a Sparrowv3 node attached to the programming dock.
 
 % ********** End of Sparrow protocol **********

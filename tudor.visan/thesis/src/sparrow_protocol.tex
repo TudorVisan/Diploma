@@ -2,15 +2,47 @@
 
 \chapter{Sparrow Protocol}
 
-\todo{intro}\\
 \todo{generalities}\\
 \todo{slot time, guard time}\\
 
 As mentioned earlier, the main focus of this protocol is to increase network
 bandwidth and responsiveness. This is achieved through larger windows of
-activity for nodes closer to the gateway. 
+activity for nodes closer to the gateway. In order to preserve battery life
+nodes are divided into three categories: leaf nodes, root nodes and the
+gateway. 
+
+Leaf nodes are the simplest type and are are only equipped with an
+on-board battery. This means that their life-span is limited so they 
+only perform basic activities: gathering information about the surrounding
+environment and transmitting this information toward the gateway. 
+
+Root nodes are slightly more complex and are capable of harvesting energy from
+the surrounding environment. They form the system's backbone. Apart from the
+performing basic activities root nodes must also provide the necessary
+information for new nodes to join the network. This means that their duty cycle
+is higher than a leaf node's, but this balances out with the energy harvested
+from alternative sources.
+
+The gateway is a critical component of the network. It is the root node with id
+0 and is always online. It sits at the top of the network hierarchy.
+\todo{complete gateway}
+
+Activity in the network is cyclic. The time period with which actions are
+repeated is called the \emph{network period}. For synchronization purposes it
+is divided into time slots and each time slot is dedicated to a specific
+communication. Slots are 10 ms in length in order to accommodate two
+full-length transmissions: one message and one acknowledgement. The only slots
+that take exception to this rule are the contention and registration slots, as
+will be described in section \ref{subsec:advertisement_method}. 
+
+No more than one node may be active in the network at a time, except for
+contention periods. Although this approach is not efficient because nodes that
+are not in range of each other can be active at the same time, we have chosen
+this approach to avoid the hidden and exposed terminal problems. 
+\todo{complete time slots}
 
 \section{Initialization and registering into the network}
+\label{sec:initialization_and_registering_into_the_network}
 
 After power-on all Sparrow nodes will first read their pre-programmed id from
 \mbox{EEPROM} memory and then attempt to register to a network. No restrictions
@@ -61,6 +93,7 @@ to register at the same time. This means that as the network grows it will
 become increasingly difficult for new nodes to join.
 
 \subsection{Advertisement method}
+\label{subsec:advertisement_method}
 
 The second method involves all root nodes periodically transmitting a beacon,
 or Router Advertisement, that contains all the information necessary to
@@ -133,8 +166,8 @@ when the acknowledge message is received.
 \section{Root node operation}
 \label{sec:root_node_operation}
 
-The root nodes' responsibilities in the network are much more elaborate those
-of the leaf nodes. Obviously, this comes with a higher duty cycle and power
+The root nodes' responsibilities in the network are much more elaborate than
+those of leaf nodes. Obviously, this comes with a higher duty cycle and power
 consumption. 
 
 Firstly, in the registration phase root nodes will be allocated 16 time slots
@@ -176,17 +209,20 @@ as such.
 
 \section{Gateway operation}
 
-The gateway is a crucial component of any Wireless Sensor Network. It acts as
-an interface between the network and the end user as they typically forward
-data from the network to a server or database. In our application the gateway
-is the root node with id 0 and is always online. It is also the only node to
-have the network period pre-programmed. All other nodes learn this information
-from Router Advertisements.
+The gateway node acts as an interface between the network and the end user as
+it typically forward data from the network to a server or database. 
 
 The gateway initially owns all time slots within the network period and it
 allocates slots to other nodes if requested. After a slot is allocated to a
-node that node becomes the slot's owner and can use it as described in 
+node that node becomes the slot's owner and can use it as described in sections
 \ref{sec:leaf_node_operation} and \ref{sec:root_node_operation}.
+
+It is also the only node to have the network period pre-programmed. As stated
+in section \ref{sec:initialization_and_registering_into_the_network}, all other
+nodes learn this information through Router Advertisements. As the gateway has
+all the same functionality as a root node, it advertises its presence and nodes
+register to the network through it. These nodes, if they are root nodes, start
+sending advertisements and more distant nodes can now join the network.
 
 In our implementation the gateway is represented by a SparrowDongle but may
 also be a Sparrowv3 node attached to the programming dock.

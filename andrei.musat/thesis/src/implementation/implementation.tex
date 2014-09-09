@@ -38,12 +38,12 @@ the main Draw-2D classes used in the implementation.
 
 Points represent the basic operating unit of the library. They do not refer to a graphical entity, but a 
 spatial one. They are used to define the location (coordinates) of a figure or shape, designate an axis 
-or segment or define the cornes of a polygon when placed in an ordered list.
+or segment or define the corners of a polygon when placed in an ordered list.
 
-The class exposes API for accesing and manipulating coordinates, as well as basic mathematical computations 
+The class exposes API for accessing and manipulating coordinates, as well as basic mathematical computations 
 such as transposing points and calculating the euclidian distance between two points. Still, the API lacked more 
 advanced computations such as: manhattan distance, determining the angle between the X axis and the line 
-designated by two poins and moving the point in a general direction with a given speed. These functions 
+designated by two points and moving the point in a general direction with a given speed. These functions 
 have been implemented and are shown below:
 
 ***************** aici bag cu functiile pe care le-am pus in biblioteca *****************
@@ -51,20 +51,20 @@ have been implemented and are shown below:
 \subsection{Draw 2D Rectangle class}
 
 The rectangle in the Draw 2D library does not simply stand for the geometric shape. When drawn, every 
-figure and component placed on the canvas is planced in an enclosing rectangle whcih delimits it's size 
+figure and component placed on the canvas is placed in an enclosing rectangle which delimits its size 
 and relative position by means of five points: the center and four corners. 
 
-Whenever testing for collisions, it is not the figures and shapes which are intersected, but reather their 
+Whenever testing for collisions, it is not the figures and shapes which are intersected, but rather their 
 enclosing rectangles. This allows for a certain margin of error to be taken into account. More so, when 
 testing for collisions, the \emph{intersect()} method of the Rectangle class returns a new Rectangle 
-representing the collision area. By doing so, it facillitates the correction step, since the algorithm 
+representing the collision area. By doing so, it facilitates the correction step, since the algorithm 
 knows exactly how much each figure must be moved.
 
-********* Pun poza sa arat conceptul, cum este o figura incadrata de rectangles? ********* 
+********* Pun poza sa arat conceptul, cum este o figura incadrata de rectangles? TOT TIMPUL RĂSPUNSUL E DA LA FIGURI********* 
 
 \subsection{Figure and PolylineConnection classes}
 
-By extending the Figure class, one can implement custom Figures (CAPTAIN OBVIOUS WAS HERE! xD ). A figure can 
+By extending the Figure class, one can implement custom Figures \todo{(CAPTAIN OBVIOUS WAS HERE! xD )}. A figure can 
 range from the simple outline of a geometrical shape to complex elements which can hold labels (titles), text 
 or even other figures. Custom figures may even be modeled as icons or pictograms, since their background can be 
 coloured, their borders can be stylized and by using extended API even animations could be created.
@@ -82,9 +82,9 @@ module as it is seen from a HDL designer point of view. It holds information reg
 and where they are connected. This type of figure contains and displays labels and text elements which the user 
 can interact with.
 
-PolylineConnection is extend as a OrthogonalConnection. This special type of connection holds references to the 
+PolylineConnection is extended as a OrthogonalConnection. This special type of connection holds references to the 
 figures which it connects and implements a listener. The role of the listener is to watch for modifications made 
-to the possition of the figures. Whenever one changes, the OrthogonalConnections announces the router that it 
+to the position of the figures. Whenever one changes, the OrthogonalConnections announces the router that it 
 must be recalculated. If an obstacle has been placed on the path in the meantime, the new path shall be computed 
 to go around it.
 

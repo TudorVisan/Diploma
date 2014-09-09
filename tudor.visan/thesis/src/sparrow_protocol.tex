@@ -8,14 +8,14 @@ activity for nodes closer to the gateway. In order to preserve battery life
 nodes are divided into three categories: leaf nodes, root nodes and the
 gateway. 
 
-Leaf nodes are the simplest type and are are only equipped with an
-on-board battery. This means that their life-span is limited so they 
+Leaf nodes are the simplest type and are only equipped with an
+on-board battery. This means that their life-span is limited, so they 
 only perform basic activities: gathering information about the surrounding
 environment and transmitting this information toward the gateway. 
 
 Root nodes are slightly more complex and are capable of harvesting energy from
-the surrounding environment. They form the system's backbone. Apart from the
-performing basic activities root nodes must also provide the necessary
+the surrounding environment. They form the backbone of the system. Apart from
+performing their basic activities, root nodes must also provide the necessary
 information for new nodes to join the network. This means that their duty cycle
 is higher than a leaf node's, but this balances out with the energy harvested
 from alternative sources.
@@ -28,15 +28,17 @@ it typically forwards data from the network to a server or database. In our
 implementation the gateway is represented by a SparrowDongle but may also be a
 Sparrowv3 node attached to a programming dock.
 
+\todo{Stuff about network topology and traffic patterns?}
+
 Activity in the network is cyclic. The time period with which actions are
 repeated is called the \emph{network period}. For synchronization purposes it
 is divided into time slots and each time slot is dedicated to a specific
 communication. Slots must be long enough to accommodate two full-length
 transmissions: one message and one acknowledgement. We must also take into
-account clock drift so we add a guard space to compensate for nodes running to
-fast and one to compensate for nodes running to slow. These guard times are
-dependant on the clock drift rate, which is a constant given by the
-manufacturer, and the network period. Because most transmissions will be short,
+account clock drift. To do this we add a guard time to compensate for nodes running too
+fast and a guard time to compensate for nodes running to slow. These guard times are
+dependant on the network period and on the clock drift rate, which is a constant given by the
+manufacturer. Because most transmissions will be short,
 we place both guard spaces at the end of the slot to maximize sleep times.
 
 \begin{figure}[ht]
@@ -47,20 +49,19 @@ we place both guard spaces at the end of the slot to maximize sleep times.
 \end{figure}
 
 No more than one node may be active in the network at a time, except for
-contention periods. Although this approach is not efficient because nodes that
+contention periods. Although this approach is not efficient from a bandwidth utilisation point of view, as nodes that
 are not in range of each other can be active at the same time, we have chosen
 this approach to avoid the hidden and exposed terminal
 problems\cite{jayasuriya2004hidden}. 
 
-\section{Initialization and registering into the network}
+\section{Initialization and registering to the network}
 \label{sec:initialization_and_registering_into_the_network}
 
-After power-on all Sparrow nodes will first read their pre-programmed id from
+After power-on all Sparrow nodes will first read their pre-programmed id from the
 \mbox{EEPROM} memory and then attempt to register to a network. No restrictions
-such as network address or parent id are imposed. As such any distribution of
-Sparrow nodes where all leaf nodes are within communication distance of at
-least one root node and a path can be formed from any root node to the gateway
-will eventually form a network. 
+such as network address or parent id are imposed. As such, any distribution of
+Sparrow nodes will eventually form a network under two assumptions: all leaf nodes are within communication distance of at
+least one root node and a path can be formed from any root node to the gateway.
 
 There are two major approaches to registering to a network: the new node can
 request registration information from the existing nodes (request method) or
@@ -72,31 +73,41 @@ the existing nodes can periodically advertise this information for new nodes
 The first method implies that any new node must broadcast a discovery message,
 wait for responses, choose the best parent node from the offers received and
 finally register to that node. With this method registration can be
-unsuccessful for a number of reasons. Firstly, there may be no root nodes
-within communication distance of the new node, however, the most we can do is
+unsuccessful for a number of reasons.
+
+Firstly, there may be no root nodes
+within communication distance of the new node. The most we can do in this situation is
 set a timeout and, if this timeout is reached and no offer is received, place
 the node in a sleep state and retry the procedure after a certain amount of
-time. Secondly, there may be root nodes in range but none are awake or in
+time.
+
+Secondly, there may be root nodes in range but none are awake or in the
 listening state. This can be partially solved by prolonging root node listening
-periods, albeit to the detriment of power consumption. Thirdly, there may be
+periods, albeit to the detriment of power consumption.
+
+Thirdly, there may be
 root nodes in listening mode and in range but the discovery message may be
 corrupted by an already scheduled transmission. The possibility of this
 happening can be reduced by spacing transmissions evenly within the root node's
-listening period. Fourthly, considering that the discovery message was
+listening period. \todo{citation needed :)}
+
+Fourthly, considering that the discovery message was
 successfully received, the offer message may be corrupted because two nodes
 attempt to respond at the same time. This means that a contention period must
 precede any response, lengthening the registering node's listening window and
-requiring multiple attempts on the behalf of the root nodes in order to
-respond. Lastly, considering that the discovery message was received and there
+possibly requiring multiple attempts from the root nodes in order to
+respond.
+
+Lastly, considering that the discovery message was received and there
 was at least one offer, the following message sequence, i.e. the actual
-registration process, may be corrupted by a scheduled transmission or other
+registration process, may be corrupted by a scheduled transmission \todo{cred ca s-ar putea evita} or other
 phenomena and the process will have to be repeated.
 
-As can be seen this method implies low costs for the registering nodes as they
+As can be seen, this method implies low costs for the registering nodes as they
 must only transmit the discovery message and listen a relatively short time for
-offers and they must pay this cost only once, during the registering process.
+offers. Moreover they must pay this cost only once, during the registering process.
 Root nodes however must listen for long periods of time which implies a high
-power cost which must be payed every network period. Furthermore, this method
+power cost that must be payed for every network period. Furthermore, this method
 does not scale well with the number of nodes in the network. The chances of the
 discovery message interfering with a scheduled transmission increase with the
 number of nodes in the network. The same applies if more nodes are attempting
@@ -109,45 +120,53 @@ become increasingly difficult for new nodes to join.
 The second method involves all root nodes periodically transmitting a beacon,
 or Router Advertisement, that contains all the information necessary to
 register to the network. New nodes must listen for these messages and then
-communicate with their chosen parent in order to register.  There are as well
-multiple issues that we must address with this procedure. Firstly, there may be
-no root nodes in range of the new node so, as with the first method, we can set
-a timeout for the registration process. Secondly, although there is at least
+communicate with their chosen parent in order to register. This procedure also has
+a number of issues that we must address.
+
+Firstly, there may be
+no root nodes in range of the new node so, as with the first method, the best we can do is to set
+a timeout and retry the registration process.
+
+Secondly, although there is at least
 one root node in range, the request may interfere with a scheduled
 transmission. To avoid this, we reserve a registration slot for each root node
-in which it listens for incoming requests and no other communication is
-scheduled. Thirdly, although the request may have been sent within the root
+in which it listens for incoming requests and in which no other communication is
+scheduled.
+
+Thirdly, although the request may have been sent within the root
 node's registration slot, it was corrupted by another node attempting to
 register to the same root. This can be resolved by adding a contention slot
 before the registration. A node must first listen for a random period of time
 and then successfully transmit a message to the root node in the contention
-period in order to begin the registration process. Finally, there is no
+period in order to begin the registration process.
+
+Finally, there is no
 guarantee that there will be a victor after the contention process. Sparrowv3
 nodes have a 17 μs transition delay between listening and transmitting states
 which means that if two nodes are offset by less than this they cannot avoid
 each other and a collision will happen. This can be resolved by making
-listening periods multiples of 17us or more, so that two nodes that choose a
+listening periods multiples of 17us or more, so that two nodes that choose 
 different random listening periods cannot interfere with each other.
 
 This method implies a longer listening period for registering nodes but this
 cost must only be paid once. The cost for root nodes is relatively low as they
-must only transmit the advertisement message and must have two extra listening
+must only transmit the advertisement message and have two extra listening
 slots. It also scales relatively well with the number of nodes in the network.
 If all contentions have a winner then the mean waiting time scales
 proportionally to the number of nodes attempting to register with a root node. 
 
 \vspace{\baselineskip}
 
-As the comparison shows the advertisement method is the better choice for
+As the comparison shows, the advertisement method is the better choice for
 Wireless Sensor Networks as the average cost of registration is lower and it
 scales better with network growth. In our implementation new nodes do not
 initially know the network period, so they must extract it from the first
-Router Advertisement they receive. They then wait one network period to collect
+Router Advertisement they receive. Then they wait one network period to collect
 advertisements, choose the best root node available as their parent and set a
 wake-up timer for the contention slot. In the contention phase the node chooses
 a random listening period that is at most the full contention slot. If another
 transmission is received, the node goes back to sleep and retries registering
-the next period. If there is no other transmission, it sends a registration
+in the next network period. If there is no other transmission, it sends a registration
 request in which it specifies whether it is a root or leaf node.  Leaf nodes
 are allocated one transmission slot whereas root nodes are implicitly allocated
 16. If this request is received correctly by the root node, i.e. a conflict has
@@ -160,8 +179,8 @@ transitions into normal operating mode.
 The main focus of leaf node operation is low power consumption. They are only
 active during the communication slot with their parent. In this slot they
 transmit a message to their parent and wait for an acknowledgement message.
-They then synchronize their time source according to the information received
-in the acknowledgment message. If the acknowledgement does not arrive the frame
+Then they synchronize their time source according to the information received
+in the acknowledgment message. If the acknowledgement does not arrive, the frame
 is considered lost but it is not retransmitted. If 10 transmissions is a row
 fail then the parent node is considered to have gone off-line and the node
 tries to re-register to the network. 
@@ -172,9 +191,9 @@ function to be called before a frame is to be transmitted. Through these
 functions the programmer may interact with the application frame buffer. For
 the transmission callback the user must also specify how long before the
 transmission window the function should be called.  The programmer is
-responsible for estimating the duration of the callback. If the delay is too
+responsible for estimating the duration of the callback. If the delay \todo{estimation?} is too
 short the transmission timeout will interrupt the function and its execution
-will be resumed after the transmission is started and may be interrupted again
+will be resumed after the transmission is started. The function can also be interrupted again
 when the acknowledge message is received.
 
 \section{Root node operation}
@@ -218,7 +237,7 @@ that the advertisement is sent in the last time slot ensures that the number of
 available slots will not change until the next contention period.
 
 Fourthly, if during 10 consecutive reception periods no message is received
-from the node in question, the root node must mark the slot as free and
+from the child in question, the root node will mark the slot as free and
 advertise it as such.
 
 Finally, it must provide its children with synchronization information. When a

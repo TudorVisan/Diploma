@@ -127,8 +127,23 @@ certain type, a new list is constructed on the fly and passed to the caller.
 *** mic schelet/schema prezentand enumul, lista din graph si cum o populeaza parserul cu shit? A? a? :D *****
 *** Da, mai ales dacă tu ai scris the gory details de la parser *** 
 
-\subsection{More stuff?}
+\subsection{Graph processing modules}
 
-*** Mai folosesc niste implementari gen dfs-uri, recursion bla bla. De listeneri am pomenit deja... Mai are sens sa mai 
-umplu aici cu chestii sau ajunge ce e deja?
-*** Prezintă soluția completă, dar poți să încerci să nu intri în detalii dacă nu e nevoie ***
+The modules which utilize graph data and perform modifications on it: planarity tester, layout processor and edge router 
+have at their core consecrated algorithms. Certain modifications are made to these algorithms in order to properly integrate 
+them in the Java environment. Also, in some cases, elements from different classes of algorithms are combined in the 
+implementation (for example the rule-based placing algorithm).
+
+The planarity tester is a direct implementation of theorems 1 and 2 presented in the Algorithm Design chapter. However, there 
+is also an implementation of Chiba and Nishizieki's algorithm which is used to confirm planarity. This algorithm is called 
+when the necessary condition specified by the theorems holds.
+
+In the case of layout processing, the grid type layout algorithm uses an implementation of the white path theorem algorithm 
+based on DFS(depth first search) to construct the spanning tree used to layout the algorithm. The pseudocode of the white path 
+theorem algorithm is listed below:
+
+****** listing pt DFS *******
+
+The rule-based layout processor and the edge connection router are direct Java implementations of the algorithms described 
+in the system architecture chapter.
+

@@ -3,42 +3,39 @@
 \label{chap:related}
 
 % Truism
-The related work is starting the expand and new researches propose new ideas, but generally speaking they tend to focus on ways of collecting the data from the nodes. The objective in their articles is to see if an UAV can be integrated with a wireless sensor networks. The conclusion is generally positive, but a big problem in adopting their research in real life scenarios is represented by the high costs of the equipment they used and the necessary knowledge required to setup and operate the equipment.
-
-The general experiments presented in the UAV and WSN integration research are the following:
-
+Previous research into applications of WSNs in remote locations have proposed mobile gateways mounted on UAVs. The main focus of that research is on communication protocols and data collecting, with a lower empahsis on costs. Different systems are proposed for integrating an UAV with a WSNs, but their application to real life scenarios is limited by the high costs of the equipment used and the necessary knowledge to install and operate that equipment.
+The general directions of previous research into WSN and UAV integration are:
 \begin{itemize}
 
-\item Using nodes signal to perform course corrections for dynamic navigation
-\item Data muling from nodes 
-\item Using drones to deploy a new node in order to expand or to fix a problem in the network
-\item Using drones to determine ground military activity \cite{akyildiz2002wireless}
+\item Using node signals to perform course corrections for dynamic navigation
+\item Using drones for node dployment, to create, expand or fix problems in the network \cite{akyildiz2002wireless}
+\item Data muling protocols
 
 \end{itemize}
 
-
 \section{Standard WSN Protocols}
 
-The protocols implemented in Wireless Sensor Network are based on surrounding node discovery in order to build a topology and find the best way they can multi hop data to the gateway. This approach works best in a static environment, but in a dynamic environment or an eviroment were the distance between nodes is too big or the time between two data packets is too big, the network convergence will be slow or not even possible.
+% am corectat un pic, dar tot nu prea cred ca sectiunea asta ar trebui sa existe
+The protocols used in common Wireless Sensor Network deployments are based on neighboring node discovery in order to build a network topology and find the best multi-hop route to the gateway. This approach works best in static environments, but in a dynamic environment or an eviroment were the distance between nodes is large or the time between two data packets is long, network convergence is slow or even impossible.
 
-\section{UAV experiments with Wireless Sensor Networks} \cite{teh2008experiments} 
+\section{UAV experiments with Wireless Sensor Networks}
 
-The experiment consisted of using ground nodes that had a GPS position assigned. The UAV plane would performed course correction after receiving the current GPS position from the node in order to calculate the best path for muling the data from the nodes.
+In \cite{teh2008experiments} a solution consisting of ground nodes with pre-assigned GPS positions is proposed. An RC plane would perform course corrections after receiving the current GPS position from the nodes in order to calculate the best path for muling the data from the network.
 
-The advantage of using a plane used for the experiment is the longer range and higher speed that it can offer against a quad copter or a similar design.  But the high speed creates the problem of maneuverability. The plane has a turning range of 400 meters while the drone can almost turn on the same spot.
+The advantage of using a plane in this experiment is the longer range and higher speed that it can offer as oposed to a quad-copter or a similar design.  But the high speeds create the problem of maneuverability. The plane has a turning range of 400 meters while a quad-coter drone can turn on the spot.
 
-\section{Crop Monitoring} \cite{valente2011air}
+\section{Crop Monitoring}
 
-A research of using a drone for crop monitoring has been conducted at a vineyard. Their system was comprised of a unmanned quad copter, an Arduino board with a GPRS module for long distance communication with  the drone and ZigBee and Crossbow’s TelosB as wireless sensing nodes. The drone was not controlled via the long-distance link, but through a Spektrum DX7SE 2.4 GHz remote control.
+In \cite{valente2011air} a system which uses a drone for crop monitoring at a vineyard is proposed. The system was comprised of a unmanned quad copter, an Arduino board with a GPRS module (used for long distance communication with  the drone), ZigBee and Crossbow’s TelosB as wireless sensing nodes. The drone was not controlled via the long-distance link, but through a Spektrum DX7SE 2.4 GHz remote control.
 
-They demonstrated that a preprogrammed UAV can be used to monitor multiple crops where a standard WSN could not be deployed because of the unique constrains imposed by the environment.
+The authors demonstrate that a preprogrammed UAV can be used to monitor multiple crops where a standard WSN could not be deployed because of the unique constrains imposed by the environment.
 
-The cost of the implementation was relatively high compared to ours, the remote is 300\$, the same as the entire drone that we propose and the TelosB is 99\$. This data suggests that for their experiment the drone, communication module and the remote control were half the cost of the equipment.
+The cost of the implementation is relatively high compared to our solution: the remote control alone costs 300\$, the same price as the drone we propose, and a TelosB node costs 99\$, almost 3 times as much as a Sparrowv3 node.
 
-Another problem was that they were not saving the data locally, but sending it back to the base station where it was processed and saved. This can represent a problem because the system cannot function properly unless a base station is supplied.
+Another disadvantage of the system is that the data is not saved locally, but sent back to a base station where it is processed and saved. This can pose a problem in remote environments, were a base station cannot be deployed, as the system cannot function properly without one.
 
-\section{Aware platform}\cite{ollero2007aware}
+\section{Aware platform}
 
-The Aware platform, proposed by Ays. Egül Tüysüz Erman, Lodewijk Van Hoesel and Paul Havinga from University of Twente, is a platform that integrates WSNs, UAVs, and actuators into a disaster response setting and provides facilities for event detection, autonomous network repair by UAVs, and quick response by integrated operational forces.
+The Aware platform \cite{ollero2007aware}, proposed by Ays. Egül Tüysüz Erman, Lodewijk Van Hoesel and Paul Havinga from University of Twente, is a platform that integrates WSNs, UAVs and actuators into a disaster response situation and provides facilities for event detection, autonomous network repair by UAVs and quick response by integrated operational forces.
 
-They use multiple UAVs to deploy new nodes that will replace the damaged ones and check if they function. The entire system still relies on a sink to collect the data and to send them to a base station.\cite{erman2008enabling}
+They use multiple UAVs to check the correct functioning of nodes and deploy new nodes that can replace damaged ones. The entire system still relies on a sink to collect the data and to send it to a base station \cite{erman2008enabling}.

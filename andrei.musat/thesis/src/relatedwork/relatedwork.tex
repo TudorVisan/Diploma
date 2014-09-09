@@ -24,14 +24,14 @@ The same can be done for nodes and edges.
 
 \begin{lstlisting}[caption={Simple dot file format}]
 digraph G {
-	main -> parse -> execute;
-	main -> init;
-	main -> cleanup;
-	execute -> make_string;
-	execute -> printf
-	init -> make_string;
-	main -> printf;
-	execute -> compare;
+	A -> B -> C;
+	A -> D;
+	A -> E;
+	C -> F;
+	C -> G;
+	D -> F;
+	A -> G;
+	C -> H;
 }
 \end{lstlisting}
 

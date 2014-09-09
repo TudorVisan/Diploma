@@ -46,7 +46,23 @@ advanced computations such as: manhattan distance, determining the angle between
 designated by two points and moving the point in a general direction with a given speed. These functions 
 have been implemented and are shown below:
 
-***************** aici bag cu functiile pe care le-am pus in biblioteca *****************
+\begin{lstlisting}[caption={Functions added for the Point class}, language=Java]
+public int manhattanDistance(Point p1, Point p2) {
+	return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
+} 
+
+public double computeAngle(Point p1, Point p2) {
+	int deltaY = p1.y - p2.y;
+	int deltaX = p1.x - p2.x;
+	return (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
+}
+
+public void movePointInDirection(Point p, double speed_factor) {
+	p.x += speed_factor * (int) Math.cos(angle);
+	p.y += speed_factor * (int) Math.sin(angle);
+}
+
+\end{lstlisting}
 
 \subsection{Draw 2D Rectangle class}
 
@@ -60,11 +76,13 @@ testing for collisions, the \emph{intersect()} method of the Rectangle class ret
 representing the collision area. By doing so, it facilitates the correction step, since the algorithm 
 knows exactly how much each figure must be moved.
 
-********* Pun poza sa arat conceptul, cum este o figura incadrata de rectangles? TOT TIMPUL RĂSPUNSUL E DA LA FIGURI********* 
+\begin{figure}[ht] \centering
+\includegraphics[width=0.75\textwidth]{img/implementation/rectangles.png}
+\caption{Geometric figures and their bounding rectangle} \end{figure}
 
 \subsection{Figure and PolylineConnection classes}
 
-By extending the Figure class, one can implement custom Figures \todo{(CAPTAIN OBVIOUS WAS HERE! xD )}. A figure can 
+Figures are the main units drawn on the canvas by the graphical renderer. A figure can 
 range from the simple outline of a geometrical shape to complex elements which can hold labels (titles), text 
 or even other figures. Custom figures may even be modeled as icons or pictograms, since their background can be 
 coloured, their borders can be stylized and by using extended API even animations could be created.
@@ -100,8 +118,33 @@ language. This facilitates data manipulation and enables the user to easily desc
 
 The structure of such a file is shown below:
 
-******* aici este mai corect sa pun un listing cu un fisier dinasta deja scris si cu comentarii, sau sa pun o chestie gen o mica gramatica? *******
-** listing cu fisier
+\begin{lstlisting}[caption=Input file example]
+
+begin graph
+    name: Example Graph
+        begin node
+            name: A
+            id: 1
+            connections: B
+        end node
+        begin node
+            name: B
+            id: 2
+            connections: A,C
+        node end
+        gebin node
+            name: c
+            id: 3
+            connections: A,D
+        node end
+       	begin node
+            name: D
+            id: 4
+            connections: C
+        node end
+end graph
+
+\end{lstlisting}
 
 \subsection{Parser implementation}
 
@@ -110,8 +153,7 @@ which allows the reading of bytes from the file until certain specified characte
 such a character, the scanner provides a String object containing the read data. 
 
 Next, a StringTokenizer splits the String into tokens. Rules and patterns (of the grammar) are applied on these tokens 
-to determine wether they form valid expressions and provide useful information. ***** intru in detalii despre ce si cum 
-fac Scanner si Tokenizer? sau e de ajuns ca-s pomenite in linii mari? *****
+to determine wether they form valid expressions and provide useful information.
 
 \subsection{Graph data and elements}
 
@@ -124,8 +166,49 @@ Using this pattern, the graph object does not have to keep two individual lists,
 helps keep the memory usage lower in case of large amounts of data. When another module requires all elements of a 
 certain type, a new list is constructed on the fly and passed to the caller.
 
-*** mic schelet/schema prezentand enumul, lista din graph si cum o populeaza parserul cu shit? A? a? :D *****
-*** Da, mai ales dacă tu ai scris the gory details de la parser *** 
+\begin{lstlisting}[caption=Basic class structure for factory implementation, language=Java]
+public interface GraphElement {
+	public ElementType getType();
+}
+
+public enum ElementType {
+	VERTEX, EDGE;
+}
+
+public class Vertex implements GraphElement {
+	@Override
+	public ElementType getType() { return ElementType.VERTEX;}
+}
+
+public class Edge implements GraphElement {
+	@Override
+	public ElementType getType() { return ElementType.EDGE;}
+}
+
+public class Graph {
+	public List<GraphElement> elements;
+	...
+	public List<GraphElement> getElementsOfType(ElementType type) {
+		List<GraphElement> result = new ArrayList<GraphElement>();
+		for (GraphElement ge : elements) {
+			if (ge.getType.equals(type)
+				result.add(ge);
+		}
+		return result;
+	}
+}
+
+public class Parser {
+	...
+	public void parse(File inputFile) {
+		...
+		graph.elements.add(createElement(parsedData));
+		...
+	}
+	...
+}
+
+\end{lstlisting}
 
 \subsection{Graph processing modules}
 
@@ -142,7 +225,22 @@ In the case of layout processing, the grid type layout algorithm uses an impleme
 based on DFS(depth first search) to construct the spanning tree used to layout the algorithm. The pseudocode of the white path 
 theorem algorithm is listed below:
 
-****** listing pt DFS *******
+\begin{lstlisting}[caption=Spanning tree algorithm using DFS]
+PROCEDURE SPANNING-TREE {
+BEGIN
+	choose arbitrary vertex v;
+	addToSpanningTree(v);
+	WHILE (unvisited vertices)
+	BEGIN
+		IF (v has unvisited neighbours)
+		BEGIN
+			u = chooseNeighbour();
+			markAsVisited(u);
+			addToSpanningTree(edge(v,u));
+		END
+	END
+END
+\end{lstlisting}
 
 The rule-based layout processor and the edge connection router are direct Java implementations of the algorithms described 
 in the system architecture chapter.

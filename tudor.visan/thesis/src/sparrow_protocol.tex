@@ -118,11 +118,11 @@ each other and a collision will happen. This can be resolved by making
 listening periods multiples of 17us or more, so that two nodes that choose a
 different random listening periods cannot interfere with each other.
 
-This method implies a longer listening period for registering nodes however
-this cost must only be paid once. The cost for root nodes is relatively low as
-they must only transmit the advertisement message and must have two extra
-listening slots. It also scales relatively well with the number of nodes in the
-network.  If all contentions have a winner then the mean waiting time scales
+This method implies a longer listening period for registering nodes but this
+cost must only be paid once. The cost for root nodes is relatively low as they
+must only transmit the advertisement message and must have two extra listening
+slots. It also scales relatively well with the number of nodes in the network.
+If all contentions have a winner then the mean waiting time scales
 proportionally to the number of nodes attempting to register with a root node. 
 
 \vspace{\baselineskip}
@@ -191,11 +191,11 @@ are two moments when the node may be required to allocate new slots: during the
 registration period and during the reception periods. In the registration slot
 new nodes may requests to join the network and ask for one slot, if a leaf node
 is registering, or 16 slots, if a root node is registering. In the reception
-slots the sender node may include a request for more slots in the message
-however, this request will only be taken into consideration after the
-contention period so as to not hinder new nodes from joining the network. In
-either case, the root node will accept the request if it has enough slots
-available and deny it otherwise.  
+slots the sender node may include a request for more slots in the message, but
+this request will only be taken into consideration after the contention period
+so as to not hinder new nodes from joining the network. In either case, the root
+node will accept the request if it has enough slots available and deny it
+otherwise.  
 
 Thirdly, root nodes must transmit Router Advertisements in order to allow new
 nodes to join the network. The advertisement message contains the root node's

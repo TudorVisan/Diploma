@@ -10,7 +10,7 @@ its functionality but its stability and user-friendliness.
 The main focus of this library is to provide a C interface for working with the
 Sparrow nodes and dongle. It must also be compatible with past and future
 Sparrow devices, thus it must support multiple platforms and do this in a
-scalable manner. To this end we divided the library into board and platform
+scalable and maintainable manner. To this end we divided the library into board and platform
 sections.  Each device must declare exactly one board and one platform, with
 the board defining the physical components that make up the device (sensors,
 LEDs etc.) and the platform defining the microcontroller (ADC, timers etc.). 
@@ -18,12 +18,10 @@ LEDs etc.) and the platform defining the microcontroller (ADC, timers etc.).
 In order to facilitate switching between different devices we used a
 cross-platform build system (CMAKE) and divided the library into modules. The
 build system allows the user to select the device that his/her code is to be
-compiled for and Makefiles will be automatically generated to suit while
-modularization of the library means that new code can be easily added to it, all
-of this while keeping the compilation process fast and the resulting code
+compiled for. Makefiles will be automatically generated to suit. Modularization of the library means that new code can be easily added, while keeping the compilation process fast and the resulting code
 efficient.
 
-Next we will present some of the most important modules and their
+Next we will present some of the most important modules in the library and their
 implementation.
 
 \section{Radio}
@@ -33,14 +31,14 @@ use it in either a non-interactive or an interactive way.
 
 The interactive interface consists of a series of functions that can be called
 to manipulate the device. They allow the user to put the transceiver into 
-sleep state or into active mode, check its availability to accept new
-commands, transmit and receive a frame (both blocking and non-blocking).
+sleep state or into active mode, to check its availability for accepting new
+commands and to transmit and receive a frame (both blocking and non-blocking).
 
 The programmer can also choose to work with the radio in a non-interactive
 manner. This is achieved through four callbacks that can be passed to the
-initialization function and are automatically called by interrupts that the
+initialization function and which are automatically called by interrupts that the
 transceiver generates: a wake-up callback, a reception start callback, a
-reception end callback and a transmission end callback. 
+reception end callback and a transmission end callback.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -53,8 +51,8 @@ reception end callback and a transmission end callback.
 \footnotetext{Image taken from ATmega128RFA1 datasheet. Copyright 2012 Atmel
 Corporation.}
 
-The two methods of interaction allow for more flexible application design.
-The device can easily be integrated in both procedural and event-based systems.
+The two methods of interaction allow for different application designs.
+The device can be easily integrated in both procedural and event-based systems.
 
 The module uses double-buffering for frame data. There is an application frame
 buffer and a transceiver frame buffer. Data is transferred between the two
@@ -67,7 +65,7 @@ with the ATmega128RFA1 MAC symbol counter, which is used as the primary time
 source in Sparrow-based applications. It allows the user to set two independent
 timeouts as large as 4294967296 seconds and put the microcontroller to sleep
 for up to 4294967296 milliseconds. As with the radio, the symbol counter module
-provides two callbacks that can be called when one of the timeouts expires.
+provides two callbacks that can be invoked when one of the timeouts expires.
 
 \lstset{
 	language=C, numbers=none, caption=Time critical action snippet,
@@ -98,11 +96,11 @@ int main()
 
 \section{Debugging}
 
-Though unessential, the debugging module is certainly one of the most useful.
-It provides methods of configuring a debug interface and printing information
+Though unessential, the debugging module is certainly one of the most useful from a development point of view.
+It provides methods for configuring a debug interface and printing information
 through it. Furthermore, debugging functionality can be enabled and disabled
-through the build system, thus the programmer does not need to modify the code
-in order to change to a release configuration. Simply deactivating the debug
+through the build system. Thus, the programmer does not need to modify the code
+in order to build a release configuration. Simply deactivating the debug
 option and regenerating the makefiles will cause the build process to generate
 debug-free code.
 

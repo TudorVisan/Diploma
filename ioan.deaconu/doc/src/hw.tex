@@ -86,6 +86,8 @@ of which are important improvements in the field of wireless sensor networks.
 
 The signal received or sent by the wireless transceiver can be boosted by attaching an external antenna. For example, in an ideal situation, with no interferences from the outside world , an 8 dBi omni-directional antenna mounted on both communication devices would amount to an around 200 meters of communication range, well over the 70 meters measured with the default antennas.
 
+This distance is achieved with the RX and TX at full power. A higher battery life can be achieved by reducing RX and TX power, but the maximum communication range will be shortened. The reduction can be compensated by installing a high gain antenna, but this would significantly increase the cost .
+
 \subsection{The Sparrow Dongle}
 
 \begin{figure}[ht]
@@ -105,4 +107,19 @@ The dongle uses Atmega32U4 as a dedicated USB Controller unit. This design allow
  
 The other member of The Sparrow Family, the SparrowV32 nodes are responsible of collecting data from the surrounding environment and sending it to the Sparrow Dongle. The collected data depends on the sensors attached to the SparrowV3.2. The standard implementation has a light, temperature and humidity sensor. Besides this information, it also sends the battery level.
 
-The SparrowV32 can be modiffied by adding aditional sensors for a better understanding of the environment.
+The SparrowV3.2 can be modified by adding additional sensors for a better understanding of the environment.
+
+The node can be powered by a non-rechargeable battery, a rechargeable one or by a super-capacitor. Even though the super-capacitor can contain only a small charge for a small amount of time, the stored energy is sufficient enough to keep the the node up and running for at least a day. 
+
+The advantages of the super-capacitor over the rechargeable battery are the following:
+
+\begin{itemize}
+\item it can charge and discharge almost instantaneously 
+\item it has a very high number of charge/discharge cycles that allows the node for a 
+\item it does not present over years the same symptoms as an aging battery
+\item it is far less pollutant than a standard battery
+\item it will allow a higher maintenance free time than a battery
+
+\end{itemize}
+
+The rechargeable battery and the capacity can be recharged from a solar panel, a wind turbine, or any other available renewable sources of energy.

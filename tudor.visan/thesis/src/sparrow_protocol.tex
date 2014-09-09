@@ -8,10 +8,10 @@ activity for nodes closer to the gateway. In order to preserve battery life
 nodes are divided into three categories: leaf nodes, root nodes and the
 gateway. 
 
-Leaf nodes are the simplest type and are only equipped with an
-on-board battery. This means that their life-span is limited, so they 
-only perform basic activities: gathering information about the surrounding
-environment and transmitting this information toward the gateway. 
+Leaf nodes are the simplest type and are only equipped with an on-board
+battery. This means that their life-span is limited, so they only perform basic
+activities: gathering information about the surrounding environment and
+transmitting this information toward the gateway. 
 
 Root nodes are slightly more complex and are capable of harvesting energy from
 the surrounding environment. They form the backbone of the system. Apart from
@@ -28,40 +28,72 @@ it typically forwards data from the network to a server or database. In our
 implementation the gateway is represented by a SparrowDongle but may also be a
 Sparrowv3 node attached to a programming dock.
 
-\todo{Stuff about network topology and traffic patterns?}
+Out protocol uses a tree structure for the network topology. The root of the
+tree is the gateway. Usually in networking such a structure is considered
+limiting because nodes on the same level cannot communicate with each other
+directly but only through their highest level common ancestor, however, in
+Wireless Sensor Networks nodes have no need to exchange information with each
+other. The data flows through the network in a single direction, from the leaf
+nodes towards the gateway. In fact, the tree structure is beneficial to our
+application because it eliminates the need to hold a routing table. Nodes must
+only store the id of their parent and the time slot in which they must
+communicate with it. This translates into a smaller memory footprint, an
+advantage for a processor with small amounts of memory, such as the
+\mbox{ATmega128RFA1}.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics{img/network_topology.pdf}
+	\end{center}
+	\caption{\small \itshape{Network topology}}
+	\label{img:network_topology}
+\end{figure}
+
+When joining the network new nodes must choose an existing root node as their
+parent. Our implementation of the decision process is designed to maintain the
+tree structure balanced, with a minimum depth and minimize packet-loss. The
+most influential factor in the decision is the node's hop-count to the gateway.
+By choosing the root node with the smallest hop-count we keep the tree depth at
+a minimum. The second most influential factor is the node's signal strength.
+Choosing the node with the greatest signal strength determines a lower
+packet-loss rate. The third decision factor is the number of children the root
+node already has. By associating with nodes that have the least number of
+children we maintain the balance of the tree structure and work load.
 
 Activity in the network is cyclic. The time period with which actions are
 repeated is called the \emph{network period}. For synchronization purposes it
 is divided into time slots and each time slot is dedicated to a specific
 communication. Slots must be long enough to accommodate two full-length
 transmissions: one message and one acknowledgement. We must also take into
-account clock drift. To do this we add a guard time to compensate for nodes running too
-fast and a guard time to compensate for nodes running to slow. These guard times are
-dependant on the network period and on the clock drift rate, which is a constant given by the
-manufacturer. Because most transmissions will be short,
-we place both guard spaces at the end of the slot to maximize sleep times.
+account clock drift. To do this we add a guard time to compensate for nodes
+running too fast and a guard time to compensate for nodes running to slow.
+These guard times are dependant on the network period and on the clock drift
+rate, which is a constant given by the manufacturer. Because most transmissions
+will be short, we place both guard spaces at the end of the slot to maximize
+sleep times.
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[width=\textwidth]{img/time_slot.jpg}
+		\includegraphics[width=\textwidth]{img/time_slot.pdf}
 	\end{center}
 	\caption{\small \itshape{Time slot overview}}
 \end{figure}
 
 No more than one node may be active in the network at a time, except for
-contention periods. Although this approach is not efficient from a bandwidth utilisation point of view, as nodes that
-are not in range of each other can be active at the same time, we have chosen
-this approach to avoid the hidden and exposed terminal
-problems\cite{jayasuriya2004hidden}. 
+contention periods. Although this approach is not efficient from a bandwidth
+utilisation point of view, as nodes that are not in range of each other can be
+active at the same time, we have chosen this approach to avoid the hidden and
+exposed terminal problems\cite{jayasuriya2004hidden}. 
 
 \section{Initialization and registering to the network}
 \label{sec:initialization_and_registering_into_the_network}
 
-After power-on all Sparrow nodes will first read their pre-programmed id from the
-\mbox{EEPROM} memory and then attempt to register to a network. No restrictions
-such as network address or parent id are imposed. As such, any distribution of
-Sparrow nodes will eventually form a network under two assumptions: all leaf nodes are within communication distance of at
-least one root node and a path can be formed from any root node to the gateway.
+After power-on all Sparrow nodes will first read their pre-programmed id from
+the \mbox{EEPROM} memory and then attempt to register to a network. No
+restrictions such as network address or parent id are imposed. As such, any
+distribution of Sparrow nodes will eventually form a network under two
+assumptions: all leaf nodes are within communication distance of at least one
+root node and a path can be formed from any root node to the gateway.
 
 There are two major approaches to registering to a network: the new node can
 request registration information from the existing nodes (request method) or
@@ -75,21 +107,19 @@ wait for responses, choose the best parent node from the offers received and
 finally register to that node. With this method registration can be
 unsuccessful for a number of reasons.
 
-Firstly, there may be no root nodes
-within communication distance of the new node. The most we can do in this situation is
-set a timeout and, if this timeout is reached and no offer is received, place
-the node in a sleep state and retry the procedure after a certain amount of
-time.
+Firstly, there may be no root nodes within communication distance of the new
+node. The most we can do in this situation is set a timeout and, if this
+timeout is reached and no offer is received, place the node in a sleep state
+and retry the procedure after a certain amount of time.
 
 Secondly, there may be root nodes in range but none are awake or in the
 listening state. This can be partially solved by prolonging root node listening
 periods, albeit to the detriment of power consumption.
 
-Thirdly, there may be
-root nodes in listening mode and in range but the discovery message may be
-corrupted by an already scheduled transmission. The possibility of this
-happening can be reduced by spacing transmissions evenly within the root node's
-listening period. \todo{citation needed :)}
+Thirdly, there may be root nodes in listening mode and in range but the
+discovery message may be corrupted by an already scheduled transmission. The
+possibility of this happening can be reduced by grouping transmissions within
+the root node's listening period.
 
 Fourthly, considering that the discovery message was
 successfully received, the offer message may be corrupted because two nodes
@@ -98,10 +128,11 @@ precede any response, lengthening the registering node's listening window and
 possibly requiring multiple attempts from the root nodes in order to
 respond.
 
-Lastly, considering that the discovery message was received and there
-was at least one offer, the following message sequence, i.e. the actual
-registration process, may be corrupted by a scheduled transmission \todo{cred ca s-ar putea evita} or other
-phenomena and the process will have to be repeated.
+Lastly, considering that the discovery message was received and there was at
+least one offer, the following message sequence, i.e. the actual registration
+process, may be corrupted by a scheduled transmission or other phenomenon and
+the process will have to be repeated. This may avoided through advanced
+communication scheduling.
 
 As can be seen, this method implies low costs for the registering nodes as they
 must only transmit the discovery message and listen a relatively short time for
@@ -120,18 +151,17 @@ become increasingly difficult for new nodes to join.
 The second method involves all root nodes periodically transmitting a beacon,
 or Router Advertisement, that contains all the information necessary to
 register to the network. New nodes must listen for these messages and then
-communicate with their chosen parent in order to register. This procedure also has
-a number of issues that we must address.
+communicate with their chosen parent in order to register. This procedure also
+has a number of issues that we must address.
 
-Firstly, there may be
-no root nodes in range of the new node so, as with the first method, the best we can do is to set
-a timeout and retry the registration process.
+Firstly, there may be no root nodes in range of the new node so, as with the
+first method, the best we can do is to set a timeout and retry the registration
+process.
 
-Secondly, although there is at least
-one root node in range, the request may interfere with a scheduled
-transmission. To avoid this, we reserve a registration slot for each root node
-in which it listens for incoming requests and in which no other communication is
-scheduled.
+Secondly, although there is at least one root node in range, the request may
+interfere with a scheduled transmission. To avoid this, we reserve a
+registration slot for each root node in which it listens for incoming requests
+and in which no other communication is scheduled.
 
 Thirdly, although the request may have been sent within the root
 node's registration slot, it was corrupted by another node attempting to
@@ -166,12 +196,12 @@ advertisements, choose the best root node available as their parent and set a
 wake-up timer for the contention slot. In the contention phase the node chooses
 a random listening period that is at most the full contention slot. If another
 transmission is received, the node goes back to sleep and retries registering
-in the next network period. If there is no other transmission, it sends a registration
-request in which it specifies whether it is a root or leaf node.  Leaf nodes
-are allocated one transmission slot whereas root nodes are implicitly allocated
-16. If this request is received correctly by the root node, i.e. a conflict has
-not occurred, the root node acknowledges the registration and the new node
-transitions into normal operating mode.
+in the next network period. If there is no other transmission, it sends a
+registration request in which it specifies whether it is a root or leaf node.
+Leaf nodes are allocated one transmission slot whereas root nodes are
+implicitly allocated 16. If this request is received correctly by the root
+node, i.e. a conflict has not occurred, the root node acknowledges the
+registration and the new node transitions into normal operating mode.
 
 \section{Leaf node operation}
 \label{sec:leaf_node_operation}
@@ -180,9 +210,9 @@ The main focus of leaf node operation is low power consumption. They are only
 active during the communication slot with their parent. In this slot they
 transmit a message to their parent and wait for an acknowledgement message.
 Then they synchronize their time source according to the information received
-in the acknowledgment message. If the acknowledgement does not arrive, the frame
-is considered lost but it is not retransmitted. If 10 transmissions is a row
-fail then the parent node is considered to have gone off-line and the node
+in the acknowledgment message. If the acknowledgement does not arrive, the
+frame is considered lost but it is not retransmitted. If 10 transmissions is a
+row fail then the parent node is considered to have gone off-line and the node
 tries to re-register to the network. 
 
 The SparrowLibrary allows the user to specify two additional activities. The
@@ -190,11 +220,11 @@ first is a function to be called after a frame is received. The second is a
 function to be called before a frame is to be transmitted. Through these
 functions the programmer may interact with the application frame buffer. For
 the transmission callback the user must also specify how long before the
-transmission window the function should be called.  The programmer is
-responsible for estimating the duration of the callback. If the delay \todo{estimation?} is too
-short the transmission timeout will interrupt the function and its execution
-will be resumed after the transmission is started. The function can also be interrupted again
-when the acknowledge message is received.
+transmission window the function should be called. The programmer is
+responsible for estimating the duration of the callback. If the estimation is
+too short the transmission timeout will interrupt the function and its
+execution will be resumed after the transmission is started. The function can
+also be interrupted again when the acknowledge message is received.
 
 \section{Root node operation}
 \label{sec:root_node_operation}
@@ -217,6 +247,13 @@ gateway in slot 4. This way only one frame must be buffered, reducing the
 node's memory usage. The 16\textsuperscript{th} slot is reserved for the Router
 Advertisement.
 
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{img/root_node_operation.pdf}
+	\end{center}
+	\caption{\small \itshape{Root node operation}}
+\end{figure}
+
 Secondly, the node must be able to allocate time slots for new nodes that wish
 to join the network and existing root nodes that require more slots. In either
 case time slots are allocated from the node's pool in descending order. There
@@ -226,8 +263,8 @@ new nodes may requests to join the network and ask for one slot, if a leaf node
 is registering, or 16 slots, if a root node is registering. In the reception
 slots the sender node may include a request for more slots in the message, but
 this request will only be taken into consideration after the contention period
-so as to not hinder new nodes from joining the network. In either case, the root
-node will accept the request if it has enough slots available and deny it
+so as to not hinder new nodes from joining the network. In either case, the
+root node will accept the request if it has enough slots available and deny it
 otherwise.  
 
 Thirdly, root nodes must transmit Router Advertisements in order to allow new
@@ -253,7 +290,17 @@ registration phase.
 It initially owns all time slots within the network period and allocates slots
 to other nodes upon requests. After a slot is allocated to a node that node
 becomes the slot's owner and can use it as described in sections
-\ref{sec:leaf_node_operation} and \ref{sec:root_node_operation}.
+\ref{sec:leaf_node_operation} and \ref{sec:root_node_operation}. An example
+slot allocation, for the network shown in figure \ref{img:network_topology} is
+presented in figure \ref{img:slot_allocation}.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{img/slot_allocation.pdf}
+	\end{center}
+	\caption{\small \itshape{Time slot allocation example}}
+	\label{img:slot_allocation}
+\end{figure}
 
 It is also the only node to have the network period pre-programmed. As stated
 in section \ref{sec:initialization_and_registering_into_the_network}, all other

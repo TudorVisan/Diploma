@@ -1,7 +1,7 @@
 % *************** LEd - MSc template document ***************
 
 \documentclass[11pt, oneside, a4paper, oldfontcommands]{memoir}
-\input{frontbackstyle/style.tex}
+\input{style/style.tex}
 
 \usepackage{wrapfig}
 \usepackage{listings}
@@ -15,33 +15,32 @@
 \begin{document}
 % *************** Front matter ***************
 \frontmatter
-\input{frontbackstyle/front.tex}
+\input{style/front_ro.tex}
+\input{style/front_en.tex}
 
 % *************** Main matter ***************
 \mainmatter
 \nocite{*}
-\input{abstract/abstract.tex}
-\input{introduction/introduction.tex}
-\input{related/related.tex}
-\input{hw_platform/hw.tex}
-%\input{architecture/architecture.tex}
-%\input{sw_platform/sw.tex}
-\input{implementation/implementation.tex}
-\input{testing/testing.tex}
-\input{future_work/future_work.tex}
-\input{conclusions/conclusions.tex}
+\input{src/abstract.tex}
+\input{src/introduction.tex}
+\input{src/related.tex}
+\input{src/hw.tex}
+\input{src/implementation.tex}
+\input{src/testing.tex}
+\input{src/future_work.tex}
+\input{src/conclusions.tex}
 
 % *************** Bibliography ***************
 \bibliographystyle{alpha}
-{\small\bibliography{bibliography/thesis}}
+{\small\bibliography{thesis}}
 % *************** Appendixes ***************
 \appendix
 %\appendixpage
-\input{appendices/appendix.tex}
+\input{src/appendix.tex}
 
 % *************** Back matter ***************
 \backmatter
-\input{frontbackstyle/back.tex}
+\input{style/back.tex}
  
 
 \end{document}

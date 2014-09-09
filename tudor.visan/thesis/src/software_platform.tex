@@ -70,7 +70,7 @@ Atmel Corporation.}
 The two methods of interaction allow for different application designs.  The
 device can be easily integrated in both procedural and event-based systems.
 
-The \mbox{ATmega128RFA1} radio transceiver has 7 operating modes, as shown is
+The \mbox{ATmega128RFA1} radio transceiver has 7 operating modes, as shown in
 figure \ref{fig:transceiver_operating_modes}. The user can trigger a state
 transition by using the \emph{radio\_set\_state} and
 \emph{radio\_set\_state\_force} functions. The difference between the two is
@@ -80,7 +80,8 @@ state, thus assuring that after the function returns the transceiver is in the
 desired state.
 
 After microcontroller initialization the transceiver is powered off. The radio
-initialization enables power to it and puts it into sleep mode. It can be
+initialization routine first enables power and then puts it into sleep mode.
+The transceiver can be
 woken-up by using the \emph{radio\_wake\_up} function. After the transition
 from the \emph{SLEEP} to \emph{TRX\_OFF} state has ended (i.e. the unit has
 completed the wake-up) the wake-up callback is triggered. The transceiver can
@@ -94,7 +95,7 @@ into the frame buffer and issue the transmission start command. The module uses
 double-buffering for frame data. There is an application frame buffer and a
 transceiver frame buffer. Data is transferred between the two buffers before
 transmitting a frame and after receiving a new frame. The transceiver will
-transition back to the \emph{PLL\_ON} state after the transmission is complete
+transition back to the \emph{PLL\_ON} state after the transmission is completedS
 and it will trigger the transmission end callback.
 
 Receiving a frame is done by calling the \emph{radio\_receive\_frame} function,
@@ -116,7 +117,7 @@ to sleep for up to 4294967296 milliseconds. As with the radio, the symbol
 counter module provides two callbacks that are triggered when one of the two
 timeouts expires.
 
-An example of using the symbol counter to schedule time critical work is show
+An example of using the symbol counter to schedule time critical work is shown
 in listing \ref{lst:time_critical_work}.
 
 \lstset{
@@ -159,8 +160,8 @@ makefiles will cause the build process to generate debug-free code.
 
 \section{USART}
 
-The USART module underlies de Debug module. However, it can be used for for
-than just debugging. It provides methods of initializing the microcontrollers
+The USART module underlies de Debug module. However, it can be used for more
+than just debugging. It provides methods of initializing the microcontroller's
 USART modules and use them to transmit information.
 
 The \mbox{ATmega128RFA1} has two USART modules. As any peripheral, after the
@@ -172,7 +173,7 @@ baud rate to set. Custom file descriptors are also created at compile time
 which enables the programmer to call print functions from the standard C
 library such as \emph{fprintf} or \emph{fputs}.
 
-This module is particularly important for the SparrowDongle. It has two
+This module is particularly important for the SparrowDongl, which has two
 microcontrollers, an \mbox{ATmega128RFA1}, that acts as an interface with the
 wireless network, and an \mbox{ATmega32U4}, that acts as an interface with the
 USB host. The data received from the nodes via wireless must be forwarded to

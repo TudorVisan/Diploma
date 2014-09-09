@@ -47,14 +47,17 @@ Enabling the debug is just a matter of setting  a define from 0 to 1, recompile 
 \begin{lstlisting}
 /* activates/deactivates printf debug information*/
 #define DEBUG_ON 0
-/* delay yime in microseconds*/
+/* delay time in microseconds*/
 #define DELAY_US 100000
+
+/* time in milliseconds since connecting display the node*/
+#define TIME_DELTA 15000
 #define DEBUG_PRINT(a...) { if(DEBUG_ON) printf(a); }
 \end{lstlisting}
 
 In certain parts of the modules a sleep action is needed in order to wait for an action to be executed. The value can be changed to any level, but you must be careful in doing this. A small delay will send data more often but it could use allot of processing power, while a big delay could be to slow for the data to be usable. Now the delay is set at 100 ms, for a 10 times per second data update.
 
-
+Also, the nodes are memorized for a period named TIME\_DELTA. During this period, the node will be saved and informations about it will be sent to the user. If after a TIME\_DELTA, no new data has been received from the node, it is deleted from the list.
 
 \section{The Data Collecting Module}
 
@@ -117,8 +120,7 @@ This delay is required because:
 \end{itemize}
 
 \subsection{JSON Encoding of Data} \cite{json}
-
-% Mai pe larg
+ 
 JSON is an open-standard that uses text to encode data and it is an alternative to XML. Derived from the JavaScript scripting language, it is a language-independent data format available in most of the programing languages.
 
 JSON is best suitable for this application as a data encode format because it is data oriented, unlike XML which is document oriented. Also it is very easy to encode because it has a code like structure, the result is smaller than the XML alternative and all devices can decode it. 
@@ -155,9 +157,7 @@ The drone will save the receied data, localy in files that have the name compose
 \end{figure}
 
 Being an open-source platform we have modified the AR Freeflight 2.0 Android application to communication with our new modules added to the drone.
-
-% cum adică fairly
-%% am modificat putin
+ 
 Android fairly imposes the use of the background process class AsyncTask when you have to use communication protocols like http, ftp, sockets because this prevents the UI process from being stuck in communication and not responding to user actions.
 
 The class offers 5 very important methods that can be overwritten, 3 running on the main UI process, that prepare data before and after execution, publish the progress or simply cancel at any step, and 1 running on the actual background process.

@@ -2,15 +2,16 @@
 \chapter{Testing}
 
 The tests that we have conducted highlights the strengths of the platform but also reveals some of its weaknesses.
-% Înălțimea până la care poate merge nu e *super* important
-The most important characteristics of this experiment are the maximum height that the drone  can achieve with extra gear, the maximum range of the wireless network and the maximum range of the dongle.
 
-Tests show the maximum range at which a drone can still communicate with a base or with a SparrowV3.2.
+The most important characteristics of this experiment are the maneuverability of the drone with the extra gear, the maximum range of the drone wireless network and the maximum range of the dongle.
+
 
 
 \section{Scenario}
- 
-The testing method were conducted using a dongle with an 8 dBi antenna, a SparrowV3.2  with a standard antena and a SparrowV3.2 with a 8 dBi antenna. The nodes were placed on the ground with the antenna directed upwards.
+
+The scenario for the test is simple. Using the drone, we must try to connect and collect the data from the nodes.
+
+The testing method were conducted using a dongle with an 8 dBi antenna, a SparrowV3.2  with a standard antenna and a SparrowV3.2 with a 8 dBi antenna, both place on a hill with the antenna directed upwards for a maximum range test. Other  three nodes with 3 dbi external antenna were placed inside of a building. The nodes were configured to send a packet every second The controlling device of the drone was a Samsung Galaxy S4.
 
 Because both the drone and nodes use 2.4 GHz network, the drone was configured to use channel 11 and the nodes to use channel 1 to prevent signal interference.
 
@@ -20,9 +21,6 @@ Because both the drone and nodes use 2.4 GHz network, the drone was configured t
 \end{center}
 \caption{\small \itshape{Parrot discovering new nodes before takeoff}}
 \end{figure}
-
-% Nu e relevant că ai mers cu drona, scoate chestia asta. Lasă doar că ai testat la anumite distanțe, toate măsurate
-Signal testing was performed by walking with the drone in one hand and the phone in the other until the drone could not receive packets from the nodes. This test was not done by flying the drone because the exact point at which the signal is lost can not be controlled with the desired precision.
 
 
 \section{Results}
@@ -38,9 +36,10 @@ Signal testing was performed by walking with the drone in one hand and the phone
 \end{figure}
 
 
-The top mounted antenna worked, but for a better signal, the antenna should always be positioned on the bottom of the drone because in this way, the antenna will have a clear path to send and receive signal and not have the signal blocked by the entire drone and its avionics. The problem with this drone is that on the bottom of it, there are sensors that help it determine the ground speed, ground distance and the antenna could obstruct some of the sensors.
+The drone was able to find the nodes but as expected, the obstructed nodes had a much smaller communication range then the ones placed on the hill. The range test results proved that the drone could receive signal at a maximum distance of 325 meters from the node with the external antenna located on the hill and a clear line of sight. The other node on hill did managed to send data up to 100 meters. In the case of the obstructed nodes, even though they had a 3 dbi antenna, the distance did not exceeded the 50 meters mark. After this distance, the loss of the packets is to big to be able to properly communicate with the nodes, even though occasionally, at 60 meters, some packets were received.
 
-The range test results proved that the drone could receive signal from the nodes at maximum distance of 325 meters and a clear line of sight. If the node is obstructed by an object the maximum distance will decrease. For example, a node that is is placed behind an air conditioning unit and a 2 dBi antenna will have a range of just 70 meters.
+
+The top mounted antenna worked, but for a better signal, the antenna should always be positioned on the bottom of the drone because in this way, the antenna will have a clear path to send and receive signal and not have the signal blocked by the entire drone and its avionics. The problem with this drone is that on the bottom of it, there are sensors that help it determine the ground speed, ground distance and the antenna, if place on the bottom could obstruct some of the sensors. A vertical antenna will increase the wind resistance an make it too unstable.
 
 
 \subsection{Drone stability}

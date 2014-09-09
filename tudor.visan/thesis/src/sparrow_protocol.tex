@@ -2,9 +2,6 @@
 
 \chapter{Sparrow Protocol}
 
-\todo{generalities}\\
-\todo{slot time, guard time}\\
-
 As mentioned earlier, the main focus of this protocol is to increase network
 bandwidth and responsiveness. This is achieved through larger windows of
 activity for nodes closer to the gateway. In order to preserve battery life
@@ -23,23 +20,36 @@ information for new nodes to join the network. This means that their duty cycle
 is higher than a leaf node's, but this balances out with the energy harvested
 from alternative sources.
 
-The gateway is a critical component of the network. It is the root node with id
-0 and is always online. It sits at the top of the network hierarchy.
-\todo{complete gateway}
+The gateway is a critical component of any Wireless Sensor Network. It is the
+root node that sits at the top of the network hierarchy and is always online.
+
+The gateway node acts as an interface between the network and the end user as
+it typically forwards data from the network to a server or database. In our
+implementation the gateway is represented by a SparrowDongle but may also be a
+Sparrowv3 node attached to a programming dock.
 
 Activity in the network is cyclic. The time period with which actions are
 repeated is called the \emph{network period}. For synchronization purposes it
 is divided into time slots and each time slot is dedicated to a specific
-communication. Slots are 10 ms in length in order to accommodate two
-full-length transmissions: one message and one acknowledgement. The only slots
-that take exception to this rule are the contention and registration slots, as
-will be described in section \ref{subsec:advertisement_method}. 
+communication. Slots must be long enough to accommodate two full-length
+transmissions: one message and one acknowledgement. We must also take into
+account clock drift so we add a guard space to compensate for nodes running to
+fast and one to compensate for nodes running to slow. These guard times are
+dependant on the clock drift rate, which is a constant given by the
+manufacturer, and the network period. Because most transmissions will be short,
+we place both guard spaces at the end of the slot to maximize sleep times.
+
+\begin{figure}[ht]
+	\begin{center}
+		\includegraphics[width=\textwidth]{img/time_slot.jpg}
+	\end{center}
+	\caption{\small \itshape{Time slot overview}}
+\end{figure}
 
 No more than one node may be active in the network at a time, except for
 contention periods. Although this approach is not efficient because nodes that
 are not in range of each other can be active at the same time, we have chosen
 this approach to avoid the hidden and exposed terminal problems. 
-\todo{complete time slots}
 
 \section{Initialization and registering into the network}
 \label{sec:initialization_and_registering_into_the_network}
@@ -148,16 +158,19 @@ transitions into normal operating mode.
 
 The main focus of leaf node operation is low power consumption. They are only
 active during the communication slot with their parent. In this slot they
-transmit a message to their parent and wait for an acknowledgement message. If
-the acknowledgement does not arrive the frame is considered lost but it is not
-retransmitted. If 10 transmissions is a row fail then the parent node is
-considered to have gone off-line and the node tries to re-register to the
-network. The SparrowLibrary allows the user to specify two additional
-activities. The first is a function to be called after a frame is received .
-The second is a function to be called before a frame is to be transmitted.
-Through these functions the programmer may interact with the application frame
-buffer. For the transmission callback the user must also specify how long
-before the transmission window the function should be called. The programmer is
+transmit a message to their parent and wait for an acknowledgement message.
+They then synchronize their time source according to the information received
+in the acknowledgment message. If the acknowledgement does not arrive the frame
+is considered lost but it is not retransmitted. If 10 transmissions is a row
+fail then the parent node is considered to have gone off-line and the node
+tries to re-register to the network. 
+
+The SparrowLibrary allows the user to specify two additional activities. The
+first is a function to be called after a frame is received. The second is a
+function to be called before a frame is to be transmitted. Through these
+functions the programmer may interact with the application frame buffer. For
+the transmission callback the user must also specify how long before the
+transmission window the function should be called.  The programmer is
 responsible for estimating the duration of the callback. If the delay is too
 short the transmission timeout will interrupt the function and its execution
 will be resumed after the transmission is started and may be interrupted again
@@ -175,14 +188,14 @@ and they are responsible for allocating them to their children. In the case
 that these slots become exhausted a root node can request another 16 time slots
 from its parent. After registering, the root node will transmit one locally
 generated message to its parent every network period and wait for an
-acknowledgement.  This frame is sent during the 13\textsuperscript{th} time
-slot of this block.  The 14\textsuperscript{th} and 15\textsuperscript{th}
-slots are the contention and registration slots. Slots 1 through 12 are
-reserved for receiving data from the node's children and transmitting this data
-forward. For example, the data received from the node in slot 3 is sent forward
-towards the gateway in slot 4.  This way only one frame must be buffered,
-reducing the node's memory usage. The 16\textsuperscript{th} slot is reserved
-for the Router Advertisement.
+acknowledgement. This frame is sent during the 13\textsuperscript{th} time slot
+of this block. The 14\textsuperscript{th} and 15\textsuperscript{th} slots are
+the contention and registration slots. Slots 1 through 12 are reserved for
+receiving data from the node's children and transmitting this data forward. For
+example, the data received from the node in slot 3 is sent forward towards the
+gateway in slot 4. This way only one frame must be buffered, reducing the
+node's memory usage. The 16\textsuperscript{th} slot is reserved for the Router
+Advertisement.
 
 Secondly, the node must be able to allocate time slots for new nodes that wish
 to join the network and existing root nodes that require more slots. In either
@@ -203,28 +216,33 @@ id, the network period and the number of free slots that the node has. The fact
 that the advertisement is sent in the last time slot ensures that the number of
 available slots will not change until the next contention period.
 
-Lastly, if during 10 consecutive reception periods no message is received from
-the node in question, the root node must mark the slot as free and advertise it
-as such.
+Fourthly, if during 10 consecutive reception periods no message is received
+from the node in question, the root node must mark the slot as free and
+advertise it as such.
+
+Finally, it must provide its children with synchronization information. When a
+scheduled message arrives from a child node the root node calculates the offset
+between the moment when the frame was supposed to arrive and the actual arrival
+time and includes this information it the acknowledgement message.
 
 \section{Gateway operation}
 
-The gateway node acts as an interface between the network and the end user as
-it typically forward data from the network to a server or database. 
+The gateway becomes active after initialization and does not pass through the
+registration phase.
 
-The gateway initially owns all time slots within the network period and it
-allocates slots to other nodes if requested. After a slot is allocated to a
-node that node becomes the slot's owner and can use it as described in sections
+It initially owns all time slots within the network period and allocates slots
+to other nodes upon requests. After a slot is allocated to a node that node
+becomes the slot's owner and can use it as described in sections
 \ref{sec:leaf_node_operation} and \ref{sec:root_node_operation}.
 
 It is also the only node to have the network period pre-programmed. As stated
 in section \ref{sec:initialization_and_registering_into_the_network}, all other
 nodes learn this information through Router Advertisements. As the gateway has
 all the same functionality as a root node, it advertises its presence and nodes
-register to the network through it. These nodes, if they are root nodes, start
-sending advertisements and more distant nodes can now join the network.
+register to the network through it. These nodes, if they are root nodes, send
+advertisements and more distant nodes can now join the network.
 
-In our implementation the gateway is represented by a SparrowDongle but may
-also be a Sparrowv3 node attached to the programming dock.
+The gateway's time source is the reference clock for the entire network. All
+its children synchronize to its time. 
 
 % ********** End of Sparrow protocol **********

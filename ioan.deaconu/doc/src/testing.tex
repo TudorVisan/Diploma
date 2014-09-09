@@ -3,9 +3,8 @@
 
 The tests that we have conducted highlights the strengths of the platform but also reveals some of its weaknesses.
 
-The most important characteristics of this experiment are the maneuverability of the drone with the extra gear, the maximum range of the drone wireless network and the maximum range of the dongle.
-
-
+The most important characteristics of this experiment are the maneuverability of the drone with the extra gear, the maximum range of the dongle and the number of packets sent by the drones and not received.
+ 
 
 \section{Scenario}
 
@@ -25,7 +24,7 @@ Because both the drone and nodes use 2.4 GHz network, the drone was configured t
 
 \section{Results}
 
-
+ 
 \subsection{Signal range}
 
 \begin{figure}[ht]
@@ -36,7 +35,7 @@ Because both the drone and nodes use 2.4 GHz network, the drone was configured t
 \end{figure}
 
 
-The drone was able to find the nodes but as expected, the obstructed nodes had a much smaller communication range then the ones placed on the hill. The range test results proved that the drone could receive signal at a maximum distance of 325 meters from the node with the external antenna located on the hill and a clear line of sight. The other node on hill did managed to send data up to 100 meters. In the case of the obstructed nodes, even though they had a 3 dbi antenna, the distance did not exceeded the 50 meters mark. After this distance, the loss of the packets is to big to be able to properly communicate with the nodes, even though occasionally, at 60 meters, some packets were received.
+The drone was able to find the nodes but as expected, the obstructed nodes had a much smaller communication range then the ones placed on the hill. The range test results proved that the drone could receive signal at a maximum distance of 325 meters from the node with the external antenna located on the hill and a clear line of sight. The other node on hill did managed to send data up to 100 meters. In the case of the obstructed nodes, even though they had a 3 dbi antenna, the distance did not exceeded the 45 meters mark. After this distance, the loss of the packets is to big to be able to properly communicate with the nodes, even though occasionally, at 60 meters, some packets were received.
 
 
 The top mounted antenna worked, but for a better signal, the antenna should always be positioned on the bottom of the drone because in this way, the antenna will have a clear path to send and receive signal and not have the signal blocked by the entire drone and its avionics. The problem with this drone is that on the bottom of it, there are sensors that help it determine the ground speed, ground distance and the antenna, if place on the bottom could obstruct some of the sensors. A vertical antenna will increase the wind resistance an make it too unstable.
@@ -57,6 +56,8 @@ The drone was relatively stable during the test, but a better stability and flig
 \end{center}
 \caption{\small \itshape{Top mounted antenna for better signal}}
 \end{figure}
+
+
 
 \subsection{Maximum height and maneuverability}
 

@@ -134,6 +134,7 @@ void timeout_callback()
 
 int main()
 {
+	mcu_init();
 	scounter_init(timeout_callback, NULL);
 	scounter_set_timeout(TIMEOUT, 0, OCR1);
 
@@ -158,6 +159,47 @@ makefiles will cause the build process to generate debug-free code.
 
 \section{USART}
 
-\todo{}
+The USART module underlies de Debug module. However, it can be used for for
+than just debugging. It provides methods of initializing the microcontrollers
+USART modules and use them to transmit information.
+
+The \mbox{ATmega128RFA1} has two USART modules. As any peripheral, after the
+microcontroller initialization they are disable and must be re-enabled by
+calling the module's initialization function, \emph{usart\_init}. As boards may
+have more than one such interface and their speed may vary, the function
+receives two parameters that specify which interface to initialize and what
+baud rate to set. Custom file descriptors are also created at compile time
+which enables the programmer to call print functions from the standard C
+library such as \emph{fprintf} or \emph{fputs}.
+
+This module is particularly important for the SparrowDongle. It has two
+microcontrollers, an \mbox{ATmega128RFA1}, that acts as an interface with the
+wireless network, and an \mbox{ATmega32U4}, that acts as an interface with the
+USB host. The data received from the nodes via wireless must be forwarded to
+the host. This means that the two controllers must exchange data between one
+another. This is accomplished via the USART interface.
+
+An example of using USART to transmit information using the standard C library
+I/O functions is presented in listing \ref{lst:usart_communication}.
+
+\lstset{
+	language=C, numbers=none, caption=USART communication snippet,
+	label=lst:usart_communication
+}
+\begin{lstlisting}
+int main()
+{
+	mcu_init();
+	usart_init(USART0, 8);
+
+	while (1)
+	{
+		do_work();
+		fprintf(usart0, "Work finished!\n");
+	}
+
+	return 0;
+}
+\end{lstlisting}
 
 % ********** End of Software platform **********

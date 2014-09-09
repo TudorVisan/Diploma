@@ -3,9 +3,9 @@
 \chapter{Software platform}
 
 The software that runs on the Sparrowv3 nodes and the SparrowDongle was
-developed by As. Drd. Ing. Andrei Voinescu and is dubbed the SparrowLibrary.
+developed by As. Drd. Ing. Andrei Voinescu and is dubbed \todo{known as} the SparrowLibrary.
 In the process of implementing this protocol we have greatly improved not only
-its functionality but its stability and user-friendliness.
+its functionality but its stability and user\todo{API?}-friendliness.
 
 The main focus of this library is to provide a C interface for working with the
 Sparrow nodes and dongle. It must also be compatible with past and future
@@ -40,6 +40,8 @@ initialization function and which are automatically called by interrupts that th
 transceiver generates: a wake-up callback, a reception start callback, a
 reception end callback and a transmission end callback.
 
+\todo{paragraf care face referire la poza}
+
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[width=\textwidth]
@@ -66,6 +68,8 @@ source in Sparrow-based applications. It allows the user to set two independent
 timeouts as large as 4294967296 seconds and put the microcontroller to sleep
 for up to 4294967296 milliseconds. As with the radio, the symbol counter module
 provides two callbacks that can be invoked when one of the timeouts expires.
+
+\todo{referire la code snippet} 
 
 \lstset{
 	language=C, numbers=none, caption=Time critical action snippet,
@@ -103,5 +107,7 @@ through the build system. Thus, the programmer does not need to modify the code
 in order to build a release configuration. Simply deactivating the debug
 option and regenerating the makefiles will cause the build process to generate
 debug-free code.
+
+\todo{Atat? nu mai sunt alte module?}
 
 % ********** End of Software platform **********

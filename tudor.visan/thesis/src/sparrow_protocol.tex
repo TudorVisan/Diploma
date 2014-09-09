@@ -28,6 +28,8 @@ it typically forwards data from the network to a server or database. In our
 implementation the gateway is represented by a SparrowDongle but may also be a
 Sparrowv3 node attached to a programming dock.
 
+\todo{Stuff about network topology and traffic patterns?}
+
 Activity in the network is cyclic. The time period with which actions are
 repeated is called the \emph{network period}. For synchronization purposes it
 is divided into time slots and each time slot is dedicated to a specific
@@ -86,7 +88,7 @@ Thirdly, there may be
 root nodes in listening mode and in range but the discovery message may be
 corrupted by an already scheduled transmission. The possibility of this
 happening can be reduced by spacing transmissions evenly within the root node's
-listening period.
+listening period. \todo{citation needed :)}
 
 Fourthly, considering that the discovery message was
 successfully received, the offer message may be corrupted because two nodes
@@ -97,7 +99,7 @@ respond.
 
 Lastly, considering that the discovery message was received and there
 was at least one offer, the following message sequence, i.e. the actual
-registration process, may be corrupted by a scheduled transmission or other
+registration process, may be corrupted by a scheduled transmission \todo{cred ca s-ar putea evita} or other
 phenomena and the process will have to be repeated.
 
 As can be seen, this method implies low costs for the registering nodes as they

@@ -81,11 +81,11 @@ desired state.
 
 After microcontroller initialization the transceiver is powered off. The radio
 initialization routine first enables power and then puts it into sleep mode.
-The transceiver can be
-woken-up by using the \emph{radio\_wake\_up} function. After the transition
-from the \emph{SLEEP} to \emph{TRX\_OFF} state has ended (i.e. the unit has
-completed the wake-up) the wake-up callback is triggered. The transceiver can
-be put back to sleep using the \emph{radio\_sleep} function.
+The transceiver can be woken-up by using the \emph{radio\_wake\_up} function.
+After the transition from the \emph{SLEEP} to \emph{TRX\_OFF} state has ended
+(i.e. the unit has completed the wake-up) the wake-up callback is triggered.
+The transceiver can be put back to sleep using the \emph{radio\_sleep}
+function.
 
 Frames are sent using the \emph{radio\_send\_frame} and
 \emph{radio\_send\_frame\_block} functions, the former being non-blocking and
@@ -95,8 +95,8 @@ into the frame buffer and issue the transmission start command. The module uses
 double-buffering for frame data. There is an application frame buffer and a
 transceiver frame buffer. Data is transferred between the two buffers before
 transmitting a frame and after receiving a new frame. The transceiver will
-transition back to the \emph{PLL\_ON} state after the transmission is completedS
-and it will trigger the transmission end callback.
+transition back to the \emph{PLL\_ON} state after the transmission is
+completed and it will trigger the transmission end callback.
 
 Receiving a frame is done by calling the \emph{radio\_receive\_frame} function,
 which is non-blocking, or its blocking counterpart,
@@ -173,7 +173,7 @@ baud rate to set. Custom file descriptors are also created at compile time
 which enables the programmer to call print functions from the standard C
 library such as \emph{fprintf} or \emph{fputs}.
 
-This module is particularly important for the SparrowDongl, which has two
+This module is particularly important for the SparrowDongle, which has two
 microcontrollers, an \mbox{ATmega128RFA1}, that acts as an interface with the
 wireless network, and an \mbox{ATmega32U4}, that acts as an interface with the
 USB host. The data received from the nodes via wireless must be forwarded to

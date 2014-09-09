@@ -24,6 +24,12 @@ The controlling device, PC or android, will gather the information and display t
 \caption{\small \itshape{Modules and connections between them and devices}}
 \end{figure}
 
+\section{The }
+
+The default software with which the drone is delivered does not recognize our USB dongle. This behavior was expected because the drone has a stripped down version of Linux. In order for the drone to recognize the dongle, a module had to be compiled for the specific CPU architecture and operating system that were installed on the drone.
+
+The required module is the module cdc\_acm\cite{cdcacm}. This module is responsible for emulating serial ports over USB. The module creates a file named /dev/ttyACM0 that is linked with the dongle. The file can be read just like any other file . 
+
 \section{The Debug Module}
  
 When performing modification to the existing code, a debug enabling option would speed up the process. The module would allow for displaying control message to the user console even when the process is running in background.If the messages would be activated all the time, they would slow down the execution speed of the process.
@@ -37,7 +43,7 @@ p=$(pidof read) && strace -p $p
 
 Enabling the debug is just a matter of setting  a define from 0 to 1, recompile and upload the code to the drone to see the messages.
 
-\lstset{numbers=none, mathescape=true, nolol=false,caption=Data Collection use of mutex,label=lst:task}
+\lstset{numbers=none, mathescape=true, nolol=false,caption=Debug and timing defines,label=lst:task}
 \begin{lstlisting}
 /* activates/deactivates printf debug information*/
 #define DEBUG_ON 0
@@ -132,6 +138,12 @@ The informations encoded by the drone are:
 \end{itemize}
  
 
+\section{SparrowV3.2 module}
+
+The Sparrow sends a small packet a fixed interval. If the packet is received by the Dongle, it will sent a specific ack just to the sparrow that sent the packet. When the node receives the ack, it will try to send all the stored data to the drone, from the oldes one to the newest one. The data is stored in a cicular linked list that has a fixed zise. If the list is full, the oldest data will be replaced by a new data.
+
+The drone will save the receied data, localy in files that have the name composed from the timestamp of the current sesion and the unique id of the node.
+
 
 \section{Android application modules}
 
@@ -178,3 +190,4 @@ The drone has a built-in FTP server that can be configured to allow access to an
 This feature is add to the Android application as well to have a better out of the box experience.
 
 The application will download all the files from the drone to the local storage of the user's Android device while displaying the progress.
+

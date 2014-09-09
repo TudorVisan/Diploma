@@ -19,6 +19,11 @@
 \usepackage[figuresright]{rotating}
 \usepackage{textcomp}
 \usepackage{listings}
+\usepackage[utf8x]{inputenc}
+
+\usepackage{natbib}
+\bibpunct{[}{]}{;}{s}{,}{,}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue]{hyperref}
 
 % *************** Enable index generation ***************
 \makeindex
@@ -26,19 +31,6 @@
 % *************** Add reference to page number at which bibliography entry is cited ***************
 \usepackage{citeref}
 \renewcommand{\bibitempages}[1]{\newblock {\scriptsize [\mbox{cited at p.\ }#1]}}
-
-\usepackage{hyperref}
-\hypersetup{%
-	colorlinks=true,
-	linkcolor=blue,
-	anchorcolor=black,
-	citecolor=blue,
-	filecolor=blue,
-	menucolor=black,
-	urlcolor=blue,
-	bookmarks=true,
-	bookmarksnumbered=true
-}
 
 % *************** Some colour definitions ***************
 \usepackage{color}
@@ -113,7 +105,24 @@
 \definecolor{white}         {cmyk}{0   , 0   , 0   , 0   } 
 
 % *************** Enable hyperlinks in PDF documents ***************
-\usepackage{hyperref}
+%\ifpdf
+%    \pdfcompresslevel=9
+%        \usepackage[plainpages=false,pdfpagelabels,bookmarksnumbered,%
+%        colorlinks=true,%
+%        linkcolor=sepia,%
+%        citecolor=sepia,%
+%        filecolor=maroon,%
+%        pagecolor=red,%
+%        urlcolor=sepia,%
+%        pdftex,%
+%        unicode]{hyperref} 
+%    \input supp-mis.tex
+%    \input supp-pdf.tex
+%    \pdfimageresolution=600
+%    \usepackage{thumbpdf} 
+%\else
+%    \usepackage{hyperref}
+%\fi
 
 \usepackage{memhfixc}
 

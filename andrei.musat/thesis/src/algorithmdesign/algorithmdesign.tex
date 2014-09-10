@@ -18,9 +18,9 @@ stated over the years. Amongst the first of these criteria is a theorem publishe
 Kazimierz Kuratowski in 1930. The theorem deals with subdivisions, i.e. graphs which result from inserting vertices 
 into edges. It states that a planar graph shall not contain a subdivision of the forbidden graphs K5(the complete 
 graph on five vertices) or K3,3(complete bipartite graph on six vertices, three of which connect to each of the other 
-three, also known as the utility graph). It is formulated as follows:
+three, also known as the utility graph). It is formulated as follows:\\
 
-\\ \textit{
+\textit{
 A finite graph is planar if and only if it does not contain a subgraph that is a subdivision of K5 or K3,3 .
 }
 
@@ -173,7 +173,8 @@ the nodes of each component shall be pulled towards each other, while the indivi
 
 \begin{figure}[ht] \centering
 \includegraphics[width=0.5\textwidth]{img/algdesing/force_directed_example.jpg}
-\caption{A force-directed graph layout with a central node and multiple connected components.  http:/wonderfl.net/} \end{figure}
+\caption{A force-directed graph layout with a central node and multiple connected components.\protect\footnotemark} \end{figure}
+\footnotetext{Image taken from \url{http://wonderfl.net/}}
 
 This approach is better suited to ease the routing process and reduce its time and complexity. It is less likely that planar graphs shall be 
 improperly drawn and routes will be shorter and clearer. However, unlike Grid placement, it is an iterative process which may take considerable 

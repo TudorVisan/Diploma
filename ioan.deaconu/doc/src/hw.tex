@@ -12,9 +12,9 @@ The cost of our solution depends on the configuration and size of the WSN island
 Example costs for two different types of networks:
 \begin{itemize}
 
-\item An area that needs a high density of nodes and covers a small surface does not require the nodes to have an external antenna. The system will be comprised of a drone, one dongle with an external antenna and 10 nodes. The total cost would amount to approximately 700\$.
+\item An area that needs a high density of nodes and covers a small surface does not require the nodes to have an external antenna. The system will be comprised of a drone, one dongle with an external antenna and 10 nodes. The total cost would amount to approximately 700\$ give or take.
 
-\item  An area that needs a low density of nodes, but covers a larger surface, or are placed in high vegetation or in a high interference area will require the nodes to be equipped with an external antenna.  The system will be comprised of a drone, one dongle with an external antenna and 10 nodes, also with external antennas. The total cost would amount to approximately 800\$.
+\item  An area that needs a low density of nodes, but covers a larger surface, or are placed in high vegetation or in a high interference area will require the nodes to be equipped with an external antenna.  The system will be comprised of a drone, one dongle with an external antenna and 10 nodes, also with external antennas. The total cost would amount to approximately 800\$ give or take.
 
 \end{itemize}
 
@@ -98,9 +98,9 @@ The dongle uses an ATmega32U4 as a dedicated USB Controller unit. This design al
 \subsection{The SparrowV3.2}
  
  
-The other member of the Sparrow family, the SparrowV32 node is responsible for collecting data from the surrounding environment and sending it to the SparrowDongle. The collected data depends on the sensors attached to the SparrowV32. The standard implementation has light, temperature and humidity sensors. Besides this information, the nodes also collect the battery level.
+The other member of the Sparrow family, the SparrowV3.2 node is responsible for collecting data from the surrounding environment and sending it to the SparrowDongle. The collected data depends on the sensors attached to the SparrowV3.2. The standard implementation has light, temperature and humidity sensors. Besides this information, the nodes also collect the battery level.
 
-The SparrowV32 can be modified by adding additional sensors for a better measurement of environment parameters.
+The SparrowV3.2 can be modified by adding additional sensors for a better measurement of environment parameters.
 
 The node can be powered by a non-rechargeable battery, a rechargeable one or by a super-capacitor. Even though the super-capacitor can store only a small charge, the stored energy is sufficient enough to keep the node up and running for at least a day.
 
@@ -112,6 +112,16 @@ The advantages of the super-capacitor over the rechargeable battery are as follo
 \item it does not suffer from the same aging symptoms as a battery
 \item it is far less pollutant than a standard battery
 \item it will allow a longer maintenance-free time than a battery
+
+\end{itemize}
+
+The disadvantages of the super-capacitor are :
+
+\begin{itemize}
+\item it is bigger than battery
+\item it can store a much smaller amount of energy than similar size batteries
+\item it is very expensive
+\item it operates at low voltages and may require a charge pump to rise the voltage
 
 \end{itemize}
 

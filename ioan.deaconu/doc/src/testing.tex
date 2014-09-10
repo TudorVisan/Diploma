@@ -3,18 +3,18 @@
 
 The tests that we have conducted highlight the strengths of the platform but also reveal some of its weaknesses.
 
-The most important characteristics we consider are the maneuverability of the drone with the added components, the maximum range of the dongle and the number of packets sent by the nodes and not received.
+The characteristics that we considered to be most important are the maneuverability of the drone with the added components, the maximum range of the dongle and the number of packets sent by the nodes and not received.
  
 
 \section{Scenario description}
 
 The test scenario is relatively simple. Using the drone, we try to connect and collect the data from different nodes while measuring the identified characteristics.
 
-We conducted multiple tests using a dongle with an 8 dBi antenna. Two SparrowV32 nodes, one with a standard antenna and one with a 8 dBi antenna, were placed on a hill with the antenna directed upwards for a maximum range test. Another three nodes with 3 dBi external antennas were placed inside of a building. The nodes were configured to send a packet every second. The controlling device of the drone was a Samsung Galaxy S4.
+We conducted multiple tests using a dongle with an 8 dBi antenna, two SparrowV3.2 nodes, one with a standard antenna and one with a 8 dBi antenna, were placed on a hill with the antenna directed upwards for a maximum range test. Another three nodes with 3 dBi external antennas were placed inside of a building. The nodes were configured to send a packet every second. The controlling device of the drone was a Samsung Galaxy S4.
 
 Because both the drone and nodes use the 2.4 GHz band, the drone was configured to use channel 11 and the nodes were configured to use channel 1 in order to prevent any signal interference.
 
-The packet loss test was performed using 3 scenarios. In all scenarios a node with an 8 dBi antenna and a node with -1 dBi antenna was used. 
+The packet loss test was performed using 4 scenarios. In all scenarios a node with an 8 dBi antenna and a node with -1 dBi antenna was used. 
  
 \begin{itemize}
 
@@ -31,7 +31,7 @@ The packet loss test was performed using 3 scenarios. In all scenarios a node wi
  
 \subsection{Packet loss}
 
-The results of the test based on the 3 scenarios can be seen in figure~\ref{fig:packet_loss}. The high gain antenna performs excellent, from up to 100 meters distance there is no packet loss and at almost 200 meters distance, the packet loss is just 14 \%. On the other hand, even though the -1 dBi could send packets at almost 200 meters, the loss is 75 \%. the acceptable distane up until a -1 dBi antenns should be used is for a 100 meters connection because of a much smaller packet loss of 24\%. 
+The results of the test based on the 4 scenarios can be seen in figure~\ref{fig:packet_loss}. The high gain antenna performs excellent, for up to 100 meters distance there is no packet loss and at almost 200 meters distance, the packet loss is just 14 \%. On the other hand, even though the -1 dBi could send packets at almost 200 meters, the loss is 75 \%. The acceptable distance up until a -1 dBi antenna should be used is for a 100 meters connection because of a much smaller packet loss of 24\%. 
 
 \begin{figure}[ht]
 \begin{center}
@@ -52,10 +52,10 @@ The results of the test based on the 3 scenarios can be seen in figure~\ref{fig:
 \end{figure}
 
 
-The drone was able to find the nodes but, as depicted in figure~\ref{fig:discover}, the obstructed nodes had a much smaller communication range than the ones placed on the hill. The range test results proved that the drone could receive a signal at a maximum distance of 325 meters from the node with the 8 dBi external antenna located on the hill and a clear line of sight, highlighted in figure~\ref{fig:distance}. The other node on hill did manage to send data up to 100 meters. In the case of the obstructed nodes, even though they had a 3 dBi antenna, the distance did not exceeded the 45 meters mark. After this distance, the number of lost packets was to big to be able to properly communicate with the nodes, even though, occasionally, at 60 meters, some packets were received.
+The drone was able to find the nodes but, as depicted in figure~\ref{fig:discover}, the obstructed nodes had a much smaller communication range than the ones placed on the hill. The range test results proved that the drone could receive a signal at a maximum distance of 325 meters from the node with the 8 dBi external antenna located on the hill and a clear line of sight, highlighted in figure~\ref{fig:distance}. The other node on hill did manage to send data up to 100 meters. In the case of the obstructed nodes, even though they had a 3 dBi antenna, the distance did not exceeded the 65 meters mark. After this distance, the number of lost packets was to big to be able to properly communicate with the nodes, even though, occasionally, at 90 meters, some packets were received.
 
 
-The top mounted antenna worked, but for a better signal quality, the antenna should always be positioned on the bottom of the drone. In this way, the antenna will have a clear path to send and receive signals and not be blocked by the drone body and its avionics. The problem with this particular drone model is that on its bottom there are sensors that help it determine the ground speed and ground distance. If we place the antenna on the bottom it would obstruct some of the sensors. A vertical antenna will increase wind resistance and make the drone too unstable.
+The top mounted antenna worked, but for a better signal quality, the antenna should always be positioned on the bottom of the drone. In this way, the antenna will have a clear path to send and receive signals and not be blocked by the drone's body and its avionics. The problem with this particular drone model is that on its bottom there are sensors that help it determine the ground speed and ground altitude. If we place the antenna on the bottom it would obstruct some of the sensors.The other possibility, a vertical antenna, will increase wind resistance and make the drone too unstable.
 
 
 \begin{figure}[ht]
@@ -70,9 +70,9 @@ The top mounted antenna worked, but for a better signal quality, the antenna sho
 
 Even though the antenna was mounted on top of the body, because it is a high gain antenna the signal received was very strong. 
 
-The antenna, shown in figure~\ref{fig:antenna}, extended the signal range but also added weight. The dongle is mounted on the side of the drone due to the position of the USB connector. Because the dongle is not centered on the drone, a counterweight had to be glued on the opposite side on the outer shell to maintain the balance of the drone. 
+The dongle is mounted on the side of the drone due to the position of the USB connector. Because the dongle is not centered on the drone, a counterweight had to be glued on the opposite side on the outer shell to maintain the balance of the drone. The antenna, shown in figure~\ref{fig:antenna}, extended the signal range but also added weight.
 
-The drone was relatively stable during tests, but a better stability and flight control could be obtained if the dongle were made smaller and a lighter antenna were used.
+The drone was relatively stable during tests, but a better stability and flight control could be obtained if the dongle were to be made smaller and a lighter antenna were to be used.
 
 
 \begin{figure}[ht]

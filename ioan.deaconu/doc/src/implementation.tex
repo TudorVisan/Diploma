@@ -3,11 +3,11 @@
 
 Our solution is divided into different modules that run independently but communicate with each other to achieve the main goal. The separation of software modules allows future features to be added easily.
 
-There are multiple applications, running on the SparrowDongle and SparrowV32, running on the Parrot AR.Drone and a modified instance of the FreeFlight 2.0 application running an Android phone. The connection between them is presented in figure~\ref{fig:arhitecture}.
+There are multiple applications, running on the SparrowDongle and SparrowV3.2, running on the Parrot AR.Drone and a modified instance of the FreeFlight 2.0 application running an Android phone. The connection between them is presented in figure~\ref{fig:arhitecture}.
 
-The SparrowDongle gateway is always in a listen-for-data state and dumps any data it receives on the virtual serial port emulated over USB. When it receives a data packet, it sends back an ACK message to let the SparrowV32 nodes know that they can begin sending the entire stored data to the it.
+The SparrowDongle gateway is always in a listen-for-data state and dumps any data it receives on the virtual serial port emulated over USB. When it receives a data packet, it sends back an ACK message to let the SparrowV3.2 nodes know that they can begin sending the entire stored data to the it.
 
-The SparrowV32 node is periodically sending a small data packet to check if a gateway is available. It stores the data accumulated during the period when no reply is received. When it receives the ACK message from a mobile gateway it starts sending the previously stored data to the gateway. The data can vary, from sensor readings to debugging information used to check the state of the Wireless Sensor Network.
+The SparrowV3.2 node is periodically sending a small data packet to check if a gateway is available. It stores the data accumulated during the period when no reply is received. When it receives the ACK message from a mobile gateway it starts sending the previously stored data to the gateway. The data can vary, from sensor readings to debugging information used to check the state of the Wireless Sensor Network.
 
 The data gathered by the gateway is saved into different files in the Parrot AR.Drone's internal memory. The files also contain information such as the node identification tag and time of the transfer. The data can be accessed at any time by any device that connects to the drone's wireless network on port 4242 via FTP.
 
@@ -30,7 +30,7 @@ The drone also processes some of the collected data to provide real time HUD inf
 
 The default software with which the drone is delivered does not implicitly recognize the dongle. This behavior was expected because the drone runs a stripped down version of Linux. In order for the drone to recognize the dongle, a module had to be compiled for the specific CPU architecture and operating system that were installed on the drone.
 
-The required module is called cdc\_acm\cite{cdcacm}. This module is responsible for emulating serial ports over USB. The module creates a file, named /dev/ttyACM0, which can be read just like any other file, that is linked with the dongle .
+The required module is called cdc\_acm\cite{cdcacm}. This module is responsible for emulating serial ports over USB. The module creates a file, named /dev/ttyACM0, linked with the dongle, which can be read just like any other file.
 
 \subsection{The Debug Module}
  
@@ -55,13 +55,13 @@ Enabling the debug option is just a matter of setting the $DEBUG\_ON$ constant t
 #define DELAY_US 100000
 
 /* time in milliseconds since connecting display the node*/
-#define TIME_DELTA 15000
+#define TIME_DELTA 45000
 #define DEBUG_PRINT(a...) { if(DEBUG_ON) printf(a); }
 \end{lstlisting}
 
-In certain parts of the modules a delay is needed in order to wait for an action to be executed. The value ($DELAY\_US$) can be changed to any value, but you must be careful in doing so. A small delay sends data more often but it uses a lot of processing power. A big delay could be too slow for the data to be usable. We have chosen a delay of 100 ms, for 10 data updates per second.
+In certain parts of the modules a delay is needed in order to wait for an action to be executed. The value $DELAY\_US$ can be changed to any value, but you must be careful in doing so. A small delay sends data more often but it uses a lot of processing power. A big delay could be too slow for the data to be usable. We have chosen a delay of 100 ms, for 10 data updates per second.
 
-Also, the nodes are memorized for the period TIME\_DELTA. During this period, the node will be saved and informations about it will be sent to the user. If after TIME\_DELTA, no new data has been received from the node, it is deleted from the list.
+Also, the nodes are memorized for the period $TIME\_DELTA$. During this period, the node will be saved and informations about it will be sent to the user. If after $TIME\_DELTA$, no new data has been received from the node, it is deleted from the list.
 
 \subsection{The Data Collecting Module}
 
@@ -111,9 +111,9 @@ Being a different module, with different attributions than the Data Collecting M
 
 The communication is done through socket connections listening on port 8888. The server running on the drone accepts only one connection at a time.
 
-If a connected client decides to disconnect before or while a write operation is in progress, a SIGPIPE error signal will be thrown, stopping all the modules. This is prevented by ignoring the signal, forcing the write action to return a EPIPE, and exiting gracefully.
+If a connected client decides to disconnect before or while a write operation is in progress, a $SIGPIPE$ error signal will be thrown, stopping all the modules. This is prevented by ignoring the signal, forcing the write action to return a $EPIPE$, and exiting gracefully.
 
-The main process will use the callback \text{ accept\_socket\_connection} to reestablish a new connection. Once a connection is established, it will send information once every DELAY\_US microseconds. The program was configured and tested with a 100ms wait period that translates to ten updates per second.
+The main process will use the callback \text{ accept\_socket\_connection} to reestablish a new connection. Once a connection is established, it will send information once every $DELAY\_US$ microseconds. The program was configured and tested with a 100ms wait period that translates to ten updates per second.
 
 This delay is required because if there was no delay the communication would occupy too much processor time both on the drone and on the controlling device.
 
@@ -130,7 +130,7 @@ The informations encoded by the drone are:
 \item Dongle connection status
 \item An array containing node data
 \begin{itemize}
-
+‏
 	\item Node unique ID
 	\item Last connection time of the node to dongle
 	\item The power of the received signal
@@ -139,7 +139,7 @@ The informations encoded by the drone are:
 \end{itemize}
  
 
-\section{SparrowV32 module}
+\section{SparrowV3.2 module}
 
 Due to the communication protocol implemented, the SparrowV3.2 node uses very little power when not connected to
 the drone. The solution is similar to the one described by Cardei et al\cite{cardei2005improving}. The Sparrow node sends a small packet at a fixed interval.If the packet is received by the dongle, it will send back a specific ACK just to the node that sent the packet. When the node receives the ACK, it will try to send all the stored data to the drone, starting from the oldest entry to the newest one. The data is stored in a circular linked list of a fixed size. If the list is full, the oldest entity is always replaced by new data.
@@ -156,9 +156,9 @@ The drone saves the received data, locally in files that have the name comprised
   \label{fig:moded_app}
 \end{figure}
 
-Being an open-source platform we modified the AR Freeflight 2.0 Android application to communicate the new modules added to the drone and added a new feature on the main screen, seen in figure~\ref{fig:moded_app}.
+Being an open-source platform we modified the AR Freeflight 2.0 Android application to communicate with the new modules installed on the drone and added a new feature on the main screen, seen in figure~\ref{fig:moded_app}.
 
-Android imposes the use of the background process class AsyncTask in order to use communication protocols such as http, ftp or sockets. This prevents the UI process from remaining stuck in communication and not responding to user actions.
+Android imposes the use of the background process class AsyncTask when using communication protocols such as http, ftp or sockets. This prevents the UI process from remaining stuck in communication and not responding to user actions.
 
 The class offers 5 very important methods that can be overwritten, 4 running on the main UI process, that prepare data before and after execution, publish progress or simply cancel at any step, and 1 running on the background process.
 

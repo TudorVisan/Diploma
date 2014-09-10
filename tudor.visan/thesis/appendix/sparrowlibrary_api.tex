@@ -1,0 +1,59 @@
+% ********** SparrowLibrary API **********
+
+\chapter{SparrowLibrary API}
+
+\section{Debug}
+\begin{itemize}
+	\item void debug\_init()
+	\item int debug\_print(format, ...)
+\end{itemize}
+
+\section{LED}
+\begin{itemize}
+	\item void led\_on(led\_t led)
+	\item void led\_off(led\_t led)
+\end{itemize}
+
+\section{MCU}
+\begin{itemize}
+	\item void mcu\_init()
+\end{itemize}
+
+\section{Radio}
+\begin{itemize}
+	\item void radio\_init(IRQ\_callback awake, IRQ\_callback rx\_start,
+		IRQ\_callback rx\_end, IRQ\_callback tx)
+	\item void radio\_wake\_up()
+	\item void radio\_sleep()
+	\item void radio\_set\_channel(uint8\_t channel)
+	\item uint8\_t radio\_is\_busy()
+	\item uint8\_t radio\_get\_random()
+	\item void radio\_send\_frame(frame\_t *frame)
+	\item void radio\_send\_frame\_block(frame\_t *frame)
+	\item void radio\_receive\_frame(frame\_t *frame)
+	\item void radio\_receive\_frame\_block(frame\_t *frame)
+\end{itemize}
+
+\section{Symbol counter}
+\begin{itemize}
+	\item void scounter\_init(OCR\_callback ocr1, OCR\_callback ocr2)
+	\item void scounter\_delay\_ms(uint32\_t millis)
+	\item void scounter\_set\_timeout(uint32\_t seconds, uint8\_t cycles,
+		ocr\_t ocr)
+	\item int8\_t scounter\_timeout\_has\_expired(ocr\_t ocr)
+	\item uint32\_t scounter\_get\_time()
+	\item void scounter\_set\_time(uint32\_t time)
+\end{itemize}
+
+\section{Sleep}
+\begin{itemize}
+	\item void sleep()
+\end{itemize}
+
+\section{USART}
+\begin{itemize}
+	\item void usart\_init(usart\_t usart, uint16\_t baud)
+	\item int usart\_putchar(char c, FILE *stream)
+\end{itemize}
+
+% ********** End of SparrowLibrary API **********

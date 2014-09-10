@@ -3,7 +3,7 @@
 
 Our solution is divided into different modules that run independently but communicate with each other to achieve the main goal. The separation of software modules allows future features to be added easily.
 
-There are multiple applications, running on the SparrowDongle and SparrowV32, running on the Parrot AR.Drone and a modified instance of the FreeFlight 2.0 application running an Android phone.
+There are multiple applications, running on the SparrowDongle and SparrowV32, running on the Parrot AR.Drone and a modified instance of the FreeFlight 2.0 application running an Android phone. The connection between them is presented in figure~\ref{fig:arhitecture}.
 
 The SparrowDongle gateway is always in a listen-for-data state and dumps any data it receives on the virtual serial port emulated over USB. When it receives a data packet, it sends back an ACK message to let the SparrowV32 nodes know that they can begin sending the entire stored data to the it.
 
@@ -11,11 +11,12 @@ The SparrowV32 node is periodically sending a small data packet to check if a ga
 
 The data gathered by the gateway is saved into different files in the Parrot AR.Drone's internal memory. The files also contain information such as the node identification tag and time of the transfer. The data can be accessed at any time by any device that connects to the drone's wireless network on port 4242 via FTP.
 
-The drone also processes some of the collected data to provide real time HUD information, such as signal strength, last connection time and number of discovered nodes. This information is sent to the controlling device through a socket connection. The controlling device, PC or Android, gathers that information and displays it to the user. %referinta la poza
+The drone also processes some of the collected data to provide real time HUD information, such as signal strength, last connection time and number of discovered nodes. This information is sent to the controlling device through a socket connection. The controlling device, PC or Android, gathers that information and displays it to the user. 
 
 \clearpage
 
 \begin{figure}[ht]
+  \label{fig:arhitecture}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/organigrama.png}
 \end{center}
@@ -35,18 +36,18 @@ The required module is called cdc\_acm\cite{cdcacm}. This module is responsible 
  
 When performing modification to the existing code, debugging support can greatly speed up the development process. This module allows for displaying control message to the user console even when the process is running in the background. If the messages are always activated, they can slow down the execution speed of the entire application.
 
-In order to see debugging messages, the debug option must be activated and the following simple command must be run:
+In order to see debugging messages, the debug option must be activated and the simple command from listing~\ref{lst:cmd} must be run.
 
 %adauga referinta la listing in text
-\lstset{ literate={\$}{{\$}}1, numbers=none,  nolol=false,caption=Simple display message command,label=lst:task}
+\lstset{ literate={\$}{{\$}}1, numbers=none,  nolol=false,caption=Simple display message command,label=lst:cmd}
 \begin{lstlisting}
 p=$(pidof read) && strace -p $p
 \end{lstlisting}
 
-Enabling the debug option is just a matter of setting the $DEBUG\_ON$ constant to the value 1, recompiling and uploading the code to the drone.
+Enabling the debug option is just a matter of setting the $DEBUG\_ON$ constant to the value 1, recompiling and uploading the code to the drone. The constants needed for debugging are shown in listing~\ref{lst:debug}.
 
 %adauga referinta la listing in text
-\lstset{numbers=none, mathescape=true, nolol=false,caption=Debug and timing defines,label=lst:task}
+\lstset{numbers=none, mathescape=true, nolol=false,caption=Debug and timing defines,label=lst:debug}
 \begin{lstlisting}
 /* activates/deactivates printf debug information*/
 #define DEBUG_ON 0
@@ -72,10 +73,9 @@ This module contains some extra features that are designed to make the solution 
 
 The memory area in which the information sent to the user is saved is shared between this module and the communication module. The interaction method between these two modules resembles the consumer-producer problem, where the Data Collecting Module is represented by the producer and the Communication Module is represented by the consumer.
 
-A important issue with this approach is synchronization and the avoidance of data races. These are prevented with the use of a mutex construct that only allows one thread at a time to acces the data.
+A important issue with this approach is synchronization and the avoidance of data races. These are prevented with the use of a mutex construct that only allows one thread at a time to access the data. Example is depicted in listing~\ref{lst:mutex}.
 
-%adauga referinta la listing in text
-\lstset{numbers=none, mathescape=true, nolol=false,caption=Data Collection use of mutex,label=lst:task}
+\lstset{numbers=none, mathescape=true, nolol=false,caption=Data Collection use of mutex,label=lst:mutex}
 \begin{lstlisting}
 pthread_mutex_lock(&data_lock);
 add_node_data(get_current_timestamp(),read_data + 7);
@@ -162,9 +162,9 @@ Android imposes the use of the background process class AsyncTask in order to us
 The class offers 5 very important methods that can be overwritten, 4 running on the main UI process, that prepare data before and after execution, publish progress or simply cancel at any step, and 1 running on the background process.
 
 \subsection{Display information module}
-
-%adauga referinta la poza in text
+ 
 \begin{figure}[ht]
+  \label{fig:pilot}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/android_info.png}
 \end{center}
@@ -173,11 +173,12 @@ The class offers 5 very important methods that can be overwritten, 4 running on 
 
 The Piloting screen of the application has been modified to display the received data from the drone.
 
-The information displayed is comprised of the state of the dongle, the number of connected nodes and for each node the unique id, last connection time and the signal strength. Up to 9 nodes sorted in descending order after their signal strength are displayed.
+The information displayed is comprised of the state of the dongle, the number of connected nodes and for each node the unique id, last connection time and the signal strength. Up to 9 nodes sorted in descending order after their signal strength are displayed. Figure~\ref{fig:pilot} is an example of how the informations are displayed.
 
 \subsection{FTP communication module}
 
 \begin{figure}[ht]
+  \label{fig:ftp}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/android_ftp.png}
 \end{center}
@@ -188,5 +189,5 @@ The drone has a built-in FTP server that can be configured to allow access to an
 
 This feature was added to the Android application as well, to have a better out of the box experience.
 
-The application will download all the files from the drone to the local storage of the user's Android device and display the progress.
+The application will download all the files from the drone to the local storage of the user's Android device and display the progress as in figure~\ref{fig:ftp}.
 

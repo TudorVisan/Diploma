@@ -3,26 +3,26 @@ actual open source software which can do such operations is scarce. Algorithms w
 described and implemented since the year 1970. The major impediment for any application which would like to perform 
 diagram drawing is actually the diversity and ambiguity of the problem. Apart from performance analysis (time and 
 memory consumption), and corectness of the drawing, any other aesthetic appreciation of the result is subjective.
-Depending on who the diagram is addressing and which its final scope is, certain styles, connections and layouts are 
-appropriate, while others render the final result unasable.
+Depending on who the diagram is addressing and what is its final scope, certain styles, connections and layouts are 
+appropriate, while others render the final result unusable.
 
-This does not mean that a middle-ground approach does not exist and there are no techniques or conventions which are 
+This does not mean that a middle-ground approach does not exist and that there are no techniques or conventions which are 
 generally accepted as good practice. There are two commonly used open source libraries which provide support for 
 drawing diagrams: Graphviz dot\cite{graphvizrelwork} and Eclipse GEF\cite{eclipsegefrelwork}.
 
 \section{Graphviz dot}
 
-\emph{Graphviz dot} is, as described by their own documentation, a command line tool which draws directed graphs as 
+\emph{Graphviz dot} is, as described in its documentation, a command line tool which draws directed graphs as 
 hierarchies. It reads its information from text files written in the DOT language and outputs the drawing in 
-graphic formats such as GIF(Graphics Interchange Format), PNG(Portable Network Graphics), SVG(Scalable Vector 
-Graphics) or PDF(Portable Document Format).
+graphic formats such as GIF (Graphics Interchange Format), PNG (Portable Network Graphics), SVG (Scalable Vector 
+Graphics) or PDF (Portable Document Format).
 
 The DOT language input file specifies general information describing the graph. It accepts the definition of three 
-main objects: graphs, nodes and edges. A simple graph is described only by its name and a list of nodes and edges.
+main objects: graphs, nodes and edges. A simple graph (listing \ref{dot}) is described only by its name and a list of nodes and edges.
 If the user desires, subgraphs can be defined inside the graph with distinctive characteristics and properties. 
-The same can be done for nodes and edges.
+The same can be done for nodes and edges (listing \ref{dot2}).
 
-\begin{lstlisting}[caption={Simple dot file format}]
+\begin{lstlisting}[caption={Simple dot file format}\label{dot}]
 digraph G {
 	A -> B -> C;
 	A -> D;
@@ -36,10 +36,10 @@ digraph G {
 \end{lstlisting}
 
 In terms of implementation, \emph{dot} uses methods such as force directed placing to layout its graphs. Also, its 
-layout algorithm presumes graphs are acyclical. This is why dot ensures that all cycles are removed from a graph 
+layout algorithm presumes graphs are acyclical. This is why \emph{dot} ensures that all cycles are removed from a graph 
 before sending it to the layout routine. 
 
-\begin{lstlisting}[caption={Customized graph dot file representation, as can be seen in the official documentation}]
+\begin{lstlisting}[caption={Customized graph dot file representation, as can be seen in the official documentation}\label{dot2}]
 digraph G {
 	size ="4,4";
 	main [shape=box]; /*this is a comment*/
@@ -59,40 +59,40 @@ digraph G {
 
 As user-oriented features, the drawings can be manipulated and customized by the user either from a graphical 
 interface or by directives specified in the DOT input file. A few examples of such features are: setting dimensions 
-and clearance values for node positioning, specifying the direction of edges, label nodes, creatint hyperlinks.
+and clearance values for node positioning, specifying the direction of edges, label nodes, creating hyperlinks.
 
-Since it is a command line tool, dot can be integrated with many applications and development environments. From 
-custom applications to IDEs, various implementations can use this tool as a means to support drawing diagrams. The 
+Since it is a command line tool, \emph{dot} can be integrated with many applications and development environments. From 
+custom applications to IDEs, various implementations can use this tool as a means to support drawing diagrams (figure \ref{dotide}). The 
 only requirement is that such an application posseses a means to generate the dot configuration file.
 
 \begin{figure}[ht] \centering
 \includegraphics[width=0.45\textwidth]{img/relatedwork/graphviz.png}
-\caption{An example of graphviz integrated with the Eclipse IDE.\protect\footnotemark} \end{figure}
+\caption{An example of graphviz integrated with the Eclipse IDE.\protect\footnotemark \label{dotide}} \end{figure}
 \footnotetext{Image taken from \url{http://blog.abstratt.com/}}
 
 \section{Eclipse GEF}
 
-Eclipse GEF(Graphical Editing Framework) provides support for creating graphical editors and views in the Eclipse IDE environment\cite{eclipse2007relwork}. The graphical 
-editors created using GEF allow the user to mainly hand draw any desired graph. All the basic elements required for the task are predefined 
+Eclipse GEF (Graphical Editing Framework) provides support for creating graphical editors and views in the Eclipse IDE environment\cite{eclipse2007relwork}. The graphical 
+editors created using GEF allow the user to mainly hand draw any desired graph (figure \ref{gef}). All the basic elements required for the task are predefined 
 by the underlying library and routing can be performed manually.
-
-Above this basic level, GEF contains classes specialised in layout and connection routing. By default, the library has implementations for 
-layout algorithms such as grid layout and tree layout. However, these classes expose API which can be used to create new and more complex 
-layout implementations.
 
 \begin{figure}[ht] \centering
 \includegraphics[width=0.35\textwidth]{img/relatedwork/gefexample.jpg}
-\caption{Example of a graph viewer implemented using the GEF library.\protect\footnotemark} \end{figure}
+\caption{Example of a graph viewer implemented using the GEF library.\protect\footnotemark \label{gef}} \end{figure}
 \footnotetext{Image taken from \url{http://www.programcreek.com/}}
 
-A notable drawback that GEF presents is the lack of documentation for its API. This may represent a reason why it is not widely 
-used, even amongst the Eclipse community. The main sources of information is from articles or community made tutorials, such as 
+Above this basic level, GEF contains classes specialised in layout and connection routing. By default, the library has implementations for 
+layout algorithms such as grid layout and tree layout. However, these classes expose APIs which can be used to create new and more complex 
+layout implementations.
+
+A notable drawback of the GEF library is the lack of documentation for its API. This may be the reason why it is not widely 
+adopted, even amongst the Eclipse community. The main sources of information is from articles or community made tutorials, such as 
 those of Lars Vogel\cite{vogel2014contributing}. Another way of familiarizing oneself with the API and experiencing its capabilities is by running and experimenting 
-with the examples suite which comes with the library. These examples showcase typical situations and functionalities step by step through 
+with the examples suite which comes with the library. These examples showcase typical situations and functionalities through 
 simple widgets. While they are educational and helpful for developers, they require an investment of time in order to understand 
 the showcased code and functionality.
 
-An extension of Eclipse GEF is Eclipse Zest\cite{zestrelwork}, which is a visualization toolkit with implementations for different types of graph 
+An extension of Eclipse GEF is Eclipse Zest\cite{zestrelwork} (figure \ref{zest}), which is a visualization toolkit with implementations for different types of graph 
 viewers. In essence, a graph viewer is a layout algorithm which specializes in a certain representation of the graph. As 
 specified on their homepage, Zest includes a predefined layout package containing algorithms for the following types of 
 layouts: Spring, Tree, Radial and Grid. Zest is open to contributions from the community regarding new types of layouts.
@@ -102,5 +102,5 @@ of this library is on the layout itself.
 
 \begin{figure}[ht] \centering
 \includegraphics[width=0.85\textwidth]{img/relatedwork/zest.png}
-\caption{A graph viewer using Zest radial layout.\protect\footnotemark} \end{figure}
+\caption{A graph viewer using Zest radial layout.\protect\footnotemark \label{zest}} \end{figure}
 \footnotetext{Image taken from  \url{http://pbwhiteboard.blogspot.ro/}}

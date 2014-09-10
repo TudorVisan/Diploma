@@ -3,7 +3,7 @@
 \chapter{Scenario}
 
 We propose a simple application to analyze the behaviour of the protocol. The
-scenario is of a home monitoring application, in order to detect gas leaks.
+scenario is of a home monitoring application, which detects gas leaks.
 The Sparrowv3 nodes have been equipped with methane sensors and the house has
 an alarm system. If methane levels increase past a threshold value, the alarm
 must be raised.
@@ -25,14 +25,14 @@ Router Advertisements. Next the root nodes are brought online. Both are in
 range of the gateway so they can register to it. Leaf nodes are brought online.
 Leaf nodes L1, L4 and L7 are in range of the root node, however, L4 is far from
 it and the gateway's signal strength is poor, whereas R1's signal strength is
-good, so only L1 and L7 register to the gateway and L4 register to R1. L2, L3,
+good, so only L1 and L7 register to the gateway and L4 registers to R1. L2, L3,
 L5 and L6 are in range of R1 and, respectively, R2. L2 and L3 register to R1
 and L5 and L6 register to R2.
 
-In case of a gas leak the alarm must be raised in as short time as possible.
+In case of a gas leak the alarm must be raised in as short a time as possible.
 If a node's measurement rises above a threshold level it sets a flag in the
 next packet to be transmitted. Its parent node will forward this packet towards
-the gateway. When the packet arrive at the gateway, it analyses the data and,
-if it finds the flag set, raises the alarm.
+the gateway. When the packet arrives at the gateway, the data is analysed and,
+if the flag is found, the alarm is raised.
 
 % ********** End of Scenario **********

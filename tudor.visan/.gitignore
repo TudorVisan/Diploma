@@ -6,4 +6,4 @@
 *.swo
 
 # ignore pdf thesis
-*.pdf
+thesis/thesis.pdf

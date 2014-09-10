@@ -59,15 +59,15 @@ accomplished with special SYNC packets.
 
 \section{SCP}
 
-SCP\cite{ye2006ultra} is another MAC protocol which is based on S-MAC. The main
-problem it addresses is long preambles added to packets. Nodes function on
-cyclic schedules of sleeping and listening. If a node does not detect another
-transmission during the listening period it goes back to sleep, otherwise it
-remains active to receive a transmission. This means that a node that wants
-to send a message must first send a signal during the destination node's
-listening period. Because of clock drift this preamble can become quite long,
-especially in the case of long synchronization periods, as shown in figure
-\ref{fig:scp_long_preambles}.
+Scheduled Channel Polling\cite{ye2006ultra} (SCP) is another MAC protocol which
+is based on S-MAC. The main problem it addresses is long preambles added to
+packets. Nodes function on cyclic schedules of sleeping and listening. If a
+node does not detect a transmission during the listening period it goes back to
+sleep, otherwise it remains active to receive the transmission. This means that
+a node that wants to send a message must first send a preamble signal during
+the destination node's listening period. Because of clock drift this preamble
+can become quite long, especially in the case of long synchronization periods,
+as shown in figure \ref{fig:scp_long_preambles}.
 
 SCP addresses this problem by maintaining a schedule for listening periods.
 This means that a node can anticipate when the destination node will be
@@ -76,7 +76,7 @@ listening and can greatly reduce the preamble length, as shown in figure
 
 Although scheduling does reduce preamble length it also adds synchronization
 overhead. This can be solved by adding synchronization information to data
-packets, however this is not always possible. In the case that there is no data
+packets, however that is not always possible. In the case that there is no data
 packet to which to append the synchronization information a separate
 \emph{sync} packet will be sent.
 
@@ -86,8 +86,8 @@ packet to which to append the synchronization information a separate
 	\begin{center}
 		\includegraphics[scale=0.9]{img/scp_long_preambles.jpg}
 	\end{center}
-	\caption{\small \itshape{Long preamble needed to transmit
-	data\protect\footnotemark}}
+	\caption{\small \itshape{Long preamble needed without
+	scheduling\protect\footnotemark}}
 	\label{fig:scp_long_preambles}
 \end{figure}
 \footnotetext{Image taken from \emph{Ultra-low duty cycle MAC with scheduled
@@ -97,7 +97,7 @@ channel polling}\cite{ye2006ultra}}
 	\begin{center}
 		\includegraphics[scale=0.9]{img/scp_short_preambles.jpg}
 	\end{center}
-	\caption{\small \itshape{Short preamble when using scheduled 
+	\caption{\small \itshape{Short preamble needed when using scheduled 
 	listening\protect\footnotemark}}
 	\label{fig:scp_short_preambles}
 \end{figure}

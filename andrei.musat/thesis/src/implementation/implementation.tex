@@ -1,4 +1,4 @@
-
+\label{implem}
 In this chapter we shall discuss the programming techniques, language characteristics and APIs
 used in implementing each system component and algorithm. We shall highlight the APIs used and the 
 integration with the Eclipse platform, as well as how OOP techniques and patterns are used to implement 
@@ -44,9 +44,9 @@ The class exposes API for accessing and manipulating coordinates, as well as bas
 such as transposing points and calculating the euclidian distance between two points. Still, the API lacked more 
 advanced computations such as: manhattan distance, determining the angle between the X axis and the line 
 designated by two points and moving the point in a general direction with a given speed. These functions 
-have been implemented and are shown below:
+have been implemented and are shown below in listing \ref{funcs}:
 
-\begin{lstlisting}[caption={Functions added for the Point class}, language=Java]
+\begin{lstlisting}[caption={Functions added for the Point class}, language=Java \label{funcs}]
 public int manhattanDistance(Point p1, Point p2) {
 	return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 } 
@@ -67,7 +67,7 @@ public void movePointInDirection(Point p, double speed_factor) {
 \subsection{Draw 2D Rectangle class}
 
 The rectangle in the Draw 2D library does not simply stand for the geometric shape. When drawn, every 
-figure and component placed on the canvas is placed in an enclosing rectangle which delimits its size 
+figure and component placed on the canvas is placed in an enclosing rectangle (figure \ref{recs}) which delimits its size 
 and relative position by means of five points: the center and four corners. 
 
 Whenever testing for collisions, it is not the figures and shapes which are intersected, but rather their 
@@ -77,7 +77,7 @@ representing the collision area. By doing so, it facilitates the correction step
 knows exactly how much each figure must be moved.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/implementation/rectangles.png}
+\includegraphics[width=0.75\textwidth]{img/implementation/rectangles.png \label{recs}}
 \caption{Geometric figures and their bounding rectangle} \end{figure}
 
 \subsection{Figure and PolylineConnection classes}
@@ -116,9 +116,9 @@ and OOP concepts and patterns. In this section we shall discuss some of these no
 As was previously presented, the input graphs are read from files written in a certain format, akin to a programming 
 language. This facilitates data manipulation and enables the user to easily describe and understand the model. 
 
-The structure of such a file is shown below:
+The structure of such a file is shown below in listing \ref{infile}:
 
-\begin{lstlisting}[caption=Input file example]
+\begin{lstlisting}[caption=Input file example \label{infile}]
 
 begin graph
     name: Example Graph
@@ -157,7 +157,7 @@ to determine wether they form valid expressions and provide useful information.
 
 \subsection{Graph data and elements}
 
-The graph object itself is constructed using the Factory pattern. Nodes and Edges are both implementations of a 
+The graph object itself is constructed using the Factory pattern (listing \ref{factory}). Nodes and Edges are both implementations of a 
 GraphElement interface. The graph keeps a list of GraphElement objects which is populate by the parser as the input 
 files are decoded. In order to differentiate between each type of element, the interface exposes the method 
 \emph{getType()}. Each object returns a different value of an enumeration called ElementType. 
@@ -166,7 +166,7 @@ Using this pattern, the graph object does not have to keep two individual lists,
 helps keep the memory usage lower in case of large amounts of data. When another module requires all elements of a 
 certain type, a new list is constructed on the fly and passed to the caller.
 
-\begin{lstlisting}[caption=Basic class structure for factory implementation, language=Java]
+\begin{lstlisting}[caption=Basic class structure for factory implementation, language=Java \label{factory}]
 public interface GraphElement {
 	public ElementType getType();
 }
@@ -223,9 +223,9 @@ when the necessary condition specified by the theorems holds.
 
 In the case of layout processing, the grid type layout algorithm uses an implementation of the white path theorem algorithm 
 based on DFS(depth first search) to construct the spanning tree used to layout the algorithm. The pseudocode of the white path 
-theorem algorithm is listed below:
+theorem algorithm is presented below in listing \ref{dfs}:
 
-\begin{lstlisting}[caption=Spanning tree algorithm using DFS]
+\begin{lstlisting}[caption=Spanning tree algorithm using DFS \label{dfs}]
 PROCEDURE SPANNING-TREE {
 BEGIN
 	choose arbitrary vertex v;

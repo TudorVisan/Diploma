@@ -1,12 +1,13 @@
 In this chapter we shall discuss how data is processed and transformed in order to obtain 
 the information required by the graphical library. We shall highlight the main system components 
 which perform modifications on the graph data, starting with the Tokenizer which reads the input 
-files and ending with the Eclipse Draw-2D API.
+files and ending with the Eclipse Draw-2D API. The system components and their connection is presented 
+in figure \ref{sysarch}.
 
 \section{Input file processor}
 
 Input graphs are initially described in a source text file in a pseudo programming language (discussed in 
-Chapter \ref{chap:Software Implementation}). These files must be analyzed in order to extract the information 
+Chapter \ref{implem}). These files must be analyzed in order to extract the information 
 regarding edges and vertexes. This is achieved by using a parser.
 
 This parser splits the input file into a list of tokens and then traverses this list, searching for certain 
@@ -70,5 +71,5 @@ Once this step is done, the graph container object holds all the data necessary 
 to the drawing unit which utilizes the Eclipse draw-2D API.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/systemarch/systemworkflow.png}
+\includegraphics[width=0.65\textwidth]{img/systemarch/systemworkflow.png \label{sysarch}}
 \caption{Diagram of the system workflow} \end{figure}

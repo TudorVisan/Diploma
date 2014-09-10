@@ -6,7 +6,7 @@ files and ending with the Eclipse Draw-2D API.
 \section{Input file processor}
 
 Input graphs are initially described in a source text file in a pseudo programming language (discussed in 
-Chapter \ref{Software implementation}). These files must be analyzed in order to extract the information 
+Chapter \ref{chap:Software Implementation}). These files must be analyzed in order to extract the information 
 regarding edges and vertexes. This is achieved by using a parser.
 
 This parser splits the input file into a list of tokens and then traverses this list, searching for certain 
@@ -23,9 +23,9 @@ iteratively, never concurrently.
 
 After the graph container object is created, the first computational unit notified is the planarity tester. 
 From the data which is provided by the graph container, the tester utilizes at first only the number of edges 
-and vertices to apply the theorems mentioned in the \ref{Algorithm Design} chapter. Should it fail 
+and vertices to apply the theorems mentioned in the \ref{chap:Algorithm Design} chapter. Should it fail 
 to prove that the graph is not planar, the complete information regarding vertices and edges is extracted 
-in order to apply the Booth-Lueker PQ-tree algorithm.
+in order to apply the PQ-tree algorithm.
 
 This unit does not modify the graph data in any way. Its result is stored internally and is accessed by the 
 drawing library, which will display it as a relevant message for the user. Once the result has been stored, 

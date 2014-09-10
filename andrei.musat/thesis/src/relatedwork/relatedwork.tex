@@ -39,7 +39,7 @@ In terms of implementation, \emph{dot} uses methods such as force directed placi
 layout algorithm presumes graphs are acyclical. This is why dot ensures that all cycles are removed from a graph 
 before sending it to the layout routine. 
 
-\begin{lstlisting}[caption={Customized graph dot file representation}]
+\begin{lstlisting}[caption={Customized graph dot file representation, as can be seen in the official documentation}]
 digraph G {
 	size ="4,4";
 	main [shape=box]; /*this is a comment*/
@@ -72,7 +72,7 @@ only requirement is that such an application posseses a means to generate the do
 
 \section{Eclipse GEF}
 
-Eclipse GEF(Graphical Editing Framework) provides support for creating graphical editors and views in the Eclipse IDE environment. The graphical 
+Eclipse GEF(Graphical Editing Framework) provides support for creating graphical editors and views in the Eclipse IDE environment\cite{eclipse2007relwork}. The graphical 
 editors created using GEF allow the user to mainly hand draw any desired graph. All the basic elements required for the task are predefined 
 by the underlying library and routing can be performed manually.
 
@@ -87,12 +87,12 @@ layout implementations.
 
 A notable drawback that GEF presents is the lack of documentation for its API. This may represent a reason why it is not widely 
 used, even amongst the Eclipse community. The main sources of information is from articles or community made tutorials, such as 
-those of Lars Vogel. Another way of familiarizing oneself with the API and experiencing its capabilities is by running and experimenting 
+those of Lars Vogel\cite{vogel2014contributing}. Another way of familiarizing oneself with the API and experiencing its capabilities is by running and experimenting 
 with the examples suite which comes with the library. These examples showcase typical situations and functionalities step by step through 
 simple widgets. While they are educational and helpful for developers, they require an investment of time in order to understand 
 the showcased code and functionality.
 
-An extension of Eclipse GEF is Eclipse Zest, which is a visualization toolkit with implementations for different types of graph 
+An extension of Eclipse GEF is Eclipse Zest\cite{zestrelwork}, which is a visualization toolkit with implementations for different types of graph 
 viewers. In essence, a graph viewer is a layout algorithm which specializes in a certain representation of the graph. As 
 specified on their homepage, Zest includes a predefined layout package containing algorithms for the following types of 
 layouts: Spring, Tree, Radial and Grid. Zest is open to contributions from the community regarding new types of layouts.

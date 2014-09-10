@@ -1,4 +1,5 @@
 %========================= Algorithm Design =========================
+\label{Algorithm Design}
 This chapter presents how the application is designed at a logical level and describes the 
 main algorithms and techniques which are combined and used by the implementation.
 
@@ -15,7 +16,7 @@ intersect only at their endpoints. This type of drawing is also known as a plana
 
 In order to determine if a graph possesses the planarity property, a series of theorems and criteria have been 
 stated over the years. Amongst the first of these criteria is a theorem published by the Polish mathematician 
-Kazimierz Kuratowski in 1930. The theorem deals with subdivisions, i.e. graphs which result from inserting vertices 
+Kazimierz Kuratowski\cite{kuratowski} in 1930. The theorem deals with subdivisions, i.e. graphs which result from inserting vertices 
 into edges. It states that a planar graph shall not contain a subdivision of the forbidden graphs K5(the complete 
 graph on five vertices) or K3,3(complete bipartite graph on six vertices, three of which connect to each of the other 
 three, also known as the utility graph). It is formulated as follows:\\
@@ -53,7 +54,7 @@ O($n^{2}$) time. Later on, Even and Tarjan developed a method to generate the st
 \includegraphics[width=0.75\textwidth]{img/algdesing/st_numbering.png}
 \caption{St-numbering representation of the G(3,3) graph} \end{figure}
 
-An st-numbering of a graph G is a subgraph H which has a set of properties, as follows. First, nodes in G are numbered. 
+An st-numbering\cite{even1976computing} of a graph G is a subgraph H which has a set of properties, as follows. First, nodes in G are numbered. 
 Then the vertex with the lowest number is designated as source vertex, \emph{s}, and the one with the highest number 
 is designated target, \emph{t}. All the remaining vertexes which are not the source or target must be connected to a 
 vertex numbered lower than them, and a vertex numbered higher than them. In order to achieve this configuration, the 
@@ -62,7 +63,7 @@ subgraph H may add additional nodes to the graph G.
 Finally, Kellogg Booth and George Lueker created a data structure which represents the possible embeddings of a graph 
 (or, in practice, induced subgraphs of a graph) called a \emph{PQ-tree}. Using this data structure and the previous methods, 
 they managed to created a linear time algorithm to determine planarity and possible embeddings. We will next present 
-the general steps of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizeki.
+the general steps of an implementation of the Vertex addition method as proposed by Norishige Chiba and Takao Nishizeki\cite{chiba}.
 
 First, it computes the st-numbering of the given graph. It then creates a PQ-tree which contains only one P node, the 
 source, and all the other nodes are leaves. Next, a loop is entered which, for every leaf node, shall perform two steps:
@@ -141,7 +142,7 @@ force directed graph-drawing. We shall continue by presenting these methods in t
 
 \subsection{Grid placement}
 
-Grid placement is one of the most popular and most used techniques by diagram-drawing algorithms. It splits the space in 
+Grid placement\cite{de1990draw} is one of the most popular and most used techniques by diagram-drawing algorithms. It splits the space in 
 which the representation is done into a grid and then starts placing the nodes in a certain order. Different approaches 
 can be found here, depending on the type of the graph. 
 
@@ -152,7 +153,7 @@ visited in breadth-first order forms a layer of nodes. Layers can be arranged ve
 \includegraphics[width=0.65\textwidth]{img/algdesing/grid_example.png}
 \caption{Example of a tournament structure organized as a grid.} \end{figure}
 
-More general graphs may also follow this pattern, by computing the spanning tree of the graph and placing nodes as stated above, 
+More general graphs may also follow this pattern, by computing the spanning tree\cite{graham1985history} of the graph and placing nodes as stated above, 
 starting with the spanning tree's root. Other approaches for general graphs may place and pin the node with the highest number of 
 connections in the middle of the grid.
 
@@ -162,7 +163,7 @@ they were non-planar, i.e. intersecting various edges.
 
 \subsection{Force directed graph-drawing}
 
-Force directed drawing is a technique which borrows concepts from physiques. In order to apply this method, one must model the graph as a 
+Force directed drawing\cite{fruchterman1991graph} is a technique which borrows concepts from physiques. In order to apply this method, one must model the graph as a 
 physical system in which elements (nodes) interract with each other through forces. Connected nodes will be pulled towards each other by 
 attraction forces (such as spring forces base on Hooke's Law), while unrelated nodes reject each other (similar to electrically charged particles
 according to Coulomb's Law). These forces are applied continuously until the system reaches stability.
@@ -224,7 +225,7 @@ shall be placed in this area in a random order, and no other node may be placed 
 
 At this point, notions from genetic algorithms are introduced. The graph is considered a population and each node represents an individual. For the 
 remaining steps, each individual shall be evaluated by a fitness function and suffer modifications depending of the result. In order to change and evolve 
-the population, the position of a node shall be "recombined". Each node outside the "restricted area" shall generate, along with its neighbour closest to 
+the population, the position of a node shall be modified in the recombination step. Each node outside the reserved area shall generate, along with its neighbour closest to 
 the center, a new pair of nodes which are either closer to each other (attracted) or further apart from each other (rejected), as described by the force-directed method. This step shall 
 continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) or the system has reached stability.
 

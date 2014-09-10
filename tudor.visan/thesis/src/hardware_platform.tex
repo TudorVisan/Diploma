@@ -16,18 +16,18 @@ sensing nodes and the SparrowDongle USB stick.
 \end{figure}
 
 Together, the sensing nodes and USB dongle form a tool for developing and
-debugging applications that are IEEE 802.15.4 and/or ZigBee compatible. Such
-applications range from environmental monitoring and data logging to wildlife
-research.
+debugging applications that are IEEE 802.15.4\cite{1655947} and/or
+ZigBee\cite{Farahani:2008:ZWN:1457417} compatible. Such applications range from
+environmental monitoring and data logging to wildlife research.
 
 \section{The Sparrowv3 nodes}
 
 The Sparrowv3 wireless sensing nodes are small, battery powered devices capable
 of IEEE 802.15.4 and ZigBee compatible communication. They are built around the
-\mbox{ATmega128RFA1}, a microcontroller made by Atmel, which is based on the
-\mbox{ATmega128} microcontroller. It incorporates a powerful and
-energy-efficient AVR core and comes equipped with all the standard AVR
-peripherals such as multiple 8 and 16-bit synchronous timers, an 8-bit
+\mbox{ATmega128RFA1}\cite{atmega128rfa1}, a microcontroller made by Atmel,
+which is based on the \mbox{ATmega128} microcontroller. It incorporates a
+powerful and energy-efficient AVR core and comes equipped with all the standard
+AVR peripherals such as multiple 8 and 16-bit synchronous timers, an 8-bit
 asynchronous timer, SPI (Serial Peripheral Interface), USART (Universal
 Synchronous and Asynchronous Receiver and Transmitter) and TWI (Two Wire serial
 Interface) communication interfaces and an ADC (Analog-to-Digital Converter).
@@ -76,12 +76,12 @@ comes from a CR2477N battery placed on the back of the board.
 
 The SparrowDongle is an USB interface device between an USB host and the 2.4
 GHz network. It is built around two microcontrollers: an \mbox{ATmega128RFA1}
-and an \mbox{ATmega32U4}. The first is responsible for interfacing with the
-wireless network, receiving packets of data and delivering them to the host.
-The second is responsible for transferring these packets to the host via the
-USB protocol.  The \mbox{ATmega32U4} is well suited for this role as it
-incorporates a full speed USB controller. The communication between the two
-controllers is done via a USART interface.
+and an \mbox{ATmega32U4}\cite{atmega32u4}. The first is responsible for
+interfacing with the wireless network, receiving packets of data and delivering
+them to the host.  The second is responsible for transferring these packets to
+the host via the USB protocol.  The \mbox{ATmega32U4} is well suited for this
+role as it incorporates a full speed USB controller. The communication between
+the two controllers is done via a USART interface.
 
 The board exposes ISP and JTAG interfaces for both controllers. It also has 4
 LEDs for debugging purposes or for displaying the current status of the dongle.

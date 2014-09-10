@@ -4,56 +4,71 @@
 
 \section{Debug}
 \begin{itemize}
-	\item void debug\_init()
-	\item int debug\_print(format, ...)
+	\item void debug\_init() - initialize and configure debugging interface
+	\item int debug\_print(format, ...) - print a formatted string via the
+		debug interface
 \end{itemize}
 
 \section{LED}
 \begin{itemize}
-	\item void led\_on(led\_t led)
-	\item void led\_off(led\_t led)
+	\item void led\_on(led\_t led) - turn LED on
+	\item void led\_off(led\_t led) - turn LED off
 \end{itemize}
 
 \section{MCU}
 \begin{itemize}
-	\item void mcu\_init()
+	\item void mcu\_init() - initialize the microcontroller, disable all
+		peripherals
 \end{itemize}
 
 \section{Radio}
 \begin{itemize}
 	\item void radio\_init(IRQ\_callback awake, IRQ\_callback rx\_start,
-		IRQ\_callback rx\_end, IRQ\_callback tx)
-	\item void radio\_wake\_up()
-	\item void radio\_sleep()
-	\item void radio\_set\_channel(uint8\_t channel)
-	\item uint8\_t radio\_is\_busy()
-	\item uint8\_t radio\_get\_random()
-	\item void radio\_send\_frame(frame\_t *frame)
-	\item void radio\_send\_frame\_block(frame\_t *frame)
-	\item void radio\_receive\_frame(frame\_t *frame)
-	\item void radio\_receive\_frame\_block(frame\_t *frame)
+		IRQ\_callback rx\_end, IRQ\_callback tx) - initialize the radio
+		transceiver
+	\item void radio\_wake\_up() - wake up radio transceiver
+	\item void radio\_sleep() - put radio transceiver to sleep
+	\item void radio\_set\_channel(uint8\_t channel) - set the radio
+		transceiver channel
+	\item uint8\_t radio\_is\_busy() - check if the radio transceiver is
+		busy or not
+	\item uint8\_t radio\_get\_random() - get a random number
+	\item void radio\_send\_frame(frame\_t *frame) - send a frame; does not
+		block until transmission is completed
+	\item void radio\_send\_frame\_block(frame\_t *frame) - send a frame;
+		blocks until transmission is completed
+	\item void radio\_receive\_frame(frame\_t *frame) - receive a frame;
+		does not block until reception is completed
+	\item void radio\_receive\_frame\_block(frame\_t *frame) - receive a
+		frame; blocks until the reception is completed
 \end{itemize}
 
 \section{Symbol counter}
 \begin{itemize}
-	\item void scounter\_init(OCR\_callback ocr1, OCR\_callback ocr2)
-	\item void scounter\_delay\_ms(uint32\_t millis)
+	\item void scounter\_init(OCR\_callback ocr1, OCR\_callback ocr2) -
+		initialize the symbol counter
+	\item void scounter\_delay\_ms(uint32\_t millis) - sleep for a number
+		of milliseconds
 	\item void scounter\_set\_timeout(uint32\_t seconds, uint8\_t cycles,
-		ocr\_t ocr)
-	\item int8\_t scounter\_timeout\_has\_expired(ocr\_t ocr)
-	\item uint32\_t scounter\_get\_time()
-	\item void scounter\_set\_time(uint32\_t time)
+		ocr\_t ocr) - set a timeout to trigger after a specified period
+		of time
+	\item int8\_t scounter\_timeout\_has\_expired(ocr\_t ocr) - check
+		wheter the timeout on an OCR has expired or nor
+	\item uint32\_t scounter\_get\_time() - get the current time
+	\item void scounter\_set\_time(uint32\_t time) - set the current time
 \end{itemize}
 
 \section{Sleep}
 \begin{itemize}
-	\item void sleep()
+	\item void sleep() - put the microcontroller to sleep
 \end{itemize}
 
 \section{USART}
 \begin{itemize}
-	\item void usart\_init(usart\_t usart, uint16\_t baud)
-	\item int usart\_putchar(char c, FILE *stream)
+	\item void usart\_init(usart\_t usart, uint16\_t baud) - initialize an
+		USART interface with the specified baud rate
+	\item int usart\_putchar(char c, FILE *stream) - print a character via
+		USART
 \end{itemize}
 
 % ********** End of SparrowLibrary API **********

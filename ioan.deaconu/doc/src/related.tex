@@ -20,7 +20,7 @@ The protocols used in common Wireless Sensor Network deployments are based on ne
 
 \section{UAV experiments with Wireless Sensor Networks}
 
-In \cite{teh2008experiments} a solution consisting of ground nodes with pre-assigned GPS positions is proposed. An RC plane would perform course corrections after receiving the current GPS position from the nodes in order to calculate the best path for muling the data from the network.
+In \cite{teh2008experiments} a solution consisting of ground nodes with pre-assigned GPS positions is proposed. An RC plane with on board GPS module would record the current GPS position at which a signal was received from the nodes. The data sent by nodes contained their GPS coordinates. Combining the multiple GPS data, the plane would calculate the best path for muling the data from the network and perform the necessarily course corrections.
 
 The advantage of using a plane in this experiment is the longer range and higher speed that it can offer as opposed to a quad-copter or a similar design.  But the high speeds create the problem of maneuverability. The plane has a turning range of 400 meters while a quad-coter drone can turn on the spot.
 
@@ -36,6 +36,6 @@ Another disadvantage of the system is that the data is not saved locally, but se
 
 \section{Aware platform}
 
-The Aware platform \cite{ollero2007aware}, proposed by Ays. Egül Tüysüz Erman, Lodewijk Van Hoesel and Paul Havinga from University of Twente, is a platform that integrates WSNs, UAVs and actuators into a disaster response situation and provides facilities for event detection, autonomous network repair by UAVs and quick response by integrated operational forces.
+The Aware platform \cite{ollero2007aware}, proposed by Ays. Egül Tüysüz Erman, Lodewijk Van Hoesel and Paul Havinga from University of Twente, is a platform that integrates static and dynamic WSNs, UAVs and actuators into a disaster response situation and provides facilities for event detection, autonomous network repair by UAVs and quick response by integrated operational forces.
 
-They use multiple UAVs to check the correct functioning of nodes and deploy new nodes that can replace damaged ones. The entire system still relies on a sink to collect the data and to send it to a base station \cite{erman2008enabling}.
+They use multiple UAVs to check the correct functioning of nodes and deploy new nodes that can replace damaged ones. The entire system still relies on a sink, to collect the data and to send it to a base station \cite{erman2008enabling}. The base station will asses the situation and will act accordingly.

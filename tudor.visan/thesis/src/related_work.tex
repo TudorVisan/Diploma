@@ -3,9 +3,9 @@
 \chapter{Related work}
 
 There are many Medium Access Control (MAC) protocols that cover a multitude of
-applications and scenarios. It is a broad research area however recently there
-has been much work done in the area of low-power and wireless networks. MAC
-protocols designed for Wireless Sensor Network can be broadly divided into two
+applications and scenarios. It is a broad research area, and recently there
+has been much work done in the area of low-power protocols and wireless networks. MAC
+protocols designed for Wireless Sensor Networks can be broadly divided in two
 categories: contention-based and TDMA-based protocols.
 
 Contention-based MACs, such as the IEEE 802.11 Distributed Coordination
@@ -31,9 +31,9 @@ consumption. However, these improvements come at the price of latency.
 In order to reduce control overhead, neighbouring nodes are synchronized.
 However, not all neighbouring nodes can be on the same schedule.  Figure
 \ref{fig:s-mac_schedules} presents and example of two nodes, A and B, that
-synchronize with nodes C, respectively D, which means the have different
-schedules. This means they must use the RTS/CTS system to avoid causing a
-collision. After nodes start a data transmission, they do no go back to sleep
+synchronize with nodes C, respectively D, which are on different
+schedules. This means they must use the RTS/CTS signals to avoid causing a
+collision. After nodes start a data transmission, they do not go back to sleep
 until it has ended.
 
 \begin{figure}[ht]
@@ -48,33 +48,33 @@ until it has ended.
 adaptive sleeping for wireless sensor networks}\cite{ye2004medium}}
 
 Synchronization between nodes is achieved by maintaining a schedule table that
-stores the schedules of all its known neighbours. At startup nodes listen for a
+stores the schedules of all known neighbours. At startup, a node listens for a
 schedule advertised by other nodes before choosing its own, randomly. If it
 receives a schedule before choosing its own, it follows that schedule. If
-however it arrive after a schedule is randomly chosen it adopts both schedules
-but advertises its own one. 
+however a schedule arrives after it has chosen its own, it adopts both schedules
+but advertises only its own.
 
-Timer synchronization, in order to prevent counteract clock drift, is
-accomplished through special SYNC packets.
+Timer synchronization, in order to prevent clock drift, is
+accomplished with special SYNC packets.
 
 \section{SCP}
 
 SCP\cite{ye2006ultra} is another MAC protocol which is based on S-MAC. The main
-problem it addresses are long preambles added to packets. Nodes function on
+problem it addresses is long preambles added to packets. Nodes function on
 cyclic schedules of sleeping and listening. If a node does not detect another
 transmission during the listening period it goes back to sleep, otherwise it
-remains active to receive the transmission. This means that a node that wants
-to send it a message must first send a signal during the destination node's
+remains active to receive a transmission. This means that a node that wants
+to send a message must first send a signal during the destination node's
 listening period. Because of clock drift this preamble can become quite long,
 especially in the case of long synchronization periods, as shown in figure
 \ref{fig:scp_long_preambles}.
 
 SCP addresses this problem by maintaining a schedule for listening periods.
-This means that a node can anticipate when the destination node will by
+This means that a node can anticipate when the destination node will be
 listening and can greatly reduce the preamble length, as shown in figure
 \ref{fig:scp_short_preambles}.
 
-Although scheduling does reduce preamble length it also add synchronization
+Although scheduling does reduce preamble length it also adds synchronization
 overhead. This can be solved by adding synchronization information to data
 packets, however this is not always possible. In the case that there is no data
 packet to which to append the synchronization information a separate

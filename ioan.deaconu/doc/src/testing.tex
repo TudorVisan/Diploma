@@ -1,18 +1,18 @@
 \normalfont\normalsize
-\chapter{Testing}
+\chapter{Evaluation}
 
-The tests that we have conducted highlights the strengths of the platform but also reveals some of its weaknesses.
+The tests that we have conducted highlight the strengths of the platform but also reveal some of its weaknesses.
 
-The most important characteristics of this experiment are the maneuverability of the drone with the extra gear, the maximum range of the dongle and the number of packets sent by the drones and not received.
+The most important characteristics we consider are the maneuverability of the drone with the added components, the maximum range of the dongle and the number of packets sent by the nodes and not received.
  
 
-\section{Scenario}
+\section{Scenario description}
 
-The scenario for the test is simple. Using the drone, we must try to connect and collect the data from the nodes.
+The test scenario is relatively simple. Using the drone, we try to connect and collect the data from different nodes while measuring the identified characteristics.
 
-The testing method were conducted using a dongle with an 8 dBi antenna, a SparrowV3.2  with a standard antenna and a SparrowV3.2 with a 8 dBi antenna, both place on a hill with the antenna directed upwards for a maximum range test. Other  three nodes with 3 dbi external antenna were placed inside of a building. The nodes were configured to send a packet every second The controlling device of the drone was a Samsung Galaxy S4.
+We conducted multiple tests using a dongle with an 8 dBi antenna. Two SparrowV32 nodes, one with a standard antenna and one with a 8 dBi antenna, were placed on a hill with the antenna directed upwards for a maximum range test. Another three nodes with 3 dBi external antennas were placed inside of a building. The nodes were configured to send a packet every second. The controlling device of the drone was a Samsung Galaxy S4.
 
-Because both the drone and nodes use 2.4 GHz network, the drone was configured to use channel 11 and the nodes to use channel 1 to prevent signal interference.
+Because both the drone and nodes use the 2.4 GHz band, the drone was configured to use channel 11 and the nodes were configured to use channel 1 in order to prevent any signal interference.
 
 \begin{figure}[ht]
 \begin{center}
@@ -35,26 +35,26 @@ Because both the drone and nodes use 2.4 GHz network, the drone was configured t
 \end{figure}
 
 
-The drone was able to find the nodes but as expected, the obstructed nodes had a much smaller communication range then the ones placed on the hill. The range test results proved that the drone could receive signal at a maximum distance of 325 meters from the node with the external antenna located on the hill and a clear line of sight. The other node on hill did managed to send data up to 100 meters. In the case of the obstructed nodes, even though they had a 3 dbi antenna, the distance did not exceeded the 45 meters mark. After this distance, the loss of the packets is to big to be able to properly communicate with the nodes, even though occasionally, at 60 meters, some packets were received.
+The drone was able to find the nodes but, as expected, the obstructed nodes had a much smaller communication range than the ones placed on the hill. The range test results proved that the drone could receive a signal at a maximum distance of 325 meters from the node with the 8 dBi external antenna located on the hill and a clear line of sight. The other node on hill did manage to send data up to 100 meters. In the case of the obstructed nodes, even though they had a 3 dBi antenna, the distance did not exceeded the 45 meters mark. After this distance, the number of lost packets was to big to be able to properly communicate with the nodes, even though, occasionally, at 60 meters, some packets were received.
 
 
-The top mounted antenna worked, but for a better signal, the antenna should always be positioned on the bottom of the drone because in this way, the antenna will have a clear path to send and receive signal and not have the signal blocked by the entire drone and its avionics. The problem with this drone is that on the bottom of it, there are sensors that help it determine the ground speed, ground distance and the antenna, if place on the bottom could obstruct some of the sensors. A vertical antenna will increase the wind resistance an make it too unstable.
+The top mounted antenna worked, but for a better signal quality, the antenna should always be positioned on the bottom of the drone. In this way, the antenna will have a clear path to send and receive signals and not be blocked by the drone body and its avionics. The problem with this particular drone model is that on its bottom there are sensors that help it determine the ground speed and ground distance. If we place the antenna on the bottom it would obstruct some of the sensors. A vertical antenna will increase wind resistance and make the drone too unstable.
 
 
 \subsection{Drone stability}
 
-Even though the antenna was mounted on top of the parrot, because it is a high gain antenna the signal received is very strong. 
+Even though the antenna was mounted on top of the body, because it is a high gain antenna the signal received was very strong. 
 
-The antenna extended the signal range but also added weight. The dongle is mounted on the side of the drone due to the position of the USB. Because the dongle is not centered on the drone, a counterweight had to be glued on the opposite side on the outer shell to maintain the balance of the drone. 
+The antenna extended the signal range but also added weight. The dongle is mounted on the side of the drone due to the position of the USB connector. Because the dongle is not centered on the drone, a counterweight had to be glued on the opposite side on the outer shell to maintain the balance of the drone. 
 
-The drone was relatively stable during the test, but a better stability and flight control could be obtained if the dongle was made smaller and a lighter antenna were mounted.
+The drone was relatively stable during tests, but a better stability and flight control could be obtained if the dongle were made smaller and a lighter antenna were used.
 
 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/parrot_antenna.jpg}
 \end{center}
-\caption{\small \itshape{Top mounted antenna for better signal}}
+\caption{\small \itshape{Top mounted antenna for better signal quality}}
 \end{figure}
 
 
@@ -65,6 +65,6 @@ The total added weight is 75 grams. Even though it does not sound that much, it 
 
 \subsection{Problems}
 
-The kernel module needed for the dongle does not recognize the dongle if it is plugged in the drone when it is powered up. The fix is to power up the drone and then plug in the dongle, but this is more difficult then it might appear because every time this action is performed the hull must be repositioned.
+The kernel module needed for the dongle does not recognize the dongle if it is plugged in the drone when its powering up. The fix is to power up the drone and then plug in the dongle, but this is more difficult than it might appear because every time this action is performed the hull must be repositioned.
 
 \clearpage

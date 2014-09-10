@@ -28,10 +28,10 @@ it typically forwards data from the network to a server or database. In our
 implementation the gateway is represented by a SparrowDongle but may also be a
 Sparrowv3 node attached to a programming dock.
 
-Out protocol uses a tree structure for the network topology. The root of the
-tree is the gateway. Usually in networking such a structure is considered
+Our protocol uses a tree structure for the network topology. The root of the
+tree is the gateway. Usually, in networking, such a structure is considered
 limiting because nodes on the same level cannot communicate with each other
-directly but only through their highest level common ancestor, however, in
+directly but only through their highest level common ancestor. However, in
 Wireless Sensor Networks nodes have no need to exchange information with each
 other. The data flows through the network in a single direction, from the leaf
 nodes towards the gateway. In fact, the tree structure is beneficial to our
@@ -50,15 +50,15 @@ advantage for a processor with small amounts of memory, such as the
 \end{figure}
 
 When joining the network new nodes must choose an existing root node as their
-parent. Our implementation of the decision process is designed to maintain the
-tree structure balanced, with a minimum depth and minimize packet-loss. The
+parent. Our implementation of the decision process is designed to maintain a balanced
+tree structure, with minimum depth and to minimize packet-loss. The
 most influential factor in the decision is the node's hop-count to the gateway.
 By choosing the root node with the smallest hop-count we keep the tree depth at
 a minimum. The second most influential factor is the node's signal strength.
-Choosing the node with the greatest signal strength determines a lower
+Choosing the node with the greatest signal strength assures a lower
 packet-loss rate. The third decision factor is the number of children the root
 node already has. By associating with nodes that have the least number of
-children we maintain the balance of the tree structure and work load.
+children we maintain the balance of the tree structure and the work load.
 
 Activity in the network is cyclic. The time period with which actions are
 repeated is called the \emph{network period}. For synchronization purposes it

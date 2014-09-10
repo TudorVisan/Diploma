@@ -19,14 +19,20 @@ graph of 5 nodes) and K4(complete graph of 4 nodes) graphs. K5 is along with K3,
 non-planar graphs from Kuratowski's theorem. K4, however, while may seem not planar, is in reality a planar 
 and must be represented correctly. The resulting drawings are shown in the images below:
 
-****** pozele cu grafurile ****** 
+\begin{figure}[ht] \centering
+\includegraphics[width=0.65\textwidth]{img/results/k5graph.png}
+\caption{The K5 graph. Edges intersect because the graph is not planar.} \end{figure}
+
+\begin{figure}[ht] \centering
+\includegraphics[width=0.75\textwidth]{img/results/k4graph.png}
+\caption{The K4 graph. Planarity is preserved.} \end{figure}
 
 \section{Connection routing}
 
 Connection routing is, like planarity testing, an operation which has a relatively low time complexity.
 Firstly, it must travesre all edges at least once and ensure that they are connected. Then, all edges which 
 are correctly routed are removed from the list and the rest are visited once more. The closest approximation 
-for this operation is O($|E| * \log_2 |E|$).
+for this operation is O($|E| * \log |E|$).
 
 Correctness regarding routing means that all connections are orthogonal. This is done by the router module 
 itsefl, because one of the conditions for considering a path correctly routed is it being orthogonal.
@@ -43,17 +49,17 @@ graph is the same. After running the application multiple times on the same data
 following results: 
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/results/nonplanartime.png}
+\includegraphics[width=0.65\textwidth]{img/results/nonplanartime.png}
 \caption{Timeing results for non-planar graph test} \end{figure}
 
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/results/planartime.png}
+\includegraphics[width=0.65\textwidth]{img/results/planartime.png}
 \caption{Timeing results for planar graph test} \end{figure}
 
 We see that in both cases, the most time is spent in the layout processing module. This result is in 
 accordance with our theoretical presumptions: planarity testing is at worst O(${n}$) complexity, and the edge 
-routing is proportional with O($|E| * \log_2 |E|$). The complexity of the genetic algorithm surpases both of 
+routing is proportional with O($|E| * \log |E|$). The complexity of the genetic algorithm surpases both of 
 these.
 
 \section{Performance testing}
@@ -61,17 +67,18 @@ these.
 To see how well the application performs, we must also compare its performance versus that of existing 
 implementations. The benchmarks used in these comparative tests are the two implementations mentioned in the 
 Related Work chapter: the Graphviz dot command line application and the Eclipse GEF. The benchmarking process 
-is performed on tree structured graphs with increasing number of nodes, rangeing from 10 to 100000 nodes.
+is performed on tree structured graphs with increasing number of nodes, rangeing from 10 to 100000 nodes. We 
+analyse only the run time of the computational part of these application, without the GUI enabled.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/results/under10000.png}
+\includegraphics[width=0.65\textwidth]{img/results/under10000.png}
 \caption{Performance benchmark for graphs containing under 10000 nodes. Logarithmic scale is used for both X and Y axis} \end{figure}
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/results/over10000.png}
+\includegraphics[width=0.65\textwidth]{img/results/over10000.png}
 \caption{Performance benchmark for graphs over containing 10000 nodes. Logarithmic scale is used for both X and Y axis} \end{figure}
 
-The above graphs show that for smaller graphs, the all the constraint checking and verifications performed 
+The above charts show that for smaller graphs, the all the constraint checking and verifications performed 
 by the proposed solution are detrimental to its performance. However, once the number of nodes in the graph starts 
 growing, the approximations used and the policy of prefering the local minimum over the global minimum is beneficial.
-The point at which the solution becomes favorable is around 10000 nodes.
+The point at which the solution becomes favorable is near 10000 nodes.

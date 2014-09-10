@@ -173,7 +173,7 @@ the nodes of each component shall be pulled towards each other, while the indivi
 
 \begin{figure}[ht] \centering
 \includegraphics[width=0.5\textwidth]{img/algdesing/force_directed_example.jpg}
-\caption{A force-directed graph layout with a central node and multiple connected components.  http://wonderfl.net/} \end{figure}
+\caption{A force-directed graph layout with a central node and multiple connected components.  http:/wonderfl.net/} \end{figure}
 
 This approach is better suited to ease the routing process and reduce its time and complexity. It is less likely that planar graphs shall be 
 improperly drawn and routes will be shorter and clearer. However, unlike Grid placement, it is an iterative process which may take considerable 
@@ -193,6 +193,8 @@ is acceptable for these lines to cross other nodes, while in others extra segmen
 each edge is considered a diameter line for a circle. Then an arc of corresponding length is drawn to join the pair of nodes.
 \item Orthogonal routing: In orthogonal routing, paths are composed only of vertical and horizontal lines, joined by 90 degree bends. While it is 
 not the most efficient method with regards to the space occupied by the drawing, it does provide clear and direct paths which do not cross over other elements.
+
+\end{itemize}
 
 \subsection{Rule-based genetic routing algorithm}
 
@@ -237,7 +239,7 @@ To easily keep track of which rules a node is currently violating as well as fac
 The field acts as a register, each bit representing a certain rule. When the node violates a rule, the corresping is set to one. The usage of this register
 structure relies on the fact that the number of rules is limited.
 
-The last step is the edge routing. The method used is orthogonal edge routing, however the process starts as a shortest path routing. The initial paths 
+The last step is the edge routing. The method used is orthogonal edge routing. However, the process starts as a shortest path routing. The initial paths 
 are direct lines between two nodes. Then, the paths are checked to see if they do not cross any obstacles. Should it cross another node, the path is split 
 into orthogonal segments which go around the obstacle. This step is repeated until the path is clear of all obstacles and is incidental only to the source and 
 destination. Lastly, should the drawn graph be planar, the drawing is checked for edge intersection. Paths which do not respect the planarity property 

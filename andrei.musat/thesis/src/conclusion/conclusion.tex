@@ -1,0 +1,59 @@
+\section{Conclusion}
+
+This thesis has shown that the graph drawing problem can be approached by combining classical algorithms 
+with modern ones. It is clear that such techniques are more flexible and versatile, making them easier 
+to integrate with various development environments. Another strong point of such an approach is 
+its modularity and portability.
+
+The main contribution of this work was defining and solving a diagram drawing problem that satisfies 
+real user requirements rather than theoretical metrics. An implementation for this solution using an optimized 
+genetic algorithm is also provided. It improves on the areas which are important for users: duration, clarity and 
+correctness. Duration is improved by favouring an approximation instead of the full solution (local minimum 
+vs. global minimum), clarity is assured by choosing the appropriate layout for the presented problem while 
+using orthogonal connectors to draw paths and correctness is determined by testing planarity prior to initiating 
+the routing process.
+
+From the test results, it can be seen that the most important part of such an application consists of the 
+layout processor. Firstly, the majority of the running time is spent in the layout module, which 
+influences performance. Secondly, a performant processor which produces an optimal layout greatly 
+reduces the effort of the routing process and can minimize the canvas area covered by the drawing.
+
+With the increasing interest for integrated development environments in the hardware design and 
+verification world, tools that allow visualisation of various data and concepts are becoming 
+more important. We have shown that by experimenting with different algorithms and integrating 
+concepts from multiple fields of computer science, we can provide an application which fulfills this role. 
+By allowing users to interact and perform modifications, the final drawing can be shaped to look 
+less synthetic and more appropriate for the desired task.
+
+\section{Future work}
+
+Development for the application is set to continue, especially in the direction of usability. The most amount 
+of work needs to be invested in implementing a parallel version of the application. We know that the graph 
+object is used by all three main modules of the implementation, but in a sequential way. It does not truly 
+represent shared data. Because the planarity testing module does not affect the way in which the other two modules 
+run, the first step would be to start planarity testing at the same time as layout processing. We are also aware 
+that the genetic algorithm does not influence the positioning of the central node and its neighbours. In this 
+regard, we could have the edge routing module start operating as soon as this specific set of nodes has been 
+placed. If the layout processor manages to finish placing the other nodes before the routing for these nodes 
+is complete, then routing can continue normally. Otherwise, routing can be halted, though we have still obtained 
+an improvement of the running time.
+
+The design of a dedicated user interface is also important and taken into account for future development. 
+The current look of the application is that of a simple view. This can make the drawings look static from 
+the perspective of the user and does not encourage the idea that they are modifiable. Menus and tool tips 
+can be added for each diagram component to show the user what can be modified. An export function could 
+be useful for users who want to save the drawing in a picture format or save the current configuration and 
+simply re-load it at a later time to avoid having the application run the algorithm on the same set of 
+data, multiple times.
+
+Currently the only unit of hardware design that is supported and represented by the tool is the module. Modules 
+are merely the top level entities and they can contain various other constructs. While displaying relationships 
+and connections between modules is important, users often need to have information about what the modules contain. 
+Otherwise, they represent black boxes whose inner functionality is unknown.
+
+Another point which can be improved is writing and maintaining the input files. The application is integrated 
+with the Eclipse IDE Platform, which allows developers to add functionality by using plug-ins. One such plug-in 
+that can be implemented is a smart editor for input files. A smart editor can offer functionalities such as 
+auto complete, hyperlinks and references, which would make writing and navigating these files a much easier 
+task for users. At the same time, the file parser could be improved to signal syntactic errors on the fly, 
+by placing error markers in such a smart editor.

@@ -2,28 +2,28 @@ Diagrams are tools which are widely used in various domains in order to represen
 concepts, hierarchies, architectures etc. In software engineering, they can be found as
 an UML(Unified Modeling Language) visualisation of a system or program or as an inheritance
 tree in the case of OOP(Object Oriented Programming) languages. Diagrams are also present 
-in the hardware world where their usage includes: logical representation of an FSM(Finite State Machine), 
-data flow between components, on-chip dependencies between components. However, there is a field in 
+in the hardware world where their usage includes: logical representation of a FSM (Finite State Machine), 
+data flow between components or on-chip dependencies between components. However, there is a field in 
 which diagrams are a key part of development: hardware design and verification. In the case of hardware design, 
-be it ASIC(Application Specific Integrated Circuit), FPGA(Field Programmable Gate Array), processors, memories or
+be it ASIC (Application Specific Integrated Circuit), FPGA (Field Programmable Gate Array), processors, memories or
 microcontrollers, diagrams are used to describe the individual blocks which are put together to form the respective chip, 
 to represent the way modules are connected at a logical level or to show how data is passed and manipulated by each component. 
 In hardware verification, they are used to represent hierarchies and inheritance amongst specific units such as agents, 
 sequencers, test scoreboards and general test flows, often corresponding with the guidelines of accepted methodologies such
-as OVM(Open Verification Methodology) and UVM(Universal Verification Methodology). Therefore, one can assert that diagrams 
+as OVM (Open Verification Methodology) and UVM (Universal Verification Methodology). Therefore, one can assert that diagrams 
 are instrumental in all stages of hardware design and verification.
 
 Despite being an important part of the hardware design and verification world, diagrams do not receive the required attention 
-from the developer community. While HDLs(Hardware Description Languages) have been gaining popularity over the years and IDEs 
+from the developer community. While HDLs (Hardware Description Languages) have been gaining popularity over the years and IDEs 
 have been developing to support them, diagrams have not received adequate attention from the community. It is often 
 overlooked that their main utility lies in understanding and maintaining the coherence and logical flow of a design
 or a verification testbench. 
 
-Usually, a hardware design consists of a number of design elements which can range from hundreds to thousands of design elements; 
+Usually, a hardware design consists of a number of design elements which can range from hundreds to thousands of components; 
 the equivalent of a graph with the same number of nodes. Representing such a design as a diagram would be, in turn, equivalent to 
-drawing said graph in a plane. A given graph must pass through three steps in order to obtain a diagram representation: planarity 
-testing, node placement and connection routing. For current algorithms and software, this is a well known problem which is difficult 
-to solve in a reasonable amount of time and also yield a readable and easy to understand result. However, there are methods and 
+drawing said graph in a plane. A given graph is transformed into a diagram representation through a three step process: planarity 
+testing, node placement and connection routing. This is a well known problem which is difficult 
+to solve with current algorithms and software in a reasonable amount of time and also yield a readable and easy to understand result. However, there are methods and 
 algorithms which can be combined to obtain a feasible diagram representation. 
 
 The layout and routing solution which is presented in this study combines techniques used in current solutions with newer algorithms 
@@ -32,7 +32,7 @@ in an attempt to obtain representations which respect the following criteria:
 \begin{itemize}
 
 \item Coherency: The diagram should be easy to understand and follow. Each connection in the diagram represents either 
-data paths(BUS) or logical connections between components. For this reason the user must be able to understand where these paths start, 
+data paths (BUS) or logical connections between components. For this reason the user must be able to understand where these paths start, 
 where they end and what components they connect.
 
 \item Correctness: As any algorithm, the solution must maintain the correctness of the model when representing it. All nodes have to be
@@ -45,7 +45,7 @@ intersecting edges. It is expected that the representation preserves the planari
 of perpendicular segments and contains a minimum number of bends. Paths shall not overlap any node.
 
 \item Performance: The proposed implementation has to produce the expected results in an acceptable amount of time. One of the biggest 
-concerns regarding these types of algorithms which operate on graphs is the amount of time they take to finish analysis and output 
+concerns regarding the types of algorithms which operate on graphs is the amount of time they take to finish analysis and output 
 their results.
 
 \end{itemize}

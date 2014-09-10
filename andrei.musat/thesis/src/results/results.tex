@@ -20,12 +20,12 @@ non-planar graphs from Kuratowski's theorem. K4, however, while may seem not pla
 and must be represented correctly. The resulting drawings are shown in the images below:
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/results/k5graph.png \label{k5}}
-\caption{The K5 graph. Edges intersect because the graph is not planar.} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/results/k5graph.png}
+\caption{The K5 graph. Edges intersect because the graph is not planar. \label{k5}} \end{figure}
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/results/k4graph.png \label{k4}}
-\caption{The K4 graph. Planarity is preserved.} \end{figure}
+\includegraphics[width=0.75\textwidth]{img/results/k4graph.png}
+\caption{The K4 graph. Planarity is preserved. \label{k4}} \end{figure}
 
 \section{Connection routing}
 
@@ -49,13 +49,13 @@ graph is the same. After running the application multiple times on the same data
 following results shown in figures \ref{pie1} and \ref{pie2}: 
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/results/nonplanartime.png \label{pie1}}
-\caption{Timeing results for non-planar graph test} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/results/nonplanartime.png}
+\caption{Timeing results for non-planar graph test \label{pie1}} \end{figure}
 
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/results/planartime.png \label{pie2}}
-\caption{Timeing results for planar graph test} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/results/planartime.png}
+\caption{Timeing results for planar graph test \label{pie2}} \end{figure}
 
 We see that in both cases, the most time is spent in the layout processing module. This result is in 
 accordance with our theoretical presumptions: planarity testing is at worst O(${n}$) complexity, and the edge 
@@ -71,12 +71,12 @@ is performed on tree structured graphs with increasing number of nodes, ranging 
 analyse only the run time of the computational part of these application, without the GUI enabled.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/results/under10000.png \label{chart1}}
-\caption{Performance benchmark for graphs containing under 10000 nodes. Logarithmic scale is used for both X and Y axis} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/results/under10000.png}
+\caption{Performance benchmark for graphs containing under 10000 nodes. Logarithmic scale is used for both X and Y axis \label{chart1}} \end{figure}
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/results/over10000.png \label{chart2}}
-\caption{Performance benchmark for graphs over containing 10000 nodes. Logarithmic scale is used for both X and Y axis} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/results/over10000.png}
+\caption{Performance benchmark for graphs over containing 10000 nodes. Logarithmic scale is used for both X and Y axis \label{chart2}} \end{figure}
 
 The above charts (figures \ref{chart1} and \ref{chart2}) show that for smaller graphs, the all the constraint checking and verifications performed 
 by the proposed solution are detrimental to its performance. However, once the number of nodes in the graph starts 

@@ -46,7 +46,7 @@ advanced computations such as: manhattan distance, determining the angle between
 designated by two points and moving the point in a general direction with a given speed. These functions 
 have been implemented and are shown below in listing \ref{funcs}:
 
-\begin{lstlisting}[caption={Functions added for the Point class}, language=Java \label{funcs}]
+\begin{lstlisting}[caption={Functions added for the Point class} \label{funcs}, language=Java]
 public int manhattanDistance(Point p1, Point p2) {
 	return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y);
 } 
@@ -77,8 +77,8 @@ representing the collision area. By doing so, it facilitates the correction step
 knows exactly how much each figure must be moved.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/implementation/rectangles.png \label{recs}}
-\caption{Geometric figures and their bounding rectangle} \end{figure}
+\includegraphics[width=0.75\textwidth]{img/implementation/rectangles.png}
+\caption{Geometric figures and their bounding rectangle \label{recs}} \end{figure}
 
 \subsection{Figure and PolylineConnection classes}
 
@@ -108,7 +108,7 @@ to go around it.
 
 \section{Modules implementation}
 
-The modules which compose the application, as listed in chapter \ref{System Architecture}, utilize a set of Java 
+The modules which compose the application, as listed in the System Architecture \ref{System Architecture} chapter, utilize a set of Java 
 and OOP concepts and patterns. In this section we shall discuss some of these notable patterns.
 
 \subsection{Input file format}
@@ -166,7 +166,7 @@ Using this pattern, the graph object does not have to keep two individual lists,
 helps keep the memory usage lower in case of large amounts of data. When another module requires all elements of a 
 certain type, a new list is constructed on the fly and passed to the caller.
 
-\begin{lstlisting}[caption=Basic class structure for factory implementation, language=Java \label{factory}]
+\begin{lstlisting}[caption=Basic class structure for factory implementation \label{factory}, language=Java ]
 public interface GraphElement {
 	public ElementType getType();
 }

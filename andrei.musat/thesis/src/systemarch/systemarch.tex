@@ -1,3 +1,5 @@
+\label{System Architecture}
+
 In this chapter we shall discuss how data is processed and transformed in order to obtain 
 the information required by the graphical library. We shall highlight the main system components 
 which perform modifications on the graph data, starting with the Tokenizer which reads the input 
@@ -24,7 +26,7 @@ iteratively, never concurrently.
 
 After the graph container object is created, the first computational unit notified is the planarity tester. 
 From the data which is provided by the graph container, the tester utilizes at first only the number of edges 
-and vertices to apply the theorems mentioned in the \ref{chap:Algorithm Design} chapter. Should it fail 
+and vertices to apply the theorems mentioned in the Algorithm Design \ref{Algorithm Design} chapter. Should it fail 
 to prove that the graph is not planar, the complete information regarding vertices and edges is extracted 
 in order to apply the PQ-tree algorithm.
 
@@ -71,5 +73,5 @@ Once this step is done, the graph container object holds all the data necessary 
 to the drawing unit which utilizes the Eclipse draw-2D API.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/systemarch/systemworkflow.png \label{sysarch}}
-\caption{Diagram of the system workflow} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/systemarch/systemworkflow.png}
+\caption{Diagram of the system workflow \label{sysarch}} \end{figure}

@@ -113,16 +113,16 @@ END
 Figures \ref{vertex1}, \ref{vertex2} and \ref{vertex3} below present the steps of this algorithm applied on a graph G(3,3).
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/algdesing/vertex_reduction_step_1.png \label{vertex1}}
-\caption{The initial representation of the graph and the configuration after one merge step} \end{figure}
+\includegraphics[width=0.75\textwidth]{img/algdesing/vertex_reduction_step_1.png}
+\caption{The initial representation of the graph and the configuration after one merge step \label{vertex1}} \end{figure}
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.75\textwidth]{img/algdesing/vertex_reduction_step_2.png \label{vertex2}}
-\caption{Graph representation after two more reduction steps.} \end{figure}
+\includegraphics[width=0.75\textwidth]{img/algdesing/vertex_reduction_step_2.png}
+\caption{Graph representation after two more reduction steps. \label{vertex2}} \end{figure}
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/algdesing/vertex_reduction_3.png \label{vertex3}}
-\caption{Complete PQ-tree representation and the final merge into a single P node} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/algdesing/vertex_reduction_3.png}
+\caption{Complete PQ-tree representation and the final merge into a single P node \label{vertex3}} \end{figure}
 
 \section{Graph placement}
 
@@ -153,8 +153,8 @@ visited in breadth-first order forms a layer of nodes. Layers can be arranged ve
 example is shown in figure \ref{grid}.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/algdesing/grid_example.png \label{grid}}
-\caption{Example of a tournament structure organized as a grid.} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/algdesing/grid_example.png}
+\caption{Example of a tournament structure organized as a grid. \label{grid}} \end{figure}
 
 More general graphs may also follow this pattern, by computing the spanning tree\cite{graham1985history} of the graph and placing nodes as stated above, 
 starting with the spanning tree's root. Other approaches for general graphs may place and pin the node with the highest number of 
@@ -234,12 +234,12 @@ the center, a new pair of nodes which are either closer to each other (attracted
 continue until a certain number of steps has been exhausted (we have explored the maximum allowed samples of populations) or the system has reached stability.
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.2\textwidth]{img/algdesing/recombination.png \label{rec1}}
-\caption{Node N does not satisfy the distance threshold.} \end{figure}
+\includegraphics[width=0.2\textwidth]{img/algdesing/recombination.png}
+\caption{Node N does not satisfy the distance threshold. \label{rec1}} \end{figure}
 
 \begin{figure}[ht] \centering
-\includegraphics[width=0.65\textwidth]{img/algdesing/recombinationposib.png \label{rec2}}
-\caption{The possibilities for N to be moved. The right image is the better solution.} \end{figure}
+\includegraphics[width=0.65\textwidth]{img/algdesing/recombinationposib.png}
+\caption{The possibilities for N to be moved. The right image is the better solution. \label{rec2}} \end{figure}
 
 To easily keep track of which rules a node is currently violating as well as facilitate the computation of fitness, each node keeps track of a byte field. 
 The field acts as a register, each bit representing a certain rule. When the node violates a rule, the corresping is set to one. The usage of this register

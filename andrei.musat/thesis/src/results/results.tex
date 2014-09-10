@@ -1,6 +1,6 @@
-In the Introduction chapter we presented a set of criteria which the implementation must follow.
+In the Introduction chapter \ref{intro} we presented a set of criteria which the implementation must follow.
 To be able to evaluate and analyse these metrics, we shall use particular graphs which are shaped to exercise 
-the currently tested module more than the others. In addition to these metrics, we would like to analyze 
+each implemented module at a given time. In addition to these metrics, we would like to analyze 
 which module performs the most intense computations and how the implementation compares with other 
 similar software.
 
@@ -14,10 +14,10 @@ edges and vertices is true. This is a constant time - O(${1}$) - operantion. How
 return a positive result, we can not tell for certain that the graph is planar. The vertex addition method 
 must be applied in order to ensure that the graph is planar. This method has time complexity O(${n}$).
 
-The correctness of the planarity testing can be easily verified by having the algorithm draw the K5(complete 
-graph of 5 nodes, figure \ref{k5}) and K4(complete graph of 4 nodes, figure \ref {k4}) graphs. K5 is along with K3,3 one of the two basic 
+The correctness of the planarity testing can be easily verified by having the algorithm draw the K5 (complete 
+graph of 5 nodes, figure \ref{k5}) and K4 (complete graph of 4 nodes, figure \ref {k4}) graphs. K5 is along with K3,3 one of the two basic 
 non-planar graphs from Kuratowski's theorem. K4, however, while may seem not planar, is in reality a planar 
-and must be represented correctly. The resulting drawings are shown in the images below:
+graph and must be represented correctly. The resulting drawings are shown in the images below:
 
 \begin{figure}[ht] \centering
 \includegraphics[width=0.65\textwidth]{img/results/k5graph.png}
@@ -35,12 +35,12 @@ are correctly routed are removed from the list and the rest are visited once mor
 for this operation is O($|E| * \log |E|$).
 
 Correctness regarding routing means that all connections are orthogonal. This is done by the router module 
-itsefl, because one of the conditions for considering a path correctly routed is it being orthogonal.
+itself, because one criteria for considering a path correctly routed is orthogonality.
 
 \section{Time consumed per module}
 
 Knowing in which module the application spends the majority of the processing time is an important metric 
-to analyze for possible optimizations. Since the modules are mainly independent, we can easily time exactly 
+to analyze for possible optimizations. Since the modules are mainly independent, we can easily measure exactly 
 how much of the processing time is spent in a certain phase. 
 
 In order to correctly analyze this metric, we shall consider two different cases. In the first one, the input 
@@ -58,7 +58,7 @@ following results shown in figures \ref{pie1} and \ref{pie2}:
 \caption{Timeing results for planar graph test \label{pie2}} \end{figure}
 
 We see that in both cases, the most time is spent in the layout processing module. This result is in 
-accordance with our theoretical presumptions: planarity testing is at worst O(${n}$) complexity, and the edge 
+accordance with our theoretical assumptions: planarity testing is at worst O(${n}$) complexity, and the edge 
 routing is proportional with O($|E| * \log |E|$). The complexity of the genetic algorithm surpases both of 
 these.
 
@@ -66,7 +66,7 @@ these.
 
 To see how well the application performs, we must also compare its performance versus that of existing 
 implementations. The benchmarks used in these comparative tests are the two implementations mentioned in the 
-Related Work chapter: the Graphviz dot command line application and the Eclipse GEF. The benchmarking process 
+Related Work chapter \ref {relwork}: the Graphviz dot command line application and the Eclipse GEF. The benchmarking process 
 is performed on tree structured graphs with increasing number of nodes, ranging from 10 to 100000 nodes. We 
 analyse only the run time of the computational part of these application, without the GUI enabled.
 

@@ -19,7 +19,7 @@
 #define DEBUG_PRINT(a...) { if(DEBUG_ON) printf(a); }
 
 int status, read_thread_online,node_nr, dongle_connected, socket_desc;
-long long current_timestamp, delta = 15000, file_timestamp;
+long long current_timestamp, delta = 45000, file_timestamp;
 
 pthread_mutex_t data_lock;
 struct timespec lock_timeout;  
@@ -64,11 +64,11 @@ void add_node_data(long long time_stamp , char *p) {
 	/* creating a file with unique name */
 	DEBUG_PRINT("node id %s %i %i \n",p,id,power);
 	char file_name[100];
-	sprintf(file_name, "/node_logs/%lli_%i",file_timestamp,id);
+	sprintf(file_name, "/node_logs/%lli_%i.txt",file_timestamp,id);
 
 	/* saving the new data at the end of the file */
 	FILE *fptr = fopen(file_name,"a");	
-	fprintf(fptr,"%s",p);
+	fprintf(fptr,"%lli %s",time_stamp,p);
 	fclose(fptr);
 	
 	/* searching for previous connection of the same node*/

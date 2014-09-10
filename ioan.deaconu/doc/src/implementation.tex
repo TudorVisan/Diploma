@@ -16,11 +16,11 @@ The drone also processes some of the collected data to provide real time HUD inf
 \clearpage
 
 \begin{figure}[ht]
-  \label{fig:arhitecture}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/organigrama.png}
 \end{center}
 \caption{\small \itshape{Modules running on the drone and their connections}}
+  \label{fig:arhitecture}
 \end{figure}
 
 %change title for drone modules
@@ -141,21 +141,22 @@ The informations encoded by the drone are:
 
 \section{SparrowV32 module}
 
-The Sparrow node sends a small packet at a fixed interval. If the packet is received by the dongle, it will send back a specific ACK just to the node that sent the packet. When the node receives the ACK, it will try to send all the stored data to the drone, starting from the oldest entry to the newest one. The data is stored in a cicular linked list of a fixed size. If the list is full, the oldest entiry is always replaced by new data.
+Due to the communication protocol implemented, the SparrowV3.2 node uses very little power when not connected to
+the drone. The solution is similar to the one described by Cardei et al\cite{cardei2005improving}. The Sparrow node sends a small packet at a fixed interval.If the packet is received by the dongle, it will send back a specific ACK just to the node that sent the packet. When the node receives the ACK, it will try to send all the stored data to the drone, starting from the oldest entry to the newest one. The data is stored in a circular linked list of a fixed size. If the list is full, the oldest entity is always replaced by new data.
 
-The drone saves the receied data, localy in files that have the name comprised of the timestamp of the current sesion and the unique id of the node.
+The drone saves the received data, locally in files that have the name comprised of the timestamp of the current session and the unique id of the node.
 
 \section{Android application modules}
-
-%adauga referinta la poza in text
+ 
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/android_app.png}
 \end{center}
 \caption{\small \itshape{AR Freeflight modified application}}
+  \label{fig:moded_app}
 \end{figure}
 
-Being an open-source platform we modified the AR Freeflight 2.0 Android application to communicate the new modules added to the drone.
+Being an open-source platform we modified the AR Freeflight 2.0 Android application to communicate the new modules added to the drone and added a new feature on the main screen, seen in figure~\ref{fig:moded_app}.
 
 Android imposes the use of the background process class AsyncTask in order to use communication protocols such as http, ftp or sockets. This prevents the UI process from remaining stuck in communication and not responding to user actions.
 
@@ -164,11 +165,11 @@ The class offers 5 very important methods that can be overwritten, 4 running on 
 \subsection{Display information module}
  
 \begin{figure}[ht]
-  \label{fig:pilot}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/android_info.png}
 \end{center}
 \caption{\small \itshape{AR Freeflight modified Piloting Screen}}
+  \label{fig:pilot}
 \end{figure}
 
 The Piloting screen of the application has been modified to display the received data from the drone.
@@ -178,11 +179,11 @@ The information displayed is comprised of the state of the dongle, the number of
 \subsection{FTP communication module}
 
 \begin{figure}[ht]
-  \label{fig:ftp}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{img/android_ftp.png}
 \end{center}
 \caption{\small \itshape{AR Freeflight FTP downloading files}}
+  \label{fig:ftp}
 \end{figure}
 
 The drone has a built-in FTP server that can be configured to allow access to any folders/files on the drone. We have configured the drone so that the folder in which the data is saved can be accessed at any time using port 4242 by any device that has FTP client capabilities. 

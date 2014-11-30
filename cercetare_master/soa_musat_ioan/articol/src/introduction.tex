@@ -1,5 +1,23 @@
-Wireless Sensor Networks are a very low cost, low power device optimized to perform custom tasks. They usualy gather informations from the souroundings, informations which can be send to a gateway. The gateway is usualy connected to a more powerfull device, for example, a laptop, that can analize the received informations and take certain actions based on the results. Because the information is important in certain cases, security protocols are implemented to prevent attacks that can alter the data or that can gather the data.
+Wireless Sensors are low cost, low power devices optimized to perform custom tasks. They usualy gather information from their souroundings which can be sent towards base station servers in order to be stored and processed. This communication is generally achieved with the use of gateways. The gateway is usualy connected to a more powerfull device that can analize the received informations and take certain actions based on the results. Often, the information transmitted by wireless sensors represents sensitive data. It is for this reason that security protocols are implemented to prevent attacks that can intercept, replicate or alter the data.
 
-The current frameworks offer a high security level, but in order to achive that level of security, a lot of power is wasted on ... to be continued...
+Currently, security protocols in wireless sensor networks use mostly key based encryption algorithms. While this method can achieve 
+great efficiency in terms of data security and protection, it also requires a certain level of computational power and is not 
+always a task which is quickly executed. More so, in order to use such protocols, nodes must store all the necessary keys.
+Due to their design, wireless sensor often do not possess the necessary resources. They seldom have external memories attached 
+to them and their processing power is limited to microprocessors which run at frequencies in the range of 1-100 MHz.
 
-In this paper we will present a low power security created specialy for a long range wireless sensor network.
+Another limitation of using this type of protocols to encrypt data is related to energy consumption. Usually, these sensors are 
+powered by small batteries whith a limited capacity. If the microprocessor has to perform intensive computations, these batteries 
+shall be drained in short amounts of time. Even equipping sensors with energy harvesting peripherals does not ensure that 
+the battery lifespan is greatly increased.
+
+The approach presented in this papers attempts to implement more simple encryption algorithms which, combined with hardware 
+encryption methods, can achieve an acceptable level of data security while ensuring that power consumption is kept to a minimum.
+
+The proposed method relies on using available AES ECB encryption in internode communication. Since nodes can both encrypt and decrypt 
+messages using the ECB protocol, it can safely be used for messages which do not contain critical data, but identify each node in the 
+network. Then, the data itself should be encrypted using AES CBC protocol. However, because the hardware does not support CBC decryption, 
+it will have to be implemented at the software level.
+
+This approach tries to find the balance point in the trade-off between security and energy consumption. While the data might not be 
+protected as well as when key based algorithms are used, the energy consumption will be minimized thus increasing the life span of the sensor.

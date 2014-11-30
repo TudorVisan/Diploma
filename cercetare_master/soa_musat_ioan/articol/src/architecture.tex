@@ -1,6 +1,19 @@
 \label{chap:arch}
 
 
+Hardware.
+
+The wireless sensor nodes use a ZigBit 900 RF module which is capable of sending data up to 6 km. Also they poses hardware encryption and decryption aes 128 ecb, but only hardware encryption aes 128 cbc.
+
+Software.
+
+The long range distance can be a security issue because an atack can be performed from a big distance, but it can also be an advantage. Instead of configuring the nodes to multi hop, we will consider the case in which all the nodes can send directly data to the gateway. This will save time and power when decrypting the received information because the sensors will only have two keys to encrypt the data and only one key to decrypt.
+
+The table of keys will be kept only on the gateway, which will not have the problem of power thanks to a better power source.
+
+Because the nodes do not support cbc decryption, they will encrypt critical data using cbc, and transfer related data using ecb. This will guarante that a spoofing attack , ddos attack and a man-in-the middle attack are not possible.
+
+
 \cite{shah2014review}
 
 

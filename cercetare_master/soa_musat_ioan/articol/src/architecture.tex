@@ -1,23 +1,23 @@
 \label{chap:arch}
+\subsection{Hardware}
 
+The wireless sensor nodes use an Atmel ZigBit 900MHZ RF module, that contains an ATmega 1281v microcontroller connected with an AT86RF212 RF Tranceiver through a SPI interface. The module is a very low power device, capable of sending data up to 6 km. The Tranceiver contains a security module compatible with AES-128. It supports hardware encryption and decryption AES 128 ECB, but only hardware encryption AES 128 CBC.
 
-Hardware.
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{wsn_soa_system_arch}
+\end{figure}
 
-The wireless sensor nodes use a ZigBit 900 RF module which is capable of sending data up to 6 km. Also they poses hardware encryption and decryption aes 128 ecb, but only hardware encryption aes 128 cbc.
+\section{Software}
 
-Software.
+From the software perspective, the architecture is composed of two parts: gathering data from the sensors and encrypting it before transmitting it to another sensor of the central gateway.
+The encryption method for the data shall use both of the hardware supported methods: AES 128 ECB and AES 128 CBC. It is necessary to use them both because the nodes shall be transmitiing 
+two kinds of packets: a first set which contains non-sensitive data and is used by the receiver to identify the sender and a second which contains the actual sensitive data. Since it supports 
+both encryption and decryption, the first set of packets, those containing identification information, shall be encrypted using ECB. The data itself shall be encrypted using CBC. Since CBC 
+decryption is not supported by default, a software CBC decryption implementation is necessary in order to allow the sensors to verify the data at regular intervals.
 
-The long range distance can be a security issue because an atack can be performed from a big distance, but it can also be an advantage. Instead of configuring the nodes to multi hop, we will consider the case in which all the nodes can send directly data to the gateway. This will save time and power when decrypting the received information because the sensors will only have two keys to encrypt the data and only one key to decrypt.
+\begin{figure}
+  \includegraphics[width=0.5\textwidth]{send_receive}
+\end{figure}
 
-The table of keys will be kept only on the gateway, which will not have the problem of power thanks to a better power source.
-
-Because the nodes do not support cbc decryption, they will encrypt critical data using cbc, and transfer related data using ecb. This will guarante that a spoofing attack , ddos attack and a man-in-the middle attack are not possible.
-
-
-\cite{shah2014review}
-
-
- 
-
-
-
+In addition to the CBC decryption, it is also required to have implementations of other software encryption algorithms in order to perform the performance analysis. The chosen 
+algorithms which shall be used in benchmarking are Skipjack and RC5.

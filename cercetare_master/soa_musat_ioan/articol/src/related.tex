@@ -1,1 +1,35 @@
-The 
+Security is of prime importance in Wireless Sensor Networks, because nodes transfer important data between them and trying to detect if a neighbouring node is safe consumes a lot of battery power and time.
+
+Possible attacks include:
+\begin{itemize}
+
+\item Wormhole attack: the attacker sends the received messages from one part of the network in a different part of the network. As a result, the nodes from both areas considers that the other nodes are neighbours and vice-versa.
+\item Blackhole/Sinkhole attack: the attackers makes it self more appealing from a routing point of view in order to receive all the messages from the network.
+\item Sybil attack: the attacker assumes the identity of one or more valid sensors\cite{newsome2004sybil}.
+\item Selective forwarding attack: the attaker is able to intercept messages and drop certain packets or forward them \cite{kaplantzis2007detecting}.
+\item Hello Flood Attack: the attacker uses HELLO packets to flood the neighbours in order to force the nodes to trust him.
+
+\end{itemize}
+
+No current security framework offers complete protection against all types of attacks, but they offer protection against certain attacks. 
+
+\begin{itemize}
+
+\item SPINS - 2002 - The communication parties create independent keys for encryption and decryption
+and MAC keys for communication. It provides security against Data and Information Spoofing and Message Replay Attacks\cite{perrig2002spins}.
+
+\item LEAP - 2003 - The protocol employes that the nodes exchange more than one type of message between them, so the framework uses 4 diferent keys. It provides security against HELLO flood attack, Sybil attack and minimizes the consequences of spoofing, altering, replay routing information and selective forwarding attacks \cite{zhu2006leap+}.
+
+\item TinySec - 2004 - The key is pre-deployed on the node, but it does not provide any solution for changing the key. If a node is compromised, the entire network will be compromised. It provides security against Data and Information Spoofing and Message Replay Attacks \cite{karlof2004tinysec}.
+
+\item LEAP+ - 2006 - It uses the same idea as LEAP, but the overhead is reduced. It provides security against Confidentiality and authentication, HELLO flood attack, Sybil attack and minimizes the consequences of spoofing, altering, replay routing information and selective forwarding attacks \cite{zhu2006leap+}.
+ 
+\item MiniSec - 2007 - Uses a counter IV. The counter is incremented localy and only the last bits of the counter are sent. It provides security against Authentication, Data Secrecy and Reply Attack \cite{luk2007minisec}.
+
+\item pDCS - 2009 - It uses 5 different keys to achive  It provides security against Location and Query privacy \cite{shao2009pdcs}.
+
+\item TinyKey - 2011 - An improvement of TinySec, adds the key management system, in order to be able to change the key after the node is deployed. It provides security against Message authentication, confidentiality and integrity \cite{doriguzzi2011tinykey}.
+
+\item ERP-DCS - 2013 - It propoes a different way of creating and storing keys when compared with pDCS. It provides security against Location and Query privacy \cite{huang2013efficient}.
+
+\end{itemize}

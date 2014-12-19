@@ -1,7 +1,15 @@
 \label{chap:arch}
 \subsection{Hardware}
 
-The wireless sensor nodes use an Atmel ZigBit 900MHZ RF module, that contains an ATmega 1281v microcontroller connected with an AT86RF212 RF Tranceiver through a SPI interface. The module is a very low power device, capable of sending data up to 6 km. The Tranceiver contains a security module compatible with AES-128. It supports hardware encryption and decryption AES 128 ECB, but only hardware encryption AES 128 CBC.
+The processing power and wireless capability of the wireless sensor nodes are provided by an Atmel
+ZigBit 900MHZ RF module. It contains an ATmega 1281V 8-bit microcontroller connected to an
+AT86RF212 RF Tranceiver via a SPI interface. The Atmega 1281V is an low power 8 bit microcontroller
+that is connected to the onboard sensors of the node. In order to be able to transmit or secure the
+data, the microcontroller will communicate with the RF Transceiver. The Transceiver controller is a very low power chip,
+capable of sending data up to 6 km. Also, the Transceiver contains a security module compatible
+with AES-128. It supports hardware encryption and decryption for AES 128 ECB, but but for the AES
+128 CBC it is available only the hardware encryption.
+
 
 \begin{figure}[ht] \centering
   \includegraphics[width=0.5\textwidth]{img/wsn-soa-system-arch.png}
@@ -11,8 +19,10 @@ The wireless sensor nodes use an Atmel ZigBit 900MHZ RF module, that contains an
 \subsection{Software}
 
 From the software perspective, the architecture is composed of two parts: gathering data from the sensors and encrypting it before transmitting it to another sensor of the central gateway.
-The encryption method for the data shall use both of the hardware supported methods: AES 128 ECB and AES 128 CBC. It is necessary to use them both because the nodes shall be transmitiing 
-two kinds of packets: a first set which contains non-sensitive data and is used by the receiver to identify the sender and a second which contains the actual sensitive data. Since it supports 
+The encryption method for the data shall use both of the hardware supported methods: AES 128 ECB
+and AES 128 CBC. It is necessary to use them both because the nodes shall be transmitting 
+two kinds of packets: a first type of packets which contains non-sensitive data and is used by the
+receiver to identify the sender and a second type of packets which contains the actual sensitive data. Since it supports 
 both encryption and decryption, the first set of packets, those containing identification information, shall be encrypted using ECB. The data itself shall be encrypted using CBC. Since CBC 
 decryption is not supported by default, a software CBC decryption implementation is necessary in order to allow the sensors to verify the data at regular intervals.
 

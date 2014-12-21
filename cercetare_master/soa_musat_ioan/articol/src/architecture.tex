@@ -18,20 +18,29 @@ with AES-128. It supports hardware encryption and decryption for AES 128 ECB, bu
 
 \subsection{Software}
 
-From the software perspective, the architecture is composed of two parts: gathering data from the sensors and encrypting it before transmitting it to another sensor of the central gateway.
-The encryption method for the data shall use both of the hardware supported methods: AES 128 ECB
-and AES 128 CBC. It is necessary to use them both because the nodes shall be transmitting 
+From the software perspective, the architecture is composed of three modules:
+\begin{itemize}
+\item data module, that
+collects information from the sensors,
+\item encryption module,
+\item communication module.
+\end{itemize}
+
+The main focus on this paper will be placed on the encryption module.
+The encryption method for the data uses the two supported hardware methods: AES 128 ECB
+and AES 128 CBC. It is necessary to use both of them because the nodes are transmitting 
 two kinds of packets: a first type of packets which contains non-sensitive data and is used by the
 receiver to identify the sender and a second type of packets which contains the actual sensitive data. Since it supports 
-both encryption and decryption, the first set of packets, those containing identification information, shall be encrypted using ECB. The data itself shall be encrypted using CBC. Since CBC 
+both encryption and decryption, the first set of packets, those containing identification
+information, are encrypted using ECB. The data itself is encrypted using CBC. Since CBC 
 decryption is not supported by default, a software CBC decryption implementation is necessary in order to allow the sensors to verify the data at regular intervals.
 
  
-\begin{figure}[ht] \centering
-  \includegraphics[width=0.5\textwidth]{img/send-receive.png}
-  \caption{Packet Types}
-\end{figure}
+%\begin{figure}[ht] \centering
+%  \includegraphics[width=0.5\textwidth]{img/send-receive.png}
+%  \caption{Packet Types}
+%\end{figure}
 
 
 In addition to the CBC decryption, it is also required to have implementations of other software encryption algorithms in order to perform the performance analysis. The chosen 
-algorithms which shall be used in benchmarking are Skipjack and RC5.
+algorithms which will be used in benchmarking are Skipjack and RC5.

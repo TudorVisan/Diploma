@@ -1,0 +1,58 @@
+% vim: set tw=78 sts=2 sw=2 ts=8 aw et ai:
+\documentclass[conference]{IEEEtran}
+
+\usepackage{ucs}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage[english]{babel}
+%\usepackage{hyperref}	  % use \url{http://$URL} or \href{http://$URL}{Name}
+\usepackage{underscore}	  % underscores need not be escaped
+\usepackage{subfigure}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{parskip}
+\usepackage{flushend}
+
+% Support for including graphics
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\begin{document}
+
+
+\title{Geodynamics monitorization using wireless sensor networks}
+
+\author{
+\IEEEauthorblockN{Andrei-Alexandru Mușat}
+\IEEEauthorblockA{
+  Automatic Control and Computers Faculty\\
+  University Politehnica of Bucharest,\\
+  \{andrei.musat@cti.pub.ro\}}
+  }
+
+
+ 
+\maketitle
+
+\begin{abstract} 
+\input{src/abstract}
+\end{abstract}
+
+\begin{Keywords}
+Wireless Sensor Networks, Geodynamics, Earthquake monitoring, Low power
+\end{Keywords}
+
+\section{Introduction}
+\label{sec:introduction}
+\input{src/introduction}
+
+\section{Related Work}
+\label{sec:related}
+\input{src/related}
+
+
+\bibliographystyle{abbrv}
+\bibliography{soa}
+
+\end{document}

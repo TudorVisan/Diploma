@@ -136,5 +136,7 @@ The results can be seen in the figure below:
 
 We can see that packet loss does not drastically increase in the interval of 250ms - 40ms. However, 
 once we start sending packets once every 32ms or faster, the network becomes more and more flooded.
-When the transmission interval reaches 20ms, the coordinator stops receiving data. The overall packet
-loss for the 5 sensor network transmitting at intervals of 250 milliseconds is 2 percent. 
+When the transmission interval is below 27ms, the attacker's packets no longer reach the coordinator
+node (the attacker cannot send packets that fast and stops working), thus all the correct packets are 
+processed and the loss is 0 percent. The overall packet loss for the 5 sensor network transmitting at 
+intervals of 250 milliseconds is 2 percent.

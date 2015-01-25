@@ -8,7 +8,7 @@ flooding and DDoS attacks.
 
 The above mentioned tests were performed using a small network 
 composed of 3 SparrowE wireless sensor nodes. In this setup, 
-one of the SparrowE nodes was designated as the netowrk coordinator 
+one of the SparrowE nodes was designated as the network coordinator 
 while the other two nodes were plain sensors, as it can be seen in 
 the figure below:
 
@@ -31,7 +31,7 @@ implementation of the ECB and CBC algorithms and if it scales linearly like
 the AES implementation does.
 
 In order to gather the required data, both EBC and CBC have been performed on 
-data from the node's sensors for periods of time lating 1, 2, 3, 4 and 5 seconds 
+data from the node's sensors for periods of time lasting 1, 2, 3, 4 and 5 seconds 
 respectively. Then, the same was done using the AES implementations. The results 
 can be observed in the tables shown below:
 
@@ -67,7 +67,7 @@ be almost 7 times slower than the hardware AES. This is especially problematic i
 case of data decryption, where the software AES will be much slower will take longer 
 periods of time to detect possible corrupt packets. Furthermore, this will also cause 
 the data from the sensors to be gathered less often and there is the danger that 
-an interuption which occurs when sensor data is ready could suspend the decryption 
+an interruption which occurs when sensor data is ready could suspend the decryption 
 process.
 
 One more issue encountered during the tests shows that due to the limited amount of 
@@ -83,7 +83,7 @@ running and its power consumption is negligible.
 
 While performing encryption operations, it has been measured that the controller has a medium 
 power consumption of 36mW, which can reach peaks of 50.4mW, meaning it normally uses a current 
-of 10mA which spikes at 14mA. If the hardware approach is used and the tranceiver is turned on 
+of 10mA which spikes at 14mA. If the hardware approach is used and the transceiver is turned on 
 for large periods of time, it adds a power consumption of 1.63mW-3.48mW, meaning an average 
 current of 490uA.
 
@@ -131,10 +131,10 @@ The results can be seen in the figure below:
 
 \begin{figure}[ht] \centering
   \includegraphics[width=0.5\textwidth]{img/packet-loss.png}
-  \caption{Graphic representation of packet loss corelated with interval between packet sending}
+  \caption{Graphic representation of packet loss correlated with interval between packet sending}
 \end{figure}
 
 We can see that packet loss does not drastically increase in the interval of 250ms - 40ms. However, 
 once we start sending packets once every 32ms or faster, the network becomes more and more flooded.
-When the transmission interval reaches 20ms, the coordinator stops receiveing data. The overall packet
-loss for the 5 sensor network transmitting at invervals of 250 milliseconds is 2 percent. 
+When the transmission interval reaches 20ms, the coordinator stops receiving data. The overall packet
+loss for the 5 sensor network transmitting at intervals of 250 milliseconds is 2 percent. 

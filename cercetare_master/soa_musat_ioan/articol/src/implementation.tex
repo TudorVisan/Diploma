@@ -10,8 +10,8 @@ of data, a key is necessary. The difference between the two methods lies in how
 the key is applied.
 
 For the ECB mode, each block is encrypted separately with the respective key, as 
-show in the figure below. The disadvantage of this method is that identical plaintext 
-blocks shall generate identical ciphertext blocks, which allows data patterns to 
+show in the figure below. The disadvantage of this method is that identical plain text 
+blocks shall generate identical cipher text blocks, which allows data patterns to 
 emerge, thus making this encryption method relatively vulnerable to attacks.
 
 \begin{figure}[ht] \centering
@@ -21,8 +21,8 @@ emerge, thus making this encryption method relatively vulnerable to attacks.
 
 In contrast, CBC mode encrypts a block by using information from either the previous 
 block, or and initialization vector (IV). A xor operation is performed between the 
-plaintext and the previous ciphertext or IV before applying the key. This method 
-ensures pseudo-randomness and prevents patterns from emergeing, thus making it 
+plain text and the previous cipher text or IV before applying the key. This method 
+ensures pseudo-randomness and prevents patterns from emerging, thus making it 
 more resilient to attacks.
 
 \begin{figure}[ht] \centering
@@ -34,7 +34,7 @@ more resilient to attacks.
 
 There are two main reasons why the chosen encryption method is ECB/CBC. The first 
 reason is that when ported to a different architecture which incorporates the 
-tranceiver on the same chip as the controller, the encryption and decryption can be safely 
+transceiver on the same chip as the controller, the encryption and decryption can be safely 
 handed over to the AES with minimal modifications and almost no degradation in 
 power consumption.
 
@@ -64,7 +64,7 @@ and thus compromise the security of future transmissions.
 
 \subsection{Optimizations}
 
-Despite being a more efficient techniquq from the power consumption point of view, the 
+Despite being a more efficient technique from the power consumption point of view, the 
 software implementation can be improved even further by reducing the number of operations 
 that must be performed on the microcontroller.
 
@@ -75,19 +75,19 @@ is valid. This additional layer of security is cheap to implement and versatile.
 
 First, each node shall contain a table of valid MACs stored in its local flash. The size of this 
 table is proportional to the number of sensors in the network. Once a node has this table, upon 
-receiveing a packet, it shall drop it unless the source MAC matches an entry in the table 
+receiving a packet, it shall drop it unless the source MAC matches an entry in the table 
 and no decryption and verification operations shall be initiated.
 
-Another software optimization is related to data processing before packets are assembeled and 
+Another software optimization is related to data processing before packets are assembled and 
 the encryption operation can effectively begin. The data provided by the main sensor, the 
 accelerometer, is often of no interest, as it presents no immediate changes in the frequency of 
 an object's vibrations. Thus, in order to reduce the number of packets which a sensor node sends 
 and prevent the flooding of the communication channel, this data is pre-processed.
 
-Once the network is assembeled and the nodes are powered on, they shall take a set of 
+Once the network is assembled and the nodes are powered on, they shall take a set of 
 readings in order to calibrate themselves to a certain level of vibrations. Then, 
-whenever input is provided from the accelerometer, if that specifica input is in 
-range of the default values obtained during calibration, the information is droped 
+whenever input is provided from the accelerometer, if that specific input is in 
+range of the default values obtained during calibration, the information is dropped 
 and no packet is formed. Furthermore, relevant data which is not in the range of the 
 normal values is not sent after every reading. Instead, a series of N such readings 
 from the accelerometer are processed into a median value, which is then transmitted 

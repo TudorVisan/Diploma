@@ -1,0 +1,28 @@
+In conclusion, over the course of the experiment we have observed that the 
+software implementation of ECB and CBC encryption algorithms can be used in low 
+power wireless sensor networks as an alternative to the hardware AES.
+
+While the method does have its drawbacks, the results show that it is an 
+acceptable solution both in terms of power consumption efficiency as well 
+as overall performance of the SparrowE node.
+
+We have seen that using this implementation, the number of encryption 
+and decryption operations which can be performed in the unit of time 
+is significantly smaller than when using hardware AES. However, for the 
+needs of the network, the number of operations is sufficient.
+
+A second drawback would be that the software implementation requires 
+additional memory to store the tables used by the ECB and CBC methods 
+to generate keys. This can take up to 21Kb of flash memory on the controller.
+In comparison, when using hardware AES, no such memory usage is required.
+
+On the advantages of using this method, we have shown that the power consumption 
+of the Atmega controller, when used to perform intensive computations, is not 
+something that would decrease the sensor node's autonomy. Therefore, we can 
+use this method safely in a low power network which must operate for increased periods 
+of time.
+
+The last test has shown that by using this method of decryption, the coordinator (or 
+gateway) node can still perform even when flooded with a great number of corrupt 
+packages meant to perform a DDoS attack and prevent the network from processing 
+proper data.

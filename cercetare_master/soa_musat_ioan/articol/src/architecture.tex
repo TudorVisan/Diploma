@@ -26,21 +26,17 @@ collects information from the sensors,
 \item communication module.
 \end{itemize}
 
-The main focus on this paper will be placed on the encryption module.
-The encryption method for the data uses the two supported hardware methods: AES 128 ECB
-and AES 128 CBC. It is necessary to use both of them because the nodes are transmitting 
-two kinds of packets: a first type of packets which contains non-sensitive data and is used by the
-receiver to identify the sender and a second type of packets which contains the actual sensitive data. Since it supports 
-both encryption and decryption, the first set of packets, those containing identification
-information, are encrypted using ECB. The data itself is encrypted using CBC. Since CBC 
-decryption is not supported by default, a software CBC decryption implementation is necessary in order to allow the sensors to verify the data at regular intervals.
+Since the transceiver module is separated from the controller, from an efficiency perspective, it 
+would be preferable to implement AES ECB and CBC algorithms as software services directly on the 
+controller. Using this method, the transceiver shall be kept most of the time in an idle state, 
+and the only component which will actively operate and drain the battery is the controller itself.
+While the controller is one of the components which a high power consumption rate, the implementation 
+will contain optimizations meant to keep the number of encryption operations performed to a minimum.
+Moreover, it is important to filter data before packageing and sending it, in order to further 
+reduce the number of encryption and decryption operations which the microcontroller of a node has 
+to perform
 
- 
-%\begin{figure}[ht] \centering
-%  \includegraphics[width=0.5\textwidth]{img/send-receive.png}
-%  \caption{Packet Types}
-%\end{figure}
-
-
-In addition to the CBC decryption, it is also required to have implementations of other software encryption algorithms in order to perform the performance analysis. The chosen 
-algorithms which will be used in benchmarking are Skipjack and RC5.
+Overall, given the available hardware resources and architecture, the proposed implementation offers 
+a software solution for ensuring data security and it also uses encryption methods which can easily 
+be replaced with AES ones if ported on an hardware architecture in which the transceiver is 
+incorporated in the microcontroller.

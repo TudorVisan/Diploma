@@ -13,6 +13,7 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{parskip}
 \usepackage{flushend}
+\usepackage{caption}
 
 % Support for including graphics
 \usepackage{graphicx}
@@ -24,18 +25,16 @@
 \title{Data security and encryption in low-power Wireless Sensor Networks}
 
 \author{
-\IEEEauthorblockN{Ioan Deaconu}
+\IEEEauthorblockN{Ioan Deaconu, Andrei-Alexandru Mușat}
 \IEEEauthorblockA{
   Automatic Control and Computers Faculty\\
   University Politehnica of Bucharest,\\
-  \{ioan.deaconu@cti.pub.ro\}}
+  \{ioan.deaconu@cti.pub.ro\}, \{andrei.musat@cti.pub.ro\}}
   }
 
 
  
 \maketitle
-
-The fist two pages are intended for grading.
 
 \section{Introduction}
 \label{sec:introduction}
@@ -49,7 +48,17 @@ The fist two pages are intended for grading.
 \label{sec:architecture}
 \input{src/architecture}
 
+\section{Implementation}
+\label{sec:implementation}
+\input{src/implementation}
 
+\section{Experimental Results}
+\label{sec:results}
+\input{src/results}
+
+\section{Conclusions}
+\label{sec:conclusions}
+\input{src/conclusions}
 
 \bibliographystyle{abbrv}
 \bibliography{soa}

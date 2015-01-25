@@ -26,8 +26,9 @@ accelerometers and then broadcast it on the network.
 \subsection{Software ECB and CBC efficiency}
 
 The metric of interest is the number of encryption and decryption operations 
-which can be performed in a unit of time by the software implementation of the 
-ECB and CBC algorithms and if it scales linearly like the AES implementation does.
+on a 16 bytes block which can be performed in a unit of time by the software 
+implementation of the ECB and CBC algorithms and if it scales linearly like 
+the AES implementation does.
 
 In order to gather the required data, both EBC and CBC have been performed on 
 data from the node's sensors for periods of time lating 1, 2, 3, 4 and 5 seconds 
@@ -60,13 +61,18 @@ can be observed in the tables shown below:
     5 & 4367 & 17754 & 2546 & 16901\\ \hline
 \end{tabular}
 
-As it is seen in both tables, the results show that the software implementation, while 
-slower than the hardware variant, scales linearly. The reduced number of operations which are 
-performed in the software version does not represent a major drawback, as there is no immediate 
-need to be able to process that amount of packets in one second. In fact, if a node were to send 
-over 3000 packets in one second, the network would most likely be flooded.The main drawback of the 
-software version is that the number of decryption operations performed is significantly lower than 
-the number of encryption operations.
+As it is seen in both tables, the results show that the software implementation also 
+scales linearly, just like the hardware AES. Unfortunately, the software AES proves to 
+be almost 7 times slower than the hardware AES. This is especially problematic in the 
+case of data decryption, where the software AES will be much slower will take longer 
+periods of time to detect possible corrupt packets. Furthermore, this will also cause 
+the data from the sensors to be gathered less often and there is the danger that 
+an interuption which occurs when sensor data is ready could suspend the decryption 
+process.
+
+One more issue encountered during the tests shows that due to the limited amount of 
+RAM memory available on the controller, only 4Kb, a node cannot perform both software 
+encryption and decryption at the same time.
 
 \subsection{Power consumption}
 
@@ -81,10 +87,11 @@ of 10mA which spikes at 14mA. If the hardware approach is used and the tranceive
 for large periods of time, it adds a power consumption of 1.63mW-3.48mW, meaning an average 
 current of 490uA.
 
-Because software encryption is performed slower than hardware encryption, the total consumption 
-of both methods may be around the same average value. However, if performed at specific time 
-intervals, software only operations can be more efficient from this point of view than the 
-hardware equivalent.
+Because software AES operations are performed slower than their hardware AES counterparts, 
+it would seem that the total power consumption of the sensor nodes would be 7 times greater.
+However, when calculated together with the power consumption of all the other components, 
+results show that using software AES decreases the sensor's autonomy by a factor of only 
+2 or 3.
 
 \subsection{Flooding and DDoS protection}
 
@@ -100,9 +107,32 @@ corrupt packets which are only meant to flood the network. The total size of the
 112 bytes. The size must be a multiple of 16 in order to be processed by the block encryption 
 algorithms. Then, these packets will be sent at time intervals starting at the network's default 
 250ms and scaling down until the coordinator no longer receives any packets. The total number 
-of packets sent during each iteration is 1500. The results can be seen in the figure below:
+of packets sent during each iteration is 1500. The packet header is described below:
 
-// ===================> plot cu packet loss
+\begin{lstlisting}
+#define MAX_PACKET_DATA 17
+
+typedef struct __attribute__((packed)){
+	int16_t x;
+	int16_t y;
+	int16_t z;
+} data_t;
+
+typedef struct __attribute__((packed)){
+	uint16_t node_id;
+	uint32_t timestamp;
+	uint16_t frame_index;
+	uint16_t nr;
+	data_t data[MAX_PACKET_DATA];
+} frame_t;
+\end{lstlisting}
+
+The results can be seen in the figure below:
+
+\begin{figure}[ht] \centering
+  \includegraphics[width=0.5\textwidth]{img/packet-loss.png}
+  \caption{Graphic representation of packet loss corelated with interval between packet sending}
+\end{figure}
 
 We can see that packet loss does not drastically increase in the interval of 250ms - 40ms. However, 
 once we start sending packets once every 32ms or faster, the network becomes more and more flooded.

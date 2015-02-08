@@ -33,10 +33,7 @@ the AES implementation does.
 In order to gather the required data, both EBC and CBC have been performed on 
 data from the node's sensors for periods of time lasting 1, 2, 3, 4 and 5 seconds 
 respectively. Then, the same was done using the AES implementations. The results 
-can be observed in the tables shown below:
-
-\\
-\\
+can be observed in the tables shown below:\\
 
 \captionof{table}{Number of operations performed by software/hardware ECB}
 \begin{tabular}{ | l | p{1.5cm} | p{1.5cm} | p{1.5cm} | p{1.5cm} |}
@@ -47,8 +44,7 @@ can be observed in the tables shown below:
     3 & 2707 & 10661 & 1562 & 10653\\ \hline
     4 & 3604 & 14221 & 2084 & 14205\\ \hline
     5 & 4508 & 17761 & 2603 & 17752\\ \hline
-\end{tabular}
-
+\end{tabular}\\\\
 
 \captionof{table}{Number of operations performed by software/hardware CBC}
 \begin{tabular}{ | l | p{1.5cm} | p{1.5cm} | p{1.5cm} | p{1.5cm} |}
@@ -59,7 +55,7 @@ can be observed in the tables shown below:
     3 & 2623 & 10651 & 1530 & 10143 \\ \hline
     4 & 3495 & 14203 & 2038 & 13525 \\ \hline
     5 & 4367 & 17754 & 2546 & 16901\\ \hline
-\end{tabular}
+\end{tabular}\\\\
 
 As it is seen in both tables, the results show that the software implementation also 
 scales linearly, just like the hardware AES. Unfortunately, the software AES proves to 

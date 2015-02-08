@@ -1,4 +1,4 @@
-BASENAME = quake_monitoring
+BASENAME = quake
 PDF = $(addsuffix .pdf, $(BASENAME))
 DVI = $(addsuffix .dvi, $(BASENAME))
 TEX = $(addsuffix .tex, $(BASENAME))

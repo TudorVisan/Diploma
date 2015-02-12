@@ -98,7 +98,7 @@ resilient the network is to such an attack and how much useful information the c
 loses because it spends time analyzing and decrypting corrupt packets, such an attack has been 
 simulated inside the experimental network.
 
-The simulation is done by expanding the network to 5 nodes and having some of them transmit 
+The simulation is done by expanding the network to 5 SparrowE nodes and having some of them transmit 
 corrupt packets which are only meant to flood the network. The total size of these packets is 
 112 bytes. The size must be a multiple of 16 in order to be processed by the block encryption 
 algorithms. Then, these packets will be sent at time intervals starting at the network's default 
@@ -132,7 +132,7 @@ The results can be seen in the figure below:
 
 We can see that packet loss does not drastically increase in the interval of 250ms - 40ms. However, 
 once we start sending packets once every 32ms or faster, the network becomes more and more flooded.
-When the transmission interval is below 27ms, the attacker's packets no longer reach the coordinator
-node (the attacker cannot send packets that fast and stops working), thus all the correct packets are 
-processed and the loss is 0 percent. The overall packet loss for the 5 sensor network transmitting at 
+When the transmission interval is below 27ms, the corrupt packets no longer reach the coordinator
+node. This is due to a limitation of the SparrowE firmware which blocks the node when the transmition 
+interval is too small. The overall packet loss for the 5 sensor network transmitting at 
 intervals of 250 milliseconds is 2 percent.

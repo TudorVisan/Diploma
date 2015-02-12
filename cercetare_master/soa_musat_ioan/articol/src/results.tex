@@ -46,10 +46,10 @@ can be observed in the tables shown below:\\
     5 & 4508 & 17761 & 2603 & 17752\\ \hline
 \end{tabular}\\\\
 
-\captionof{table}{Number of operations performed by software/hardware CBC}
+\captionof{table}{number of operations performed by software/hardware cbc}
 \begin{tabular}{ | l | p{1.5cm} | p{1.5cm} | p{1.5cm} | p{1.5cm} |}
     \hline
-    Time & CBC Software Encryption & CBC Hardware Encryption & CBC Software Decryption & CBC Hardware Decryption \\ \hline
+    time & CBC software encryption & CBC hardware encryption & CBC software decryption & CBC hardware decryption \\ \hline
     1 & 873 & 3550 & 509 & 3380 \\ \hline
     2 & 1747 & 7103 & 1023 & 6760 \\ \hline
     3 & 2623 & 10651 & 1530 & 10143 \\ \hline
@@ -67,27 +67,43 @@ an interruption which occurs when sensor data is ready could suspend the decrypt
 process.
 
 One more issue encountered during the tests shows that due to the limited amount of 
-RAM memory available on the controller, only 4Kb, a node cannot perform both software 
+RAM memory available on the controller, only 8Kb, a node cannot perform both software 
 encryption and decryption at the same time.
 
 \subsection{Power consumption}
 
 Under normal circumstances, the Atmega controller on the SparrowE nodes functions at a 
-supply voltage of 3.6V and a frequency of 8MHz. If the nodes run the encryption by using 
+supply voltage of 3.3V and a frequency of 8MHz. If the nodes run the encryption by using 
 only the software method, then the transceiver shall mostly be turned off while the sensor is 
-running and its power consumption is negligible.
+running and its power consumption is negligible.\\
 
-While performing encryption operations, it has been measured that the controller has a medium 
-power consumption of 36mW, which can reach peaks of 50.4mW, meaning it normally uses a current 
-of 10mA which spikes at 14mA. If the hardware approach is used and the transceiver is turned on 
-for large periods of time, it adds a power consumption of 1.63mW-3.48mW, meaning an average 
-current of 490uA.
+
+\captionof{table}{power consumption of a single ECB operation}
+\begin{tabular}{ | p{1.75cm} | p{1.75cm} | p{1.75cm} | p{1.75cm} |}
+    \hline
+    ECB Software Encryption & ECB Hardware Encryption & ECB Software Decryption & ECB Hardware Decryption \\ \hline
+    0.0358 J & 0.00957 J & 0.062 J & 0.01 J \\ \hline
+\end{tabular}\\\\
+
+
+\captionof{table}{power consumption of a single CBC operation}
+\begin{tabular}{ | p{1.75cm} | p{1.75cm} | p{1.75cm} | p{1.75cm} |}
+    \hline
+    CBC software encryption & CBC hardware encryption & CBC software decryption & CBC hardware decryption \\ \hline
+    0.0369 J & 0.00958 J & 0.0639 J & 0.01 J \\ \hline
+\end{tabular}\\\\
+
+
+
+While performing encryption operations, it has been measured that the controller draws an average current 
+of 9.78 mA . If the hardware approach is used and the transceiver is turned on for large periods of
+time, the measured current increases by an average of 610uA.
 
 Because software AES operations are performed slower than their hardware AES counterparts, 
-it would seem that the total power consumption of the sensor nodes would be 7 times greater.
+it would seem that the total power consumption of the sensor nodes would be between 4 and 7 times greater.
 However, when calculated together with the power consumption of all the other components, 
 results show that using software AES decreases the sensor's autonomy by a factor of only 
-2 or 3.
+2 or 3. 
 
 \subsection{Flooding and DDoS protection}
 

@@ -27,5 +27,13 @@ it is possible for the master, the Atmega 1281V controller, to communicate with 
 
 //TODO schema cu astia conectati la I2C la controller
 
-All the components on the SparrowE node function at a supply voltage of 3.6V. The node can be powered in 2 ways: either from a lithium polymer battery 
-cell or via an USB port. When powered via USB, a linear DC regulator is used to drop the supply voltage from the 5V of the USB line to the necessary 3.6V.
+All the components on the SparrowE node function at a maximum supply voltage of 3.6V. The node can be powered in 2 ways: either from a lithium polymer battery 
+cell or via an USB port. When powered via USB, a linear DC regulator is used to drop the supply voltage from the 5V of the USB line to the necessary 3.3V.
+
+\subsection{Software}
+
+The node software follows the same design ideea as the hardware one, so in order write code more easier, the node's firmware is a moddified arduino compatible one. This allows us to use existing libraries or to easily write our own.
+
+
+
+

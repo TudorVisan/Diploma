@@ -36,8 +36,18 @@ cell or via an USB port. When powered via USB, a linear DC regulator is used to 
 
 \subsection{Software}
 
-The node software follows the same design ideea as the hardware one, so in order write code more easier, the node's firmware is a moddified arduino compatible one. This allows us to use existing libraries or to easily write our own.
+The SparrowE wireless sensor nodes software follows the same design ideea as in the case of the hardware, so in order to write code more easier, the node's firmware is a moddified arduino compatible firmware. Arduino\cite{arduino} is an open-source cross-plaftorm idee. This allows us to be platform independent, because arduino is available for all three major platforms, Windows, Linux and Mac. Another advantage is that the same code could be used on a different hardware without major modifications.
 
+\begin{figure}[ht] \centering
+  \includegraphics[width=0.5\textwidth]{img/software-architecture.png}
+  \caption{Software arhitecture connections}
+\end{figure}
+
+The accelerometer of the node is configured for a +/-2G linear acceleration rate and an Ouput Data Rate of 50 Hz. The raw data from the 3 axis is translated into gravitational scale and then is normalized using the bellow formula:
+
+$ a = \sqrt{x^2+y^2+z^2}$
+
+This approach will generate a value of 1G when the node is not shaken and when it is vibrating, the value will higher or lower then 1g. The calculated data is gather in an array of 20 that is sent periodicaly by the Transceiver to the Gateway, alongside node identification data. The Gateway is able to collect data from multiple nodes and send it to a base station through a serial connection configured at 1 Mbps baud rate. The base station is responsible for saving and interpreting the data. An earquake is detected when the values will oscilate strongly around the 1G value.
 
 
 

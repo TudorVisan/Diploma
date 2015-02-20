@@ -1,3 +1,4 @@
+\subsection{Hardware}
 
 The SparrowE wireless sensor nodes are custom designed for use in various research projects.
 They are designed as a single PCB board which hosts all of the major components, such as: controller,
@@ -36,18 +37,33 @@ cell or via an USB port. When powered via USB, a linear DC regulator is used to 
 
 \subsection{Software}
 
-The SparrowE wireless sensor nodes software follows the same design ideea as in the case of the hardware, so in order to write code more easier, the node's firmware is a moddified arduino compatible firmware. Arduino\cite{arduino} is an open-source cross-plaftorm idee. This allows us to be platform independent, because arduino is available for all three major platforms, Windows, Linux and Mac. Another advantage is that the same code could be used on a different hardware without major modifications.
+The SparrowE wireless sensor nodes run an Arduino\cite{arduino} compatible firmware. This allows the programmer to easily import 
+and use open source Arduino modules for each peripheral. Another advantage of using an Arduino compatible firmware is that it ensures the code is 
+compatible with multiple platforms and can be easily modified, upgraded or ported to similar hardware. For development, the Arduino IDE is used 
+because it provides access to predefined libraries for peripherals such as serial line, two-wire interface and ADC. It is also available on a wide 
+variety of operating systems which makes code modifications and firmware updates easier to implement.
+
+The firmware which runs on the SparrowE nodes operates in two steps. The first step is a calibration phase, which starts running when the sensor 
+is first turned on. This will determine the default values for each of the 3 accelerometer axes for the current position of the node. Once this step 
+is completed, the node enters its second step in which it will continuously function untill it is turned off. During this period, it harvests data 
+from the accelerometer and sends it towards a designated gateway using the AT86RF212 RF transceiver. The gateway shall always be connected to a server 
+which is capable of plotting and analyzing the data. The gateway communicates with this server by means of a serial interface.
 
 \begin{figure}[ht] \centering
   \includegraphics[width=0.5\textwidth]{img/software-architecture.png}
   \caption{Software arhitecture connections}
 \end{figure}
 
-The accelerometer of the node is configured for a +/-2G linear acceleration rate and an Ouput Data Rate of 50 Hz. The raw data from the 3 axis is translated into gravitational scale and then is normalized using the bellow formula:
+The accelerometer on the SparrowE node is configured for a +/-2G linear acceleration rate and operates at an Ouput Data Rate of 50 Hz. 
+The raw data from the 3 axes is translated by the Atmega 1281V microcontroller into gravitational scale and then is normalized using the following formula:
 
 $ a = \sqrt{x^2+y^2+z^2}$
 
-This approach will generate a value of 1G when the node is not shaken and when it is vibrating, the value will higher or lower then 1g. The calculated data is gather in an array of 20 that is sent periodicaly by the Transceiver to the Gateway, alongside node identification data. The Gateway is able to collect data from multiple nodes and send it to a base station through a serial connection configured at 1 Mbps baud rate. The base station is responsible for saving and interpreting the data. An earquake is detected when the values will oscilate strongly around the 1G value.
+This approach will generate a value of 1G when the node is kept still, in its calibrated position. When the surface starts vibrating, the value will start varying 
+above or bellow the refence value of 1G. The calculated data is gathered in arrays containing 20 samples each. They are sent periodically by the transceiver to the 
+gateway. Node identification data is also added to the sent packets. The gateway is able to collect data from multiple nodes and send it to the base station through
+the aforementioned serial connection, which is configured at a baud rate of 1Mbps. The base station is responsible for saving and interpreting the data. 
+It is considered that a node has detected an earquake if the values oscilate strongly around the 1G reference value.
 
 
 

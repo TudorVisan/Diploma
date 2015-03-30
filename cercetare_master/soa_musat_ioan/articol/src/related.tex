@@ -18,14 +18,9 @@ against all types of attacks. However they offer protection against specific att
 software encryption methods:
 \begin{itemize}
 
-\item SPINS - 2002 - The communication parties create independent keys for encryption and decryption
-and MAC keys for communication. It provides security against Data and Information Spoofing and Message Replay Attacks\cite{perrig2002spins}.
-
 \item LEAP - 2003 - The protocol implies that the nodes exchange more than one type of message between them.Thus, the framework uses 4 different keys. It provides security against "HELLO" flood attacks, Sybil attacks and minimizes the consequences of spoofing, altering, replay routing information and selective forwarding attacks \cite{zhu2006leap+}.
 
 \item TinySec - 2004 - The key is pre-deployed on the node, but it does not provide any solution for changing the key. If a node is compromised, the entire network will be compromised. It provides security against Data and Information Spoofing and Message Replay Attacks \cite{karlof2004tinysec}.
-
-\item LEAP+ - 2006 - It uses the same idea as LEAP, but the overhead is reduced. It provides security against Confidentiality and authentication, "HELLO" flood attacks, Sybil attacks and minimizes the consequences of spoofing, altering, replay routing information and selective forwarding attacks \cite{zhu2006leap+}.
  
 \item MiniSec - 2007 - Uses a counter IV mechanism. The counter is incremented locally and only the last bits of the counter are sent. It provides security against Authentication, Data Secrecy and Reply Attack \cite{luk2007minisec}.
 

@@ -4,10 +4,10 @@
 Both the main processing unit and transceiver unit of the SparrowE wireless sensor nodes are provided by an Atmel
 ZigBit 900MHZ RF module. The module is composed of an ATmega 1281V 8-bit microcontroller and an
 AT86RF212 RF Transceiver connected with the microcontroller via a SPI interface. The Atmega 1281V is a low power 8 bit microcontroller
-which is connected to the onboard sensors of the node. In order to transmit or perform encryption operations on 
+which is connected to the on-board sensors of the node. In order to transmit or perform encryption operations on 
 data, the microcontroller must communicate with the RF Transceiver. The Transceiver controller is also a low power chip,
-capable of transmitting signals to distances of up to 6 km, as specified in the official Atmel datasheet \cite{datasheetatmel}. The Transceiver contains a security module compatible
-with AES-128. It supports hardware encryption and decryption for AES 128 ECB, but for the AES
+capable of transmitting signals to distances of up to 6 km, as specified in the official Atmel datasheet \cite{datasheetatmel}. 
+The Transceiver contains a security module compatible with AES-128. It supports hardware encryption and decryption for AES 128 ECB, but for the AES
 128 CBC method only hardware encryption is supported.
 
 

@@ -20,7 +20,7 @@ emerge, thus making this encryption method relatively vulnerable to attacks.
 \end{figure}
 
 In contrast, CBC mode encrypts a block by using information from either the previous 
-block, or and initialization vector (IV). A xor operation is performed between the 
+block, or and initialization vector (IV). A XOR operation is performed between the 
 plain text and the previous cipher text or IV before applying the key. This method 
 ensures pseudo-randomness and prevents patterns from emerging, thus making it 
 more resilient to attacks.
@@ -49,7 +49,7 @@ as well as the number of operations which must be performed, the cost of such a
 solution is not optimal for low power sensors. By cost we refer to the necessary 
 processing power and the total power consumption of the wireless sensor node.
 \item Memory limitations. The wireless sensor nodes were not designed to support 
-external flash memory modules. The only available memory is the Atmega controller's 
+external flash memory modules. The only available memory is the ATmega controller's 
 flash memory. Since this memory is limited, writing additional data in it such as 
 the node's private key and the public keys of other nodes would not be practical.
 A possible solution would be to add a special type of node which handles all data 

@@ -1,0 +1,65 @@
+% vim: set tw=78 sts=2 sw=2 ts=8 aw et ai:
+\documentclass[conference]{IEEEtran}
+
+%\documentclass[14pt]{extreport}
+
+\usepackage{ucs}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage[english]{babel}
+%\usepackage{hyperref}	  % use \url{http://$URL} or \href{http://$URL}{Name}
+\usepackage{underscore}	  % underscores need not be escaped
+\usepackage{subfigure}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{parskip}
+\usepackage{flushend}
+
+% Support for including graphics
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\begin{document}
+
+\title{Arhitectura Intel Core i7}
+
+\author{
+\IEEEauthorblockN{Ioan Deaconu}
+\IEEEauthorblockA{
+  Automatic Control and Computers Faculty\\
+  University Politehnica of Bucharest,\\
+  \{ioan.deaconu@cti.pub.ro\}}
+  }
+
+ 
+\maketitle
+
+\begin{IEEEkeywords}
+Intel Core i7, Nehalem
+\end{IEEEkeywords}
+
+\section{Introducere}
+\label{sec:introducere}
+\input{src/introducere}
+
+\section{Notiuni Teoretice Aferente}
+\label{sec:notiuniteoretice}
+\input{src/notiuniteoretice}
+
+\section{Implementare}
+\label{sec:implementare}
+\input{src/implementare}
+
+\section{Simulare} 
+\label{sec:simulare}
+\input{src/simulare}
+
+\section{Concluzii} 
+\label{sec:concluzii}
+\input{src/concluzii}
+
+\bibliographystyle{abbrv}
+\bibliography{roedunet-gateway}
+
+\end{document}

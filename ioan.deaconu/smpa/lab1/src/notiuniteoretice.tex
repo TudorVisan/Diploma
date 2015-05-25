@@ -1,50 +1,51 @@
-Specificatiile de baza sunt:
+Pentru a putea executa o instructiune, aceasta trebuie citita, decodata, executa si scrise datele
+inapoi in memorie. Acesti pasi au fost impartiti in componente simple, pentru a putea face
+procesorul mai modular. Acesti pasi, in arhitectura clasica RISC sunt:
 \begin{itemize}
 
-\item Hyper-threading.
-\item Quad-core si octa-core nativ
-\item Intel QPI
-\item 64KB L1 cache pentru fiecare nucleu (32KB L1 data si 32KB L1 instruction)
-\item 256KB L2 cache pentru fiecare nucleu
-\item L3 cache de ordinul MB
-\item Controler de memorie ram DDR3 integrat cu doua sau trei canale
-\item A doua generate de Intel-VT
-\item Instructiunea SSE4.2
-\item Pipeline in 20 sau 24 de stagii.
-     
-      
+\item Instruction Fetch.
+\item Instruction Decode and register Fetch.
+\item Execute.
+\item Memory access.
+\item Write Back.
 
 \end{itemize}
 
+\subsection{Scalar - Pipeline}
 
-Aceasta arhitectura are multe imbunatatiri care o ajuta sa fie relevanta si in aceste zile, dar
-voi prezenta cele mai importante dintre ele.
+Din cauza faptului ca doar un singur modul este activ iar celelalte nu fac nimic, incepand cu ani 70
+s-a folosit principul de pipeline. Astfel, pentru a se eficientiza utilizarea procesorului, mai
+multe instructiuni vor fi executa in acelasi timp, dar decalate cu un pas, pentru a putea folosi
+modulele mai eficient.
 
-\begin{itemize}
+De exemplu, in cazul a 5 instructiuni, daca consideram ca toate stagiile dureaza 1 unitate de timp,
+atunci fara pipeline ar dura 25 de unitati de timp executia totala a instructiunilor. Folosind
+pipeline, timpul total de executie al celor 5 instructiuni ar fi de doar 9 unitati de timp
+\cite{johnson1991superscalar}.
 
-\item Accesul nealiniat la memoria cache. Pana la arhitectura Nehalem, accesul la memoria cache era
-facut aliniat, astfel compilatoarele trebuiau sa se ocupe de alinierea memoriei pentru a obtine performanta
-maxima. Cu access nealiniat la memoria cache, aplicatiile nu mai trebuie sa fie optimizate pentru
-accesul nealiniat, marind viteza de executie a programului\cite{singhal2008inside}.
+\begin{figure*}[ht] \centering
+\includegraphics[width=0.9\textwidth]{img/pipeline.png}
+\caption{Exemplu de executie a instructiunilor folosind pipeline.} \end{figure*}
 
-\item Hyper-Threading. Desi acest feature a fost folosit anterior in arhitectura Pentium 4 in anul
-2003, s-a renuntat la el in urmatoarea generatie, pentru a se reveni inapoi la simultaneous threading odata cu arhitectura Core i7. 
+\subsection{Scalar Avansat}
 
-\item Controlul Avansat al Consumului. Pe langa nuclee propriuzise ale procesorului, exista un
-nucleu mai mic, un nucleu care se ocupa de monitorizarea parametrilor de functionare, parametri
-precum temperatura, consumul , optimizand puterea totala consumata. Astfel, acest microcontroler
-poate opri complet un nucleu pentru a minimiza consumul.
+Cu timpul, odata ce unitatile interne ale procesorului au devenit din ce in ce mai puternice,
+pipelineul a devenit din ce in ce mai lung, ajungand in Pentium 4 la un numar de 31 de stagii de
+pipeline. Desi teoretic un pipe lung permite o granularitate mai buna, dezavantajul major il
+constituie branchurile, deoarece tot pipeline-ul trebuie golit si incarcat cu instructiuni noi.
+Deasemenea un pipeline mai lung inseamna o durata mai mare de executie a unei instructiuni, dar
+permite atingerea unor frecvente mai mari. 
 
-\item Modul Turbo Boost. Datorita controlului avansat de consum, si a faptului ca mai multe nuclee pot fi
-oprite, aceasta rezerva de putere poate fi folosita pentru a mari frecventa nucleelor active. Cat
-timp puterea totala consuma a procesorului si temperatura acestuia nu depasesc limitele admise,
-exista posibilitatea ca toate nuclele sa poata functiona cu o frecventa marita in acelasi timp.
+Deoarece exista unitati care pot fi nefolosite, spre exemplu floating point unit nu este
+folosita cand se executa o instructiune de load sau store, dezvoltatorii de procesoare au decis sa
+execute mai multe instructiuni in paralel. Astfel pipelineul pe langa numarul de stagii care le are
+a fost marit si in latime. Mai exact, in loc de executia unei singuri instructiuni, se
+citesc simultan mai multe instructiuni si se executa simultan. Acest mod de abordare ar permite ,
+de exemplu ca in acelasi timp in care se executa adunarea a 2 registre sa se poata compara alte
+registre\cite{jouppi1989available}.
 
-\end{itemize}
-
-O mare parte din aceste idei au fost folosite in alte
-arhitecturi mai recente, arhitecturi  precum Cortex A7, A9 sau mai recent A57 si A53. Deasemenea si
-AMD a folosit o parte din idei in procesoare x86 create de ei.
-
+\begin{figure*}[ht] \centering
+\includegraphics[width=0.9\textwidth]{img/superscalar.png}
+\caption{Exemplu de executie a mai multor instructiunilor folosind super scalar.} \end{figure*}
 
 

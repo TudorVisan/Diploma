@@ -1,0 +1,39 @@
+Unitatile functionale ale unei placi video sunt:
+
+\begin{itemize}
+
+\item Pixel Shader.
+\item Vertex Shader.
+\item Geometry Shader.
+\item Tessellation Shader.
+
+\end{itemize}
+
+\subsection{Pixel Shader}
+
+Pixel shader este o unitate care se ocupa de culoarea pe care o are un pixel al ecranului. Acesta
+unitate aplica efecte peste culoare de baza, efecte precum blur, shadowing, edge detection. Din
+acest motiv, un pixel shader trebuie sa stie contextul pixelului pentru a putea calcula culoarea
+finala.
+
+\subsection{Vertex Shader}
+
+Vertex shader este o unitate care poate calcula pozitia unui vertex. Mai exact, scopul lui este sa
+transforme coordonatele 3D ale unui vertex in spatiul 2D corespunzator al ecranului. Pentru a
+realiza acest lucru, un shader vertex poate lucra cu proprietatii ale liniei cum ar fi culoarea,
+pozitia si coordonatele texturii, dar aceasta unitate nu poate crea vertexi noi. Rezultatul unui
+vertex shader poate fi trimis unui Geometry Shader sau unui engine de Rasterizare.
+
+\subsection{Geometry Shader}
+
+Geometry Shader, adaugat in DirectX10, spre deosebire de Vertex Shader, poate crea vertexi noi.
+Acesta primeste ca intrare un poligon, si poate sa adauge puncte noi pentru a crea poligoane noi si
+un nivel mai mare de detaliu. Rezultatul acestei unitati este trimis lui Pixel Shader
+\cite{kirk2007nvidia}.
+
+\subsection{Tessellation Shader}
+
+Tessellation Shader, introdus in DirectX11, permite obiectelor aflate in apropierea camerei sa fie
+alcatuite din mai multe poligoane fata de obiectele mai indepartate. Acest lucru este realizat
+hardware, si doar de catre acesta unitate, astfel, impactul asupra performantei este mic comparativ
+cu nivelul de detaliu generat.

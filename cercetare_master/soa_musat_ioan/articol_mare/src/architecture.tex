@@ -66,4 +66,23 @@ the aforementioned serial connection, which is configured at a baud rate of 1Mbp
 It is considered that a node has detected an earquake if the values oscilate strongly around the 1G reference value.
 
 
+\subsection{Low Power}
 
+Since the goal of the sensors is to monitor phenomena which does not frequently occur in many areas, we must ensure that the SparrowE sensors are low power and 
+capable of running for prolonged periods of time. This problem is tackled mainly at the software level. At the hardware level, while the components of the sensor 
+are selected with regard to power consumption, their power consumption is still too much considering the target autonomy of the SparrowE sensor.
+
+In order to overcome this, the firmware is designed to keep the controller in a sleep state and wake up periodically to read the accelerometer data. 
+The gating is done using a RTC (Real Time Clock). The AtmegRFA1 controller on the sensors offers the ability of using Timer2 as a real time clock source with an 
+external 32Mhz crystal oscilator. The reason why a real time clock is used to implement this mechanism is that even while the controller sleeping, 
+this peripheral is still active and it will generate interrupts at certain time intervals configured by the programmer. When the controller receives such an 
+interrupt, it will wake up and perform any designated operation until it is put back to sleep and the entire process starts again.
+
+By using this technique, the data from the accelerometer is read and sent to a base station once every second instead of once every hundreds of miliseconds. By doing this, 
+the battery is preserved for much longer, as the controller and the transceiver operate for smaller periods of time. The risk of losing data from the accelerometer is reduced 
+because older readings are kept in a small buffer. Thus, when performing a read, we get the values of the accelerometer's most recent X reads, instead of just one read. Also, 
+in time, the data loses continuity as we are getting discrete values for moments in time set 1 second apart instead of a continuous flow, but it is easier to identify when 
+a transition from no vibrations to actual vibrations occur.
+
+With this approach, we increase the autonomy of the Sparrow sensors while, at the same time, making data easier to handle by the plotting and interpretation software running 
+on the base station.

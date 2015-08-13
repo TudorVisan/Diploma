@@ -81,5 +81,11 @@ the battery is preserved for much longer, as the controller and the transceiver 
 accelerometer. According to the datasheets of each individual component, the accelerometer's consumption in normal mode is 350 micro amps, while the ATmegaRFA1's consumption is
 5.7 mili amps in normal mode and 0.2 micro amps in sleep mode. On average, the sensors should never spike above 1 mili amp. 
 
+While the controller is put into a sleep state, the accelerometer is always powered on and functioning. The LSM9DS0 chip comes with 4K of flash memory where it can store the data 
+it reads. This allows the controller to always read the latest data from the accelerometer while relaying the oldest to the base-station. This is achieved by maintaining 2 pointers 
+towards the accelerometer's memory. One of them always points to the newest data, as it is the most relevant for detecting events such as earthquakes, while the other points to the 
+oldest data which has not yet been transmitted. By doing so, the sensor nodes will pe prompt when it comes to detecting events but, at the same time, they will maintain a low power 
+state by transmitting data in smaller quantities over longer periods of time.
+
 With this approach, we increase the autonomy of the Sparrow v4 sensor node while, at the same time, making data easier to handle by the plotting and interpretation software running 
 on the base station.

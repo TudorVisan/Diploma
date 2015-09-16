@@ -6,17 +6,17 @@
 
 reset
 
-set terminal pngcairo size 800,600 enhanced font 'Verdana,10'
-set output 'same_level.png'
+set terminal svg size 800,600 enhanced font 'Verdana,10'
+set output 'same_level'
 set border linewidth 1.5
 
 set key right
 
-set xrange [0:50]
-set yrange [7000:40000]
+set xrange [0:41]
+set yrange [0.5:2]
 
-set ylabel "Accelerometer Median"
-set xlabel "Packet ID"
+set ylabel "Acceleration (G)"
+set xlabel "Time (s)"
 
 plot 'plotting_data2.dat' i 0 with lines lw 2 lt 1 lc 3 t 'Middle-Top', \
      'plotting_data2.dat' i 1 with lines lw 2 lt 3 lc 1 t 'Bottom', \

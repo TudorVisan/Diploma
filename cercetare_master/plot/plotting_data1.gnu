@@ -6,15 +6,15 @@
 
 reset
 
-set terminal pngcairo size 800,600 enhanced font 'Verdana,10'
-set output 'same_sensor.png'
+set terminal svg size 800,600 enhanced font 'Verdana,10'
+set output 'same_sensor'
 set border linewidth 1.5
 
 set key right
 
 
-set xrange [0:50]
-set yrange [7000:40000]
+set xrange [0:41]
+set yrange [0.5:2.5]
 
 set ylabel "Acceleration (G)"
 set xlabel "Time (s)"

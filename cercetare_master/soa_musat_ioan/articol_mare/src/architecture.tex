@@ -26,7 +26,7 @@ All of the aforementioned sensors are connected to the microcontroller via a two
 it is possible for the master, the ATmega128RFA1 controller, to communicate with all of them without interference from the others.
 
 \begin{figure}[ht] \centering
-  \includegraphics[width=0.5\textwidth]{img/i2c-connection.png}
+  \includegraphics[width=0.5\textwidth]{img/i2c-conn.png}
   \caption{Sensors connected on two-wire interface}
 \end{figure}
 
@@ -44,7 +44,7 @@ variety of operating systems which makes code modifications and firmware updates
 The firmware which runs on the Sparrow v4 nodes operates in two steps. The first step is a calibration phase, which starts running when the sensor 
 is first turned on. This will determine the default values for each of the 3 accelerometer axes for the current position of the node. Once this step 
 is completed, the node enters its second step in which it will continuously function untill it is turned off. During this period, it harvests data 
-from the accelerometer and sends it towards a designated gateway using the AT86RF212 RF transceiver. The gateway shall always be connected to a server 
+from the accelerometer and sends it towards a designated gateway. The gateway shall always be connected to a server 
 which is capable of plotting and analyzing the data. The gateway communicates with this server by means of a serial interface.
 
 \begin{figure}[ht] \centering
@@ -53,16 +53,14 @@ which is capable of plotting and analyzing the data. The gateway communicates wi
 \end{figure}
 
 The accelerometer on the Sparrow v4 node is configured for a +/-2G linear acceleration rate and operates at an Ouput Data Rate of 50 Hz. 
-The raw data from the 3 axes is translated by the Atmega 1281V microcontroller into gravitational scale and then is normalized using the following formula:
-
-$ a = \sqrt{x^2+y^2+z^2}$
+The raw data from the 3 axes is translated by the ATmega128RFA1 microcontroller into gravitational scale and then is normalized.
 
 This approach will generate a value of 1G when the node is kept still, in its calibrated position. When the surface starts vibrating, the value will start varying 
-above or bellow the refence value of 1G. The calculated data is gathered in arrays containing 20 samples each. They are sent periodically by the transceiver to the 
+above or bellow the refence value of 1G. The calculated data is gathered in sent periodically by the controller to the 
 gateway. Node identification data is also added to the sent packets. The gateway is able to collect data from multiple nodes and send it to the base station through
 the aforementioned serial connection, which is configured at a baud rate of 1Mbps. The base station is responsible for saving and interpreting the data. 
-It is considered that a node has detected an earquake if the values oscilate strongly around the 1G reference value.
-s
+It is considered that a node has detected an earquake if the values oscilate strongly over the 1G reference value, reaching peaks at 2G+.
+
 \subsection{Low Power}
 
 The goal of the sensors is to monitor earthquakes and similar phenomena over prolonged periods of time. We must ensure that the Sparrow v4 sensors function in a low power
@@ -76,7 +74,7 @@ is in sleep mode, this peripheral is still active and it will generate interrupt
 interrupt, it will wake up and perform any designated operation after which it is put back to sleep and the entire process starts again.
 
 By using this technique, the data from the accelerometer is read and sent to a base station once every second instead of once every hundred miliseconds. By doing this, 
-the battery is preserved for much longer, as the controller and the transceiver operate for shorter periods of time. The only component with 100% uptime is the 
+the battery is preserved for much longer, as the controller and the transceiver operate for shorter periods of time. The only component with 100 percent uptime is the 
 accelerometer. According to the datasheets of each individual component, the accelerometer's consumption in normal mode is 350 micro amps, while the ATmegaRFA1's consumption is
 5.7 mili amps in normal mode and 0.2 micro amps in sleep mode. On average, the sensors should never spike above 1 mili amp. 
 

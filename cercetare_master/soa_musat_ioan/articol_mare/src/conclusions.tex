@@ -2,7 +2,7 @@
 
 In this paper, through the previously presented experiment, we have shown 
 that the Sparrow v4 wireless sensor node is a viable tool for monitoring 
-earthquake activity. It is also versatile as it can fulfill multiple purposes 
+earthquake activity. It is also versatile as it can fulfil multiple purposes 
 and tasks. Sparrow v4 nodes can be placed in key points on a structure to monitor 
 the amount of vibrations which it is exposed to. Alternatively, the nodes can 
 be organized in a wireless sensor network and can be used to monitor seismic activity 
@@ -12,7 +12,7 @@ warn authorities in case of danger.
 The results have shown that the experimental rig is responding similar to a tall building because 
 the lower positioned nodes gather lower amplitude values than the ones located on higher shelves 
 when the table is vibrating. At the end of the simulation, when the table is no longer being shaken 
-and it is naturaly vibrating due to previous forces, the higher positioned nodes continue 
+and it is naturally vibrating due to previous forces, the higher positioned nodes continue 
 to detect vibrations, as it is most likely to happen in the case of a real building. Even more, the 
 system could detect flaws in various structures and prevent real earthquakes from causing their collapse.
 
@@ -23,6 +23,18 @@ for monitoring environments.
 \subsection{Future Work}
 The Sparrow v4 sensor nodes can be further improved by adding energy harvesting modules to their 
 current design. Allowing them to harvest resources such as solar power can further increase 
-their autonomy and efficiency. Improvements can also be made to the experimental rig. A collaboration 
-with experts in seismology would be ideal in order to properly calibrate the rig to simulate 
-proper earthquakes on the Riechter scale and produce more accurate movements.
+their autonomy and efficiency. Further more, there is the possibility of designing a node which needs even less power to function. 
+This can be achieved mainly by swapping the microcontroller with an Atmel SAM R21, which brings the following advantages compared to the existing one:
+
+\begin{itemize}
+    \item 32 bit architecture instead of 8 bit architecture.
+    \item 256 kB of flash instead 128 kb of flash. 150k flash endurance instead of 50k , and 16k eeprom emulation with 600k write cycles endurance instead of 4k eeprom with 100k write cycles. This will allow more data to be saved more often and bigger programs to be used.
+    \item 32 kb of sram instead of. This will allow for higher complexity programs and algorithms.
+    \item Higher operating frequency, 48 MHz instead 16 MHz, while maintaining the same power consumption of 5 mA.
+    \item 70 percent smaller footprint, 32 QFN instead of 64 QFN. This allows for smaller nodes that can be mounted more easily.
+    \item Small improvement in transceiver's power efficiency and transmission power, 4 dB instead of 3.5 dB.
+    \item 12 bit ADC instead of 10 bit ADC for improved sensor reading accuracy.
+\end{itemize}
+
+Another component which can be swapped is the accelerometer. There are models which have a consumption of only 6uA for a 50Hz ODR.
+Howver, the trade-off for these changes would be a sight increase in the cost of the nodes.

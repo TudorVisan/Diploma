@@ -1,0 +1,15 @@
+Future work
+
+We proved that the sensor is low power, while continuously collection data. As a future project, we will design a lower power node, that could be power by battery for longer periods. The microcontroller will be Atmel SAM R21, which brings the following advantages compared to the existing one:
+
+\begin{itemize}
+    \item 32 bit architecture instead of 8 bit architecture.
+    \item 256 kB of flash instead 128 kb of flash. 150k flash endurance instead of 50k , and 16k eeprom emulation with 600k write cycles endurance instead of 4k eeprom with 100k write cycles. This will allow more data to be saved more often and bigger programs to be used.
+    \item 32 kb of sram instead of. This will allow for higher complexity programs and algorithms.
+    \item Higher operating frequency, 48 MHz instead 16 MHz, while maintaining the same power consumption of 5 mA.
+    \item 70% smaller footprint, 32QFN instead of 64 QFN. This allows for smaller nodes that can be mounted more easily.
+    \item Small improvement in transceiver's power efficiency and transmission power, 4 dB instead of 3.5 dB.
+    \item 12 bit ADC instead of 10 bit ADC for improved sensor reading accuracy.
+\end{itemize}
+
+Besides the cpu, the accelerometer that will be used will be , which has a much more lower power consumption of just 6uA for a 50Hz ODR.

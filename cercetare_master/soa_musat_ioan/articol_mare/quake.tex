@@ -1,16 +1,14 @@
 % vim: set tw=78 sts=2 sw=2 ts=8 aw et ai:
-\documentclass[conference]{IEEEtran}
+\documentclass{ifacconf}
 
+\usepackage{natbib}  
 \usepackage{ucs}
 \usepackage{url}
 \usepackage[utf8x]{inputenc}
 \usepackage[english]{babel}
-%\usepackage{hyperref}	  % use \url{http://$URL} or \href{http://$URL}{Name}
 \usepackage{underscore}	  % underscores need not be escaped
-\usepackage{subfigure}
 \usepackage{verbatim}
 \usepackage{float}
-\usepackage{amsmath, amsthm, amssymb}
 \usepackage{parskip}
 \usepackage{flushend}
 
@@ -19,29 +17,32 @@
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
 \begin{document}
-
+\begin{frontmatter}
 
 \title{Geodynamics monitorization using wireless sensor networks}
 
-\author{
-\IEEEauthorblockN{Ioan Deaconu, Andrei-Alexandru Musat, Dan Tudose}
-\IEEEauthorblockA{
-  Automatic Control and Computers Faculty\\
-  University Politehnica of Bucharest,\\
-  \{ioan.deaconu@cti.pub.ro\}, \{andrei.musat@cti.pub.ro\}}, \{dan.tudose@cs.pub.ro\}
-}
+\author[First]{Andrei-Alexandru Musat}
+\author[Second]{Dan Tudose}
+\author[Third]{Ioan Deaconu} 
 
-
- 
-\maketitle
+\address[First]{University Politehnica of Bucharest, 
+   Bucharest, Romania (e-mail: andrei.musat@cti.pub.ro).}
+\address[Second]{University Politehnica of Bucharest, 
+   Bucharest, Romania (e-mail: dan.tudose@cs.pub.ro).}
+\address[Third]{University Politehnica of Bucharest, 
+   Bucharest, Romania (e-mail: ioan.deaconu@cti.pub.ro).}
 
 \begin{abstract} 
 \input{src/abstract}
 \end{abstract}
 
-\begin{IEEEkeywords}
+\begin{keyword}
 Wireless Sensor Networks, Geodynamics, Earthquake monitoring, Low power
-\end{IEEEkeywords}
+\end{keyword}
+
+\end{frontmatter}
+
+%======================================================================================
 
 \section{Introduction}
 \label{sec:introduction}
@@ -67,11 +68,10 @@ Wireless Sensor Networks, Geodynamics, Earthquake monitoring, Low power
 \label{sec:conclusion}
 \input{src/conclusions}
 
-\section{Acknowledgements}
-\label{sec:Acknowledgements}
+\begin{ack}
 The work has been funded by the Sectoral Operational Programme Human Resources Development 2007-2013 of the Ministry of European Funds through the Financial Agreement POSDRU/159/1.5/S/134398.
+\end{ack}
 
-\bibliographystyle{abbrv}
 \bibliography{quake}
 
 \end{document}

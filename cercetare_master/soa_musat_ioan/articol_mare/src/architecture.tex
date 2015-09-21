@@ -3,11 +3,11 @@
 The Sparrow v4 wireless sensor nodes are custom designed for use in various research projects.
 They are designed as a single PCB board which hosts all of the major components, such as: controller,
 RF module, power supply and sensors. The main the main processing unit of the Sparrow v4 nodes is an ATmega128RFA1 micro controller, 
-which hosts an on-chip transceiver \cite{ATmega1281} and the. The low power, ATmega128RFA1 microcontroller is connected to all of the node's sensors and its
+which hosts an on-chip transceiver.\footnote{More details and technical specifications can be found in the official Atmel datasheet: http://www.atmel.com/Images/Atmel-8266-MCU_Wireless-ATmega128RFA1_Datasheet.pdf} 
+The low power, ATmega128RFA1 microcontroller is connected to all of the node's sensors and its
 main function is to process the data received from them and pass it on via the RF transceiver. The transceiver 
 is a low power wireless transmission chip capable of sending signals to distances of up to a few kilometres, according 
-to the official datasheet \cite{datasheetatmel}. It also provides an AES-128 compatible security module for data 
-encryption and decryption.
+to the official datasheet. It also provides an AES-128 compatible security module for data encryption and decryption.
 
 \begin{figure}[ht] \centering
   \includegraphics[width=0.5\textwidth]{img/sparrow-v4.png}
@@ -20,11 +20,14 @@ encryption and decryption.
 \end{figure}
 
 In order to monitor its environment, the Sparrow v4 wireless sensor node relies on 3 main sensor peripherals. The first is 
-an Si7020 humidity and temperature sensor\cite{Si7020} with incorporated ADC unit. The measurement resolution for relative humidity measurements
+an Si7020 humidity and temperature sensor with incorporated ADC unit.\footnote{Technical specifications and detailed description regarding the humidity sensor can be found in the official datasheet: http://www.silabs.com/Support20Documents/TechnicalDocs/Si7020.pdf}
+The measurement resolution for relative humidity measurements
 can vary between 8 and 12 bits, while the resolution for temperature measurements varies from 11 to 14 bits. The second sensor is 
-an MPL3115A2 \cite{MPL3115A2} altimeter which can measure pressure and altitude. This sensor also has an incorporated ADC unit and can measure 
+an MPL3115A2 altimeter which can measure pressure and altitude.\footnote{Technical specifications and detailed description regarding the altimeter can be found in the official datasheet: http://cache.freescale.com/files/sensors/doc/data-sheet/MPL3115A2.pdf} 
+This sensor also has an incorporated ADC unit and can measure 
 both altitude and pressure with a precision of up to 20 bits. The final sensor mounted on the Sparrow v4 and the most important for 
-earthquake and vibration monitoring is the LSM9DS0 IMU(Inertial Measurement Unit)\cite{LSM9DS0}. This chip has 3 channels for linear acceleration measurement, 
+earthquake and vibration monitoring is the LSM9DS0 IMU(Inertial Measurement Unit).\footnote{Technical specifications and detailed description regarding the accelerometer can be found in the official datasheet: http://www.adafruit.com/datasheets/LSM9DS0.pdf} 
+This chip has 3 channels for linear acceleration measurement, 
 3 channels for angular rate measurement and another 3 channels for magnetic field measurement. All data measurements are performed at a 
 16 bit resolution. From this last sensor, the metric used by the presented application is the linear acceleration (measured in Gs).
 All of the aforementioned sensors are connected to the microcontroller via a two-wire interface. Each of the has a different slave address so 
@@ -44,7 +47,8 @@ that the nodes can be programmed using a normal USB connection and no other spec
 
 \subsection{Software}
 
-The Sparrow v4 wireless sensor nodes run an Arduino\cite{arduino} compatible firmware. This allows the programmer to easily import 
+The Sparrow v4 wireless sensor nodes run an Arduino compatible firmware.\footnote{Arduino library description and guidelines: http://arduino.cc/en/Main/Software}
+This allows the programmer to easily import 
 and use open source Arduino modules for each peripheral. Another advantage of using an Arduino compatible firmware is that it ensures the code is 
 compatible with multiple platforms and can be easily modified, upgraded or ported to similar hardware. For development, the Arduino IDE is used 
 because it provides access to predefined libraries for peripherals such as serial line, two-wire interface and ADC. It is also available on a wide 

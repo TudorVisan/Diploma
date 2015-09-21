@@ -20,8 +20,8 @@ IMU is and how the amplitude of the movement varies from floor to floor.
   \caption{SparrowE wireless sensor nodes mounted on the experimental rig}
 \end{figure}
 
-In order to perform the experiment, an experimental rig was built. This rig uses a movable frame as its base, 
-and a tall, layered shelf mounted on top of it. The frame is composed of two individual planes which are moved 
+In order to perform the simulations, an experimental rig was built. This rig uses a movable frame as its base, 
+and a tall, layered shelf mounted on top of it. The frame is composed of two separate planes which are moved 
 individually by two DC motors. One plane produces left-right movement, while the other moves the shelf forward and 
 backward. The planes are connected to the corresponding motor via a crank whose length can be adjusted, thus giving the 
 ability to control the amplitude of the movement. Smaller amplitudes will result in sudden and violent shakes while 
@@ -34,4 +34,10 @@ higher amplitudes will allow the shelf to sway more. The schematic of the movabl
 
 During the experiment, we harvest the accelerometer data from the Sparrow v4 sensors' IMU at various movement speeds.
 The movement speed is controlled by the supply voltage on the motors. The supply values we chose for the experiment 
-are 2V, 4V, 7V and 12V, simulating low, medium, high and extremely high vibrations.
+are as follows:
+\begin{itemize}
+  \item 0V representing a still table influenced only by the surrounding environment's vibrations
+  \item 2V simulating a low impact vibration (earthquakes on the lower end of the Richter scale)
+  \item 7V simulating a medium impact vibration (earthquakes on the middle of the Richter scale in the area where humans can feel them - over magnitude 4)
+  \item 12V simulating an extremely high vibration (devastating earthquakes on the Richter scale, over 7 in magnitude)
+\end{itemize}

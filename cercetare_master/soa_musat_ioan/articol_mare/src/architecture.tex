@@ -30,7 +30,8 @@ earthquake and vibration monitoring is the LSM9DS0 IMU(Inertial Measurement Unit
 This chip has 3 channels for linear acceleration measurement, 
 3 channels for angular rate measurement and another 3 channels for magnetic field measurement. All data measurements are performed at a 
 16 bit resolution. From this last sensor, the metric used by the presented application is the linear acceleration (measured in Gs).
-All of the aforementioned sensors are connected to the microcontroller via a two-wire interface. Each of the has a different slave address so 
+All of the aforementioned sensors are connected to the microcontroller via a two-wire interface
+running at a speed of 400kHz. Each of the has a different slave address so 
 it is possible for the master, the ATmega128RFA1 controller, to communicate with all of them without interference from the others.
 
 \begin{figure}[ht] \centering
@@ -60,8 +61,13 @@ is completed, the node enters its second step in which it will continuously run 
 from the accelerometer and sends it towards a designated gateway. The gateway shall always be connected to a server 
 which is capable of plotting and analysing the data. The gateway communicates with this server by means of a serial interface.
 
-The monitoring algorithm mentioned earlier is designed as a state machine with 3 main states: "SLEEP", "READ DATA" and "NOTIFY". The algorithm starts in the 
-"SLEEP" state. In this state, most peripheral components of the Sparrow V4 sensor node are turned off in order to increase the autonomy of the sensors. Only 
+The monitoring algorithm mentioned earlier is designed as a state machine with 3 main states: 
+\begin{itemize}
+    \item "SLEEP"
+    \item "READ DATA"
+    \item "NOTIFY"
+\end{itemize}
+The algorithm starts in the "SLEEP" state. In this state, most peripheral components of the Sparrow V4 sensor node are turned off in order to increase the autonomy of the sensors. Only 
 the accelerometer functions in this state in order to gather data. Every 0.5 seconds, the algorithm transits into the "READ DATA" state. The latest data harvested 
 by the accelerometer is read and analyzed. If the data shows readings with values around a set threshold, the algorithm transits into the "NOTIFY" step, otherwise it goes back 
 into "SLEEP". In the "NOTIFY" step, the sensor sends the event to the basestation and then returns to its normal state.
@@ -88,7 +94,7 @@ are selected with regard to power consumption, their power consumption is still 
 
 In order to overcome this, the firmware is designed to keep the controller in a sleep state and wake it up periodically to read the accelerometer data. 
 This technique is similar to clock gating and it is done with the use of a RTC (Real Time Clock). The AtmegRFA1 controller on the nodes offers the ability of using the Timer/Counter2 
-peripheral as a real time clock source with an external 32768hz crystal oscillator. The reason why a real time clock is used to implement this mechanism is that even while the controller 
+peripheral as a real time clock source with an external 32768Hz crystal oscillator. The reason why a real time clock is used to implement this mechanism is that even while the controller 
 is in sleep mode, this peripheral is still active and it will generate interrupts at certain time intervals, as configured by the programmer. When the controller receives such an 
 interrupt, it will wake up and perform any designated operation after which it is put back to sleep and the entire process starts again.
 
@@ -107,3 +113,8 @@ While the controller is put into a sleep state, the accelerometer is always powe
 
 With this approach, we increase the autonomy of the Sparrow v4 sensor node while, at the same time, making data easier to handle by the plotting and interpretation software running 
 on the base station.
+
+We also save the data inside the 4kB EEPROM of the cpu. The data is saved as a circular FIFO, with
+two pointers, one for the oldest data and one for the newest data. In case the communications are
+down, we can recover the lost data from the EEPROM memory. To not wear down the memory due to
+excessive writes, the data is stored in RAM, and once every 30 minutes it is saved in EEPROM.

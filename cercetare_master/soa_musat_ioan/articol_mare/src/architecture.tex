@@ -1,8 +1,24 @@
 \subsection{Hardware}
 
 The Sparrow v4 wireless sensor nodes are custom designed for use in various research projects.
-They are designed as a single PCB board which hosts all of the major components, such as: controller,
-RF module, power supply and sensors. The main the main processing unit of the Sparrow v4 nodes is an ATmega128RFA1 micro controller, 
+They are designed as a single PCB board which hosts all of the major components, such as:
+\begin{itemize}
+    \item Atmega128RFA
+        \begin{itemize}
+            \item 8-bit architecture
+            \item 128 kB of flash and 4kB of EEPROM
+            \item 32 kB of sram
+            \item 16 MHz cpu speed
+            \item integrated RF transceiver compatible with ZigBee and IEEE 802.15.4
+        \end{itemize}
+    \item LSM9DS0 - 16 bit high resolution 3-axis accelerometer, 3-axis gyroscope and 3-axis magnetometer
+    \item SI7020 - humidity and temperature sensor
+    \item SI1145 - proximity, UV and ambient light sensor
+    \item MPL3115A2 - pressure, altimeter and temperature sensor
+    \item CR2032 - 3v lithium ion battery
+\end{itemize}
+
+The main processing unit of the Sparrow v4 nodes is an ATmega128RFA1 micro controller, 
 which hosts an on-chip transceiver.\footnote{More details and technical specifications can be found in the official Atmel datasheet: http://www.atmel.com/Images/Atmel-8266-MCU_Wireless-ATmega128RFA1_Datasheet.pdf} 
 The low power, ATmega128RFA1 microcontroller is connected to all of the node's sensors and its
 main function is to process the data received from them and pass it on via the RF transceiver. The transceiver 

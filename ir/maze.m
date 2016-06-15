@@ -292,9 +292,9 @@ function M = fill(M, p, q, VALUE)
 end
 
 function r = isValid(p, M)
-    s = size(M)
-    n = s(1)
-    m = s(2)
+    s = size(M);
+    n = s(1);
+    m = s(2);
     r = false;
     if (p(1) > 2 && p(1) < n - 1 && p(2) > 2 && p(2) < m - 1)
         r = true;

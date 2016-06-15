@@ -1,4 +1,4 @@
-function [M m] = maze(n, dens)
+function [M, m, source, dest] = maze(n, dens)
     showProgress = false;
  
     mymap = [1 1 1
@@ -110,13 +110,19 @@ function [M m] = maze(n, dens)
         end
     end
     
-    source = randi([3, m-2], 1, 2);
+    source = randi([3, m-3], 1, 2);
     if (M(source(1), source(2)) == WALL)
        neigh = findStreet(M, source, NoWALL);
-       source = neigh(randi(size(neigh, 1)), :);
+       if size(neigh, 1) < 1
+           source = [3 3];
+       else
+           source = neigh(randi(size(neigh, 1)), :);
+       end
     end
     
-    candidates = [source + [DEST_DIST DEST_DIST]
+    candidates = [source + [0 DEST_DIST]
+                  source + [0 -DEST_DIST]
+                  source + [DEST_DIST DEST_DIST]
                   source + [-DEST_DIST -DEST_DIST]
                   source + [-DEST_DIST DEST_DIST]
                   source + [DEST_DIST -DEST_DIST]];
@@ -126,7 +132,11 @@ function [M m] = maze(n, dens)
         candidate = candidates(index, :);
         if (isValid(candidate, M))
             destinations = findStreet(M, candidate, NoWALL);
-            dest = destinations(randi(size(destinations, 1)), :);
+            if size(destinations, 1) < 1
+                dest = [m-2 m-2];
+            else
+                dest = destinations(randi(size(destinations, 1)), :);
+            end
             break;
         end
         
@@ -141,7 +151,7 @@ function [M m] = maze(n, dens)
     
     M(dest(1), dest(2)) = GOAL;
     
-    image(M - VISITED);
+    image(M-VISITED);
     axis equal off;
 end
 
